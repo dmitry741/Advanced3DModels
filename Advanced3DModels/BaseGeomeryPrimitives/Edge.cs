@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseGeomeryPrimitives
+namespace Models3DLib
 {
     public class Edge
     {

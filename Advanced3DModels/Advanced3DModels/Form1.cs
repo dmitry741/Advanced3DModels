@@ -51,16 +51,7 @@ namespace Advanced3DModels
                 return false;
             }
 
-            _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-            BaseGeomeryPrimitives.Triangle triangle = new BaseGeomeryPrimitives.Triangle();
-
-            triangle.Point1 = new BaseGeomeryPrimitives.Point3D(0, 0, 0);
-            triangle.Point2 = new BaseGeomeryPrimitives.Point3D(1, 0, 0);
-            triangle.Point3 = new BaseGeomeryPrimitives.Point3D(0, 2, 0);
-
-            var vm = triangle.Normal;
-
+            _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);            
 
             return true;
         }

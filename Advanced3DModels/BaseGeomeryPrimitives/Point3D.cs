@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.Drawing;
 
-namespace BaseGeomeryPrimitives
+namespace Models3DLib
 {
     public class Point3D
     {

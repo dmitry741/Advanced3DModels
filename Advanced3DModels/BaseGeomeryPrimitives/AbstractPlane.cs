@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
-namespace BaseGeomeryPrimitives
+namespace Models3DLib
 {
     public abstract class AbstractPlane
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Drawing;
 
 namespace BaseGeomeryPrimitives
 {
@@ -40,6 +41,11 @@ namespace BaseGeomeryPrimitives
         public Vector3 ToVector3()
         {
             return new Vector3(X, Y, Z);
+        }
+
+        public PointF ToPointF()
+        {
+            return new PointF(X, Y);
         }
 
         public Vector4 ToVector4()

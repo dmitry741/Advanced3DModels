@@ -9,10 +9,12 @@ namespace Models3DLib
 {
     public abstract class AbstractPlane
     {
-        List<Point3D> _point3Ds = new List<Point3D>();
-        List<Triangle> _triangles = new List<Triangle>();
+        protected List<Point3D> _point3Ds = new List<Point3D>();
+        readonly protected List<Triangle> _triangles = new List<Triangle>();
 
         #region === public ===
+
+        public bool VisibleBackSize { get; set; } = true;
 
         public IEnumerable<Triangle> Triangles => _triangles;
 

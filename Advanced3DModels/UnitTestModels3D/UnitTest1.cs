@@ -32,10 +32,10 @@ namespace UnitTestModels3D
             Point3D point3 = new Point3D(2, 0, 0);
             Point3D point4 = new Point3D(0, 0, 0);
 
-            // TODO:
-
             AbstractPlane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
             Assert.IsTrue(plane.Triangles.Count() == 8);
+            Assert.IsTrue(plane.Points.Count() == 9);
+            Assert.IsTrue(plane.Triangles.All(x => x.Normal.Z > 0));
         }
     }
 }

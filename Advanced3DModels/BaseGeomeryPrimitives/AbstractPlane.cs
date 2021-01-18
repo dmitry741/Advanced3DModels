@@ -16,6 +16,8 @@ namespace Models3DLib
 
         public bool VisibleBackSize { get; set; } = true;
 
+        public IEnumerable<Point3D> Points => _point3Ds;
+
         public IEnumerable<Triangle> Triangles => _triangles;
 
         public void Transform(Matrix4x4 matrix)

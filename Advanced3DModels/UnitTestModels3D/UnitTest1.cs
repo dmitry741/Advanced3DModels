@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models3DLib;
+using System.Linq;
 using System.Numerics;
 
 namespace UnitTestModels3D
@@ -20,6 +21,21 @@ namespace UnitTestModels3D
             Vector3 v = triangle.Normal;
 
             Assert.IsTrue(v.X == 0 && v.Y == 0 && v.Z == 2);
+        }
+
+        [TestMethod]
+        [Description("Проверем корректность создания триангулированной четырехугольной поверхности.")]
+        public void TestPolgon4Plane1()
+        {
+            Point3D point1 = new Point3D(0, 2, 0);
+            Point3D point2 = new Point3D(2, 2, 0);
+            Point3D point3 = new Point3D(2, 0, 0);
+            Point3D point4 = new Point3D(0, 0, 0);
+
+            // TODO:
+
+            AbstractPlane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
+            Assert.IsTrue(plane.Triangles.Count() == 8);
         }
     }
 }

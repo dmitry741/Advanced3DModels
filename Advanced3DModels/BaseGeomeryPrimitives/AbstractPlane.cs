@@ -14,11 +14,13 @@ namespace Models3DLib
 
         #region === public ===
 
-        public bool VisibleBackSize { get; set; } = true;
+        public bool VisibleBackSide { get; set; } = true;
 
         public IEnumerable<Point3D> Points => _point3Ds;
 
         public IEnumerable<Triangle> Triangles => _triangles;
+
+        public Vector3 Normal => _triangles[0].Normal;
 
         public void Transform(Matrix4x4 matrix)
         {

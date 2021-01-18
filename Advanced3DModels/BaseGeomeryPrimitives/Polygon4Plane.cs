@@ -43,10 +43,12 @@ namespace Models3DLib
                 }
             }
 
-            bool bLeftTop = true;
+            bool bLeftTopRightBottom = true;
 
             for (int j = 0; j < NY; j++)
             {
+                bool bDirection = bLeftTopRightBottom;
+
                 for (int i = 0; i < NX; i++)
                 {
                     Point3D point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
@@ -54,7 +56,7 @@ namespace Models3DLib
                     Point3D point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
                     Point3D point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
 
-                    if (bLeftTop)
+                    if (bDirection)
                     {
                         _triangles.Add(new Triangle(point1, point3, point2));
                         _triangles.Add(new Triangle(point1, point4, point3));
@@ -65,10 +67,11 @@ namespace Models3DLib
                         _triangles.Add(new Triangle(point4, point3, point2));
                     }
 
-                    bLeftTop = !bLeftTop;
+                    bDirection = !bDirection;
                 }
+
+                bLeftTopRightBottom = !bLeftTopRightBottom;
             }
         }
-
     }
 }

@@ -26,6 +26,16 @@ namespace Advanced3DModels
                     g.DrawLine(Pens.Black, edge.Point1.ToPointF(), edge.Point2.ToPointF());
                 }
             }
+            else if (RenderType.Triangulations == renderType)
+            {
+                foreach(Plane plane in model.Planes)
+                {
+                    foreach(Triangle triangle in plane.Triangles)
+                    {
+                        g.DrawPolygon(Pens.Black, triangle.Points);
+                    }                    
+                }
+            }
         }
     }
 }

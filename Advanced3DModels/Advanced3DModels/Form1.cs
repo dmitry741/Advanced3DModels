@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Models3DLib;
 
 namespace Advanced3DModels
 {
@@ -20,15 +21,11 @@ namespace Advanced3DModels
         #region === members ===
 
         Bitmap _bitmap;
+        Model _model;
 
         #endregion
 
-        #region === private methods ===
-
-        void RenderSphere(Graphics g, int Xc, int Yc, int radius)
-        {
-            // TODO:
-        }
+        #region === private methods ===       
 
         void Render()
         {
@@ -38,7 +35,7 @@ namespace Advanced3DModels
             Graphics g = Graphics.FromImage(_bitmap);
             g.Clear(Color.White);
 
-            RenderSphere(g, pictureBox1.Width / 2, pictureBox1.Height / 2, pictureBox1.Width / 2 - pictureBox1.Width / 10);
+            
 
             pictureBox1.Image = _bitmap;
         }
@@ -62,6 +59,8 @@ namespace Advanced3DModels
         {
             pictureBox1.BackColor = Color.White;
             CreateBackground();
+
+            _model = Model.Cube(Math.Min(pictureBox1.Width, pictureBox1.Height) / 2, 16.0f);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

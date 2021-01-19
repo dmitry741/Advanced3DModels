@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractPlane.cs" />
+    <Compile Include="Plane.cs" />
     <Compile Include="Edge.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Point3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Polygon4Plane.cs" />

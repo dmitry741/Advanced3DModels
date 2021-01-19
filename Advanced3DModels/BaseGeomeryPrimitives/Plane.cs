@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace Models3DLib
 {
-    public abstract class AbstractPlane
+    public class Plane
     {
         protected List<Point3D> _point3Ds = new List<Point3D>();
         readonly protected List<Triangle> _triangles = new List<Triangle>();

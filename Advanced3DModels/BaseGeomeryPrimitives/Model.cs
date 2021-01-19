@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Models3DLib
 {
@@ -10,15 +11,40 @@ namespace Models3DLib
     {
         #region === members ===
 
-        List<Plane> _planes = new List<Plane>();
-        List<Edge> _edges = new List<Edge>();
-        List<Point3D> _points = new List<Point3D>();
+        protected List<Plane> _planes = new List<Plane>();
+        protected List<Edge> _edges = new List<Edge>();
+        protected List<Point3D> _points = new List<Point3D>();
 
         #endregion
 
         #region === public ===
 
+        public IEnumerable<Edge> Edges => _edges;
         public IEnumerable<Plane> Planes => _planes;
+
+        public void Transform(Matrix4x4 matrix)
+        {
+            foreach (Point3D point in _points)
+            {
+                Vector3 vector = Vector3.Transform(point.ToVector3(), matrix);
+
+                point.X = vector.X;
+                point.Y = vector.Y;
+                point.Z = vector.Z;
+            }
+
+            foreach(Plane plane in _planes)
+            {
+                foreach (Point3D point in plane.Points)
+                {
+                    Vector3 vector = Vector3.Transform(point.ToVector3(), matrix);
+
+                    point.X = vector.X;
+                    point.Y = vector.Y;
+                    point.Z = vector.Z;
+                }
+            }
+        }
 
         #endregion
 

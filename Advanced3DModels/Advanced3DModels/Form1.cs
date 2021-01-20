@@ -22,6 +22,7 @@ namespace Advanced3DModels
 
         Bitmap _bitmap;
         Model _model;
+        PointF _startPoint = PointF.Empty;
 
         #endregion
 
@@ -29,28 +30,16 @@ namespace Advanced3DModels
 
         void Render()
         {
-            if (_bitmap == null)
+            if (_bitmap == null || _model == null)
                 return;
 
             Graphics g = Graphics.FromImage(_bitmap);
             g.Clear(Color.White);
 
-            
+            // отрисовка модели
+            RenderingModel.Render(g, _model, RenderType.Edges);
 
             pictureBox1.Image = _bitmap;
-        }
-
-        bool CreateBackground()
-        {
-            if (pictureBox1.Width < 1 || pictureBox1.Height < 1)
-            {
-                _bitmap = null;
-                return false;
-            }
-
-            _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);            
-
-            return true;
         }
 
         #endregion
@@ -58,8 +47,7 @@ namespace Advanced3DModels
         private void Form1_Load(object sender, EventArgs e)
         {
             pictureBox1.BackColor = Color.White;
-            CreateBackground();
-
+            _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             _model = Model.Cube(Math.Min(pictureBox1.Width, pictureBox1.Height) / 2, 16.0f);
         }
 
@@ -71,6 +59,33 @@ namespace Advanced3DModels
         private void button1_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            _startPoint = new PointF(e.X, e.Y);
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_model == null)
+                return;
+
+            /*if (e.Button == MouseButtons.Left)
+            {
+                PointF point = new PointF(e.X, e.Y);
+                const double cDivider = 64;
+
+                double angleXZ = (point.X - _startPoint.X) / cDivider;
+                double angleYZ = (point.Y - _startPoint.Y) / cDivider;
+
+
+
+
+                Render();
+
+                _startPoint = point;
+            }*/
         }
     }
 }

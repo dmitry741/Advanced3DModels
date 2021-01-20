@@ -36,6 +36,10 @@ namespace Advanced3DModels
                     }                    
                 }
             }
+            else if (RenderType.Fill == renderType)
+            {
+                // TODO:
+            }
         }
     }
 }

@@ -43,11 +43,6 @@ namespace Models3DLib
             return new Vector3(X, Y, Z);
         }
 
-        public Vector4 ToVector4()
-        {
-            return new Vector4(X, Y, Z, 1.0f);
-        }
-
         public PointF ToPointF()
         {
             return new PointF(X, Y);

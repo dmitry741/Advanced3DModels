@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
+using System.Numerics;
 
 namespace Advanced3DModels
 {
@@ -36,8 +37,16 @@ namespace Advanced3DModels
             Graphics g = Graphics.FromImage(_bitmap);
             g.Clear(Color.White);
 
+            float xTranslate = pictureBox1.Width / 2;
+            float yTranslate = pictureBox1.Height / 2;
+            Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+            _model.Transform(translate);
+
             // отрисовка модели
-            RenderingModel.Render(g, _model, RenderType.Edges);
+            RenderingModel.Render(g, _model, RenderType.Triangulations);
+
+            translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
+            _model.Transform(translate);
 
             pictureBox1.Image = _bitmap;
         }
@@ -48,7 +57,7 @@ namespace Advanced3DModels
         {
             pictureBox1.BackColor = Color.White;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            _model = Model.Cube(Math.Min(pictureBox1.Width, pictureBox1.Height) / 2, 16.0f);
+            _model = Model.Cube(240, 16.0f);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -71,21 +80,24 @@ namespace Advanced3DModels
             if (_model == null)
                 return;
 
-            /*if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 PointF point = new PointF(e.X, e.Y);
-                const double cDivider = 64;
+                const float cDivider = 64;
 
-                double angleXZ = (point.X - _startPoint.X) / cDivider;
-                double angleYZ = (point.Y - _startPoint.Y) / cDivider;
+                float angleXZ = (point.X - _startPoint.X) / cDivider;
+                float angleYZ = (point.Y - _startPoint.Y) / cDivider;
 
+                Matrix4x4 matrixRotationXZ = Matrix4x4.CreateRotationY(angleXZ);
+                Matrix4x4 matrixRotationYZ = Matrix4x4.CreateRotationX(angleYZ);
+                Matrix4x4 matrix = matrixRotationYZ * matrixRotationXZ;
 
-
+                _model.Transform(matrix);
 
                 Render();
 
                 _startPoint = point;
-            }*/
+            }
         }
     }
 }

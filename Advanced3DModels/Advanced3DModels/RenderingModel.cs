@@ -19,14 +19,14 @@ namespace Advanced3DModels
     {
         public static void Render(Graphics g, Model model, RenderType renderType)
         {
-            if (RenderType.Edges == renderType)
+            if (renderType == RenderType.Edges)
             {
                 foreach(Edge edge in model.Edges)
                 {
                     g.DrawLine(Pens.Black, edge.Point1.ToPointF(), edge.Point2.ToPointF());
                 }
             }
-            else if (RenderType.Triangulations == renderType)
+            else if (renderType == RenderType.Triangulations)
             {
                 foreach(Plane plane in model.Planes)
                 {
@@ -36,7 +36,7 @@ namespace Advanced3DModels
                     }                    
                 }
             }
-            else if (RenderType.Fill == renderType)
+            else if (renderType == RenderType.Fill)
             {
                 // TODO:
             }

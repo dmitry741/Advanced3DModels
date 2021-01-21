@@ -24,6 +24,7 @@ namespace Advanced3DModels
         Bitmap _bitmap;
         Model _model;
         PointF _startPoint = PointF.Empty;
+        Matrix4x4 _transformMatrix = Matrix4x4.Identity;
 
         #endregion
 
@@ -82,22 +83,31 @@ namespace Advanced3DModels
 
             if (e.Button == MouseButtons.Left)
             {
-                PointF point = new PointF(e.X, e.Y);
-                const float cDivider = 64;
+                const float cDivider = 72;
 
-                float angleXZ = (point.X - _startPoint.X) / cDivider;
-                float angleYZ = (point.Y - _startPoint.Y) / cDivider;
+                float angleXZ = (e.X - _startPoint.X) / cDivider;
+                float angleYZ = (e.Y - _startPoint.Y) / cDivider;
 
                 Matrix4x4 matrixRotationXZ = Matrix4x4.CreateRotationY(angleXZ);
                 Matrix4x4 matrixRotationYZ = Matrix4x4.CreateRotationX(angleYZ);
-                Matrix4x4 matrix = matrixRotationYZ * matrixRotationXZ;
+                Matrix4x4 matrix = matrixRotationXZ * matrixRotationYZ;
 
                 _model.Transform(matrix);
 
+                _transformMatrix *= matrix;
+
                 Render();
 
-                _startPoint = point;
+                _startPoint.X = e.X;
+                _startPoint.Y = e.Y;
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _model = Model.Cube(240, 32.0f);
+            _model.Transform(_transformMatrix);
+            Render();
         }
     }
 }

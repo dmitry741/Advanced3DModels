@@ -58,7 +58,7 @@ namespace Advanced3DModels
         {
             pictureBox1.BackColor = Color.White;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            _model = Model.Cube(240, 16.0f);
+            _model = Model.Cube(240, 24.0f);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

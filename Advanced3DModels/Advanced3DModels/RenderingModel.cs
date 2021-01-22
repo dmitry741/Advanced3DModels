@@ -38,7 +38,23 @@ namespace Advanced3DModels
             }
             else if (renderType == RenderType.Fill)
             {
-                // TODO:
+                List<Triangle> triangles = new List<Triangle>();
+
+                foreach (Plane plane in model.Planes)
+                {
+                    if (plane.Normal.Z < 0)
+                    {
+                        triangles.AddRange(plane.Triangles);
+                    }
+                }
+
+                IOrderedEnumerable<Triangle> orderedTriangles = triangles.OrderBy(t => t.Min);
+
+                foreach(Triangle triangle in orderedTriangles)
+                {
+                    g.FillPolygon(Brushes.White, triangle.Points);
+                    g.DrawPolygon(Pens.Black, triangle.Points);
+                }
             }
         }
     }

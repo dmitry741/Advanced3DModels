@@ -28,6 +28,8 @@ namespace Models3DLib
             }
         }
 
+        public float Min => _points.Min(p => p.Z);
+
         public PointF[] Points => _points.Select(x => x.ToPointF()).ToArray();
     }
 }

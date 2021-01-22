@@ -44,7 +44,7 @@ namespace Advanced3DModels
             _model.Transform(translate);
 
             // отрисовка модели
-            RenderingModel.Render(g, _model, RenderType.Triangulations);
+            RenderingModel.Render(g, _model, RenderType.Fill);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
@@ -83,9 +83,9 @@ namespace Advanced3DModels
 
             if (e.Button == MouseButtons.Left)
             {
-                const float cDivider = 72;
+                const float cDivider = 100;
 
-                float angleXZ = (e.X - _startPoint.X) / cDivider;
+                float angleXZ = -(e.X - _startPoint.X) / cDivider;
                 float angleYZ = (e.Y - _startPoint.Y) / cDivider;
 
                 Matrix4x4 matrixRotationXZ = Matrix4x4.CreateRotationY(angleXZ);
@@ -106,6 +106,13 @@ namespace Advanced3DModels
         private void button2_Click(object sender, EventArgs e)
         {
             _model = Model.Cube(240, 32.0f);
+            _model.Transform(_transformMatrix);
+            Render();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _model = Model.Cube(240, 12.0f);
             _model.Transform(_transformMatrix);
             Render();
         }

@@ -42,13 +42,20 @@ namespace Advanced3DModels
 
                 foreach (Plane plane in model.Planes)
                 {
-                    if (plane.Normal.Z < 0)
+                    if (!plane.VisibleBackSide)
+                    {
+                        if (plane.Normal.Z < 0)
+                        {
+                            triangles.AddRange(plane.Triangles);
+                        }
+                    }
+                    else
                     {
                         triangles.AddRange(plane.Triangles);
                     }
                 }
 
-                IOrderedEnumerable<Triangle> orderedTriangles = triangles.OrderBy(t => t.Min);
+                var orderedTriangles = triangles.OrderBy(t => t.Min);
 
                 foreach(Triangle triangle in orderedTriangles)
                 {

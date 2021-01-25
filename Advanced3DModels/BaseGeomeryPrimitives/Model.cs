@@ -66,18 +66,13 @@ namespace Models3DLib
 
             List<Plane> planes = new List<Plane>
             {
-                new Polygon4Plane(points[0], points[1], points[2], points[3], sizePrimitive),
-                new Polygon4Plane(points[0], points[4], points[5], points[1], sizePrimitive),
-                new Polygon4Plane(points[1], points[5], points[6], points[2], sizePrimitive),
-                new Polygon4Plane(points[2], points[6], points[7], points[3], sizePrimitive),
-                new Polygon4Plane(points[3], points[7], points[4], points[0], sizePrimitive),
-                new Polygon4Plane(points[7], points[6], points[5], points[4], sizePrimitive)
+                new Polygon4Plane(points[0], points[1], points[2], points[3], sizePrimitive, "0"),
+                new Polygon4Plane(points[0], points[4], points[5], points[1], sizePrimitive, "1"),
+                new Polygon4Plane(points[1], points[5], points[6], points[2], sizePrimitive, "2"),
+                new Polygon4Plane(points[2], points[6], points[7], points[3], sizePrimitive, "3"),
+                new Polygon4Plane(points[3], points[7], points[4], points[0], sizePrimitive, "4"),
+                new Polygon4Plane(points[7], points[6], points[5], points[4], sizePrimitive, "5")
             };
-
-            foreach(Plane plane in planes)
-            {
-                plane.VisibleBackSide = false;
-            }
 
             List<Edge> edges = new List<Edge>
             {

@@ -9,8 +9,9 @@ namespace Models3DLib
 {
     public class Polygon4Plane : Plane
     {
-        public Polygon4Plane(Point3D p1, Point3D p2, Point3D p3, Point3D p4, float sizePrimitive)
+        public Polygon4Plane(Point3D p1, Point3D p2, Point3D p3, Point3D p4, float sizePrimitive, string name)
         {
+            Name = name;
             float[] d = new float[2];
 
             d[0] = Vector3.Distance(p1.ToVector3(), p2.ToVector3());

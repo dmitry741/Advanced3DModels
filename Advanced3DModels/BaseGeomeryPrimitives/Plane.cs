@@ -11,10 +11,10 @@ namespace Models3DLib
     {
         protected List<Point3D> _point3Ds = new List<Point3D>();
         readonly protected List<Triangle> _triangles = new List<Triangle>();
-
+        
         #region === public ===
 
-        public bool VisibleBackSide { get; set; } = true;
+        public bool VisibleBackSide { get; set; } = false;
 
         public IEnumerable<Point3D> Points => _point3Ds;
 
@@ -27,6 +27,8 @@ namespace Models3DLib
             IEnumerable<Vector4> transformedVectors = _point3Ds.Select(x => Vector4.Transform(x.ToVector3(), matrix));
             _point3Ds = transformedVectors.Select(v => new Point3D(v.X, v.Y, v.Z)).ToList();
         }
+
+        public string Name { get; set; }
 
         #endregion
     }

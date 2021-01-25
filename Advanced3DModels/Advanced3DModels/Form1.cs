@@ -44,7 +44,7 @@ namespace Advanced3DModels
             _model.Transform(translate);
 
             // отрисовка модели
-            RenderingModel.Render(g, _model, RenderType.Edges);
+            RenderingModel.Render(g, _model, RenderType.Fill);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);

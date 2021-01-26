@@ -112,7 +112,7 @@ namespace Advanced3DModels
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _model = Model.Cube(200, 10.0f);
+            _model = Model.Cube(200, 8.0f);
             _model.Transform(_transformMatrix);
             Render();
         }

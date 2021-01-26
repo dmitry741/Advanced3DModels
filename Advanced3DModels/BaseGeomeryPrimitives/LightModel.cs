@@ -37,17 +37,16 @@ namespace Models3DLib
                 Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
                 Vector3 vectorToObserver = new Vector3(0, 0, -1);
 
-                float l2 = vectorReflect.Length();
-
                 cosinus = Vector3.Dot(vectorReflect, vectorToObserver);
                 
                 if (cosinus > 0)
                 {
                     float a = 64;
-                    float b = 70000;
+                    float b = 8600;
                     float x = 1 - cosinus;
 
-                    float reflection = a / (1 + b * x * x);
+                    //float reflection = a / (1 + b * x * x);
+                    float reflection = Convert.ToSingle(a * Math.Exp(-b * x * x));
 
                     R += reflection;
                     G += reflection;

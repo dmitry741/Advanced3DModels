@@ -10,14 +10,12 @@ namespace Models3DLib
 {
     public class LightModel
     {
-        public ILightSource LightSource { get; set; }
-
-        public Color GetColor(Triangle triangle, Color color)
+        public static Color GetColor(Triangle triangle, ILightSource lightSource, Color color)
         {
             const float cMinimalPart = 0.2f;
 
             Vector3 v1 = triangle.Normal;
-            Vector3 v2 = LightSource.GetRay(triangle.Point0);
+            Vector3 v2 = lightSource.GetRay(triangle.Point0);
 
             float dot = Vector3.Dot(v1, v2);
             float cosinus = dot / (v1.Length() * v2.Length());
@@ -25,19 +23,15 @@ namespace Models3DLib
             float R = color.R * cMinimalPart;
             float G = color.G * cMinimalPart;
             float B = color.B * cMinimalPart;
-            Color clResult;
 
-            if (cosinus < 0)
+            if (cosinus > 0)
             {
-                clResult = Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+                R += color.R * (1 - cMinimalPart) * cosinus;
+                G += color.G * (1 - cMinimalPart) * cosinus;
+                B += color.B * (1 - cMinimalPart) * cosinus;
             }
-            else
-            {
-
-            }
-
-
-            return Color.Black;
+            
+            return Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
         }
     }
 }

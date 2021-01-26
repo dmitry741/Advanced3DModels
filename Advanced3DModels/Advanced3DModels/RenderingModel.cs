@@ -56,11 +56,16 @@ namespace Advanced3DModels
                 }
 
                 var orderedTriangles = triangles.OrderBy(t => t.Min);
+                ILightSource lightSource = new PointLightSource()
+                { 
+                    LightPoint = new Point3D(0, 0, -1000) 
+                };
 
                 foreach(Triangle triangle in orderedTriangles)
                 {
-                    g.FillPolygon(Brushes.White, triangle.Points);
-                    g.DrawPolygon(Pens.Black, triangle.Points);
+                    Brush brush = new SolidBrush(LightModel.GetColor(triangle, lightSource, Color.LightGreen));
+                    g.FillPolygon(brush, triangle.Points);
+                    //g.DrawPolygon(Pens.Black, triangle.Points);
                 }
             }
         }

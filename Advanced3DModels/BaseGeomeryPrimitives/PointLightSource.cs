@@ -9,7 +9,7 @@ namespace Models3DLib
 {
     public class PointLightSource : ILightSource
     {
-        Point3D LightPoint { get; set; }
+        public Point3D LightPoint { get; set; }
 
         public Vector3 GetRay(Point3D point)
         {

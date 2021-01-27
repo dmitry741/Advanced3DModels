@@ -10,29 +10,22 @@ namespace Models3DLib
 {
     public class LightModel
     {
-        public static Color GetColor(Triangle triangle, ILightSource lightSource, Color color)
+        public static Color GetColor(Triangle triangle, ILightSource lightSource)
         {
-            const float cMinimalPart = 0.25f;
+            const float cMinimalPart = 0.1f;
 
             Vector3 vectorNormal = Vector3.Normalize(triangle.Normal);
             Vector3 vectorToLightPoint = Vector3.Normalize(lightSource.GetRay(triangle.Point0));
 
             float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
+            Color color = triangle.Color;
+            float lerp = (1 - cMinimalPart) * (1 + cosinus) / 2 + cMinimalPart;
 
-            float R = color.R * cMinimalPart;
-            float G = color.G * cMinimalPart;
-            float B = color.B * cMinimalPart;
+            float R = color.R * lerp;
+            float G = color.G * lerp;
+            float B = color.B * lerp;
 
-            if (cosinus > 0)
-            {
-                R += color.R * (1 - cMinimalPart) * cosinus;
-                G += color.G * (1 - cMinimalPart) * cosinus;
-                B += color.B * (1 - cMinimalPart) * cosinus;
-            }
-
-            bool bReflective = true;
-
-            if (bReflective)
+            if (triangle.Reflection)
             {
                 Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
                 Vector3 vectorToObserver = new Vector3(0, 0, -1);
@@ -41,11 +34,10 @@ namespace Models3DLib
                 
                 if (cosinus > 0)
                 {
-                    float a = 64;
-                    float b = 8600;
+                    float a = triangle.ReflectionBrightness;
+                    float b = triangle.ReflectionCone;
                     float x = 1 - cosinus;
 
-                    //float reflection = a / (1 + b * x * x);
                     float reflection = Convert.ToSingle(a * Math.Exp(-b * x * x));
 
                     R += reflection;

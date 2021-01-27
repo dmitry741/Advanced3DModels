@@ -17,6 +17,14 @@ namespace Models3DLib
             _points = new Point3D[3] { point1, point2, point3 };
         }
 
+        public float ReflectionBrightness { get; set; } = 64.0f;
+
+        public float ReflectionCone { get; set; } = 8600;
+
+        public bool Reflection { get; set; } = true;
+
+        public Color Color { get; set; } = Color.LightGreen;
+
         public Vector3 Normal
         {
             get

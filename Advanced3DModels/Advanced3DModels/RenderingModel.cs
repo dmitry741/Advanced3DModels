@@ -17,7 +17,7 @@ namespace Advanced3DModels
 
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, RenderType renderType)
+        public static void Render(Graphics g, Model model, ILightSource lightSource, RenderType renderType)
         {
             if (renderType == RenderType.Edges)
             {
@@ -55,12 +55,7 @@ namespace Advanced3DModels
                     }
                 }
 
-                var orderedTriangles = triangles.OrderBy(t => t.Min);
-
-                ILightSource lightSource = new PointLightSource()
-                {
-                    LightPoint = new Point3D(0, 0, -500)
-                };
+                var orderedTriangles = triangles.OrderBy(t => t.Min);                
 
                 foreach (Triangle triangle in orderedTriangles)
                 {

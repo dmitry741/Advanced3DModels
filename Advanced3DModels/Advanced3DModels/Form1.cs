@@ -25,6 +25,7 @@ namespace Advanced3DModels
         Model _model;
         PointF _startPoint = PointF.Empty;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
+        ILightSource _lightSource = null;
 
         #endregion
 
@@ -44,7 +45,7 @@ namespace Advanced3DModels
             _model.Transform(translate);
 
             // отрисовка модели
-            RenderingModel.Render(g, _model, RenderType.Fill);
+            RenderingModel.Render(g, _model, _lightSource, RenderType.Fill);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
@@ -59,6 +60,11 @@ namespace Advanced3DModels
             pictureBox1.BackColor = Color.White;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             _model = Model.Cube(200, 20.0f);
+
+            _lightSource = new PointLightSource()
+            {
+                LightPoint = new Point3D(0, 0, -500)
+            };
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

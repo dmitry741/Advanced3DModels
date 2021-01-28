@@ -12,7 +12,8 @@ namespace Advanced3DModels
     {
         Edges,
         Triangulations,
-        Fill
+        FillFull,
+        FillWhite
     }
 
     class RenderingModel
@@ -36,7 +37,7 @@ namespace Advanced3DModels
                     }                    
                 }
             }
-            else if (renderType == RenderType.Fill)
+            else if (renderType == RenderType.FillFull)
             {
                 List<Triangle> triangles = new List<Triangle>();
 
@@ -63,6 +64,33 @@ namespace Advanced3DModels
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);
                     //g.DrawPolygon(Pens.Black, triangle.Points);
+                }
+            }
+            else if (renderType == RenderType.FillWhite)
+            {
+                List<Triangle> triangles = new List<Triangle>();
+
+                foreach (Plane plane in model.Planes)
+                {
+                    if (!plane.VisibleBackSide)
+                    {
+                        if (plane.Normal.Z < 0)
+                        {
+                            triangles.AddRange(plane.Triangles);
+                        }
+                    }
+                    else
+                    {
+                        triangles.AddRange(plane.Triangles);
+                    }
+                }
+
+                var orderedTriangles = triangles.OrderBy(t => t.Min);
+
+                foreach (Triangle triangle in orderedTriangles)
+                {
+                    g.FillPolygon(Brushes.White, triangle.Points);
+                    g.DrawPolygon(Pens.Black, triangle.Points);
                 }
             }
         }

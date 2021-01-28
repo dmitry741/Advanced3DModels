@@ -53,7 +53,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(699, 580);
+            this.button1.Location = new System.Drawing.Point(789, 580);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 28);
             this.button1.TabIndex = 1;
@@ -67,7 +67,7 @@
             this.cmbModel.FormattingEnabled = true;
             this.cmbModel.Location = new System.Drawing.Point(703, 12);
             this.cmbModel.Name = "cmbModel";
-            this.cmbModel.Size = new System.Drawing.Size(171, 21);
+            this.cmbModel.Size = new System.Drawing.Size(197, 21);
             this.cmbModel.TabIndex = 4;
             this.cmbModel.SelectedIndexChanged += new System.EventHandler(this.cmbModel_SelectedIndexChanged);
             // 
@@ -86,7 +86,7 @@
             this.cmbQuality.FormattingEnabled = true;
             this.cmbQuality.Location = new System.Drawing.Point(703, 39);
             this.cmbQuality.Name = "cmbQuality";
-            this.cmbQuality.Size = new System.Drawing.Size(171, 21);
+            this.cmbQuality.Size = new System.Drawing.Size(197, 21);
             this.cmbQuality.TabIndex = 6;
             this.cmbQuality.SelectedIndexChanged += new System.EventHandler(this.cmbQuality_SelectedIndexChanged);
             // 
@@ -114,7 +114,7 @@
             this.cmbLightSource.FormattingEnabled = true;
             this.cmbLightSource.Location = new System.Drawing.Point(703, 66);
             this.cmbLightSource.Name = "cmbLightSource";
-            this.cmbLightSource.Size = new System.Drawing.Size(171, 21);
+            this.cmbLightSource.Size = new System.Drawing.Size(197, 21);
             this.cmbLightSource.TabIndex = 9;
             this.cmbLightSource.SelectedIndexChanged += new System.EventHandler(this.cmbLightSource_SelectedIndexChanged);
             // 
@@ -124,7 +124,7 @@
             this.cmbRenderStatus.FormattingEnabled = true;
             this.cmbRenderStatus.Location = new System.Drawing.Point(703, 93);
             this.cmbRenderStatus.Name = "cmbRenderStatus";
-            this.cmbRenderStatus.Size = new System.Drawing.Size(171, 21);
+            this.cmbRenderStatus.Size = new System.Drawing.Size(197, 21);
             this.cmbRenderStatus.TabIndex = 10;
             this.cmbRenderStatus.SelectedIndexChanged += new System.EventHandler(this.cmbRenderStatus_SelectedIndexChanged);
             // 

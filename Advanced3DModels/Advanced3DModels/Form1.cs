@@ -47,7 +47,22 @@ namespace Advanced3DModels
             _model.Transform(translate);
 
             // отрисовка модели
-            RenderingModel.Render(g, _model, _lightSource, RenderType.Fill);
+            RenderType renderType;
+
+            if (cmbRenderStatus.SelectedIndex == 0)
+            {
+                renderType = RenderType.Edges;
+            }
+            else if (cmbRenderStatus.SelectedIndex == 1)
+            {
+                renderType = RenderType.Triangulations;
+            }
+            else
+            {
+                renderType = RenderType.Fill;
+            }
+
+            RenderingModel.Render(g, _model, _lightSource, renderType);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
@@ -100,6 +115,21 @@ namespace Advanced3DModels
             cmbQuality.Items.Add("Высокое");
             cmbQuality.SelectedIndex = 1;
             cmbQuality.EndUpdate();
+
+            // источник света
+            cmbLightSource.BeginUpdate();
+            cmbLightSource.Items.Add("Точечный");
+            cmbLightSource.Items.Add("Прожектор");
+            cmbLightSource.SelectedIndex = 0;
+            cmbLightSource.EndUpdate();
+
+            // отображение
+            cmbRenderStatus.BeginUpdate();
+            cmbRenderStatus.Items.Add("Ребра");
+            cmbRenderStatus.Items.Add("Триангуляция модели");
+            cmbRenderStatus.Items.Add("Полное");
+            cmbRenderStatus.SelectedIndex = 2;
+            cmbRenderStatus.EndUpdate();
 
             _blockEvents = false;
 
@@ -183,6 +213,37 @@ namespace Advanced3DModels
                 return;
 
             UpdateModel();
+            Render();
+        }
+
+        private void cmbLightSource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            if (cmbLightSource.SelectedIndex == 1)
+            {
+                _lightSource = new ProjectorLightSource
+                {
+                    VectorLightSource = new Vector3(-0.05f, -0.05f, -1.0f)
+                };
+            }
+            else
+            {
+                _lightSource = new PointLightSource()
+                {
+                    LightPoint = new Point3D(0, 0, -500)
+                };
+            }
+
+            Render();
+        }
+
+        private void cmbRenderStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
             Render();
         }
     }

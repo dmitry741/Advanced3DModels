@@ -102,7 +102,7 @@ namespace Models3DLib
         public static Model CubeColored(float edgeLen, float sizePrimitive)
         {
             Model model = Cube(edgeLen, sizePrimitive);
-            Color[] cls = { Color.LightGreen, Color.Brown, Color.Gold, Color.LightBlue, Color.Aqua, Color.Magenta };
+            Color[] cls = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
 
             for (int i = 0; i < cls.Length; i++)
             {

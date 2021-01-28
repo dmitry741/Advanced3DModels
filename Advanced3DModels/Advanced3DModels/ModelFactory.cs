@@ -15,20 +15,20 @@ namespace Advanced3DModels
 
     class ModelFactory
     {
-        public static Models3DLib.Model GetModel(int index, float edgeLen,  ModelQuality modelQuality)
+        public static Models3DLib.Model GetModel(int index, float modelSize,  ModelQuality modelQuality)
         {
             float sizePrimitive;
 
             switch (modelQuality)
             {
                 case ModelQuality.Middle: 
-                    sizePrimitive = 20; 
+                    sizePrimitive = 12; 
                     break;
                 case ModelQuality.High:
-                    sizePrimitive = 10;
+                    sizePrimitive = 8;
                     break;
                 default:
-                    sizePrimitive = 32;
+                    sizePrimitive = 16;
                     break;
             }
 
@@ -36,11 +36,11 @@ namespace Advanced3DModels
 
             if (index == 1)
             {
-                model = Models3DLib.Model.CubeColored(edgeLen, sizePrimitive);
+                model = Models3DLib.Model.CubeColored(modelSize, sizePrimitive);
             }
             else
             {
-                model = Models3DLib.Model.Cube(edgeLen, sizePrimitive);
+                model = Models3DLib.Model.Cube(modelSize, sizePrimitive);
             }
 
             return model;

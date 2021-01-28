@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Drawing;
 
 namespace Models3DLib
 {
@@ -96,6 +97,22 @@ namespace Models3DLib
                 _points = points,
                 _edges = edges
             };
+        }
+
+        public static Model CubeColored(float edgeLen, float sizePrimitive)
+        {
+            Model model = Cube(edgeLen, sizePrimitive);
+            Color[] cls = { Color.LightGreen, Color.Brown, Color.Gold, Color.LightBlue, Color.Aqua, Color.Magenta };
+
+            for (int i = 0; i < cls.Length; i++)
+            {
+                foreach (Triangle triangle in model.Planes.ElementAt(i).Triangles)
+                {
+                    triangle.Color = cls[i];
+                }
+            }
+
+            return model;
         }
 
         #endregion

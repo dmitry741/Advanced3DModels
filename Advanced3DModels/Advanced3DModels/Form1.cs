@@ -27,6 +27,8 @@ namespace Advanced3DModels
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         ILightSource _lightSource = null;
 
+        bool _blockEvents = false;
+
         #endregion
 
         #region === private methods ===       
@@ -53,14 +55,55 @@ namespace Advanced3DModels
             pictureBox1.Image = _bitmap;
         }
 
+        void UpdateModel()
+        {           
+            ModelQuality modelQuality;
+
+            if (cmbQuality.SelectedIndex == 1)
+            {
+                modelQuality = ModelQuality.Middle;
+            }
+            else if (cmbQuality.SelectedIndex == 2)
+            {
+                modelQuality = ModelQuality.High;
+            }
+            else
+            {
+                modelQuality = ModelQuality.Low;
+            }
+
+            int index = cmbModel.SelectedIndex;
+            _model = ModelFactory.GetModel(index, 200, modelQuality);
+            _model.Transform(_transformMatrix);
+        }
+
         #endregion
 
         private void Form1_Load(object sender, EventArgs e)
         {
             pictureBox1.BackColor = Color.White;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            //_model = Model.Cube(200, 20.0f);
-            _model = Model.CubeColored(200, 20.0f);
+
+            _blockEvents = true;
+
+            // модель
+            cmbModel.BeginUpdate();
+            cmbModel.Items.Add("Куб");
+            cmbModel.Items.Add("Цветной куб");
+            cmbModel.SelectedIndex = 1;
+            cmbModel.EndUpdate();
+
+            // качество
+            cmbQuality.BeginUpdate();
+            cmbQuality.Items.Add("Низкое");
+            cmbQuality.Items.Add("Среднее");
+            cmbQuality.Items.Add("Высокое");
+            cmbQuality.SelectedIndex = 1;
+            cmbQuality.EndUpdate();
+
+            _blockEvents = false;
+
+            _model = ModelFactory.GetModel(1, 200, ModelQuality.Middle);
 
             _lightSource = new PointLightSource()
             {
@@ -121,6 +164,25 @@ namespace Advanced3DModels
         {
             _model = Model.Cube(200, 8.0f);
             _model.Transform(_transformMatrix);
+            Render();
+        }
+
+        private void cmbModel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            _transformMatrix = Matrix4x4.Identity;
+            UpdateModel();            
+            Render();
+        }
+
+        private void cmbQuality_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            UpdateModel();
             Render();
         }
     }

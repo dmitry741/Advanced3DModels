@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    public class ProjectorLightSource : ILightSource
+    public class ProjectorLightSource : AbstractLightSource
     {
         public Vector3 VectorLightSource { get; set; }
 
-        public Vector3 GetRay(Point3D point)
+        public override Vector3 GetRay(Point3D point)
         {
             return VectorLightSource;
         }

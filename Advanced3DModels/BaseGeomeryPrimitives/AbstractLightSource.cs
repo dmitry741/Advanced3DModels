@@ -7,8 +7,9 @@ using System.Numerics;
 
 namespace Models3DLib
 {
-    public interface ILightSource
+    public abstract class AbstractLightSource
     {
-        Vector3 GetRay(Point3D point);
+        public float Weight { get; set; } = 1.0f;
+        public abstract Vector3 GetRay(Point3D point);
     }
 }

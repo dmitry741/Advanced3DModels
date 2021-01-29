@@ -25,7 +25,7 @@ namespace Advanced3DModels
         Model _model;
         PointF _startPoint = PointF.Empty;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
-        ILightSource _lightSource = null;
+        AbstractLightSource _lightSource = null;
         Point3D _pointObserver = null;
 
         bool _blockEvents = false;

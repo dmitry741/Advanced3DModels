@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PointLightSource.cs" />
-    <Compile Include="ILightSource.cs" />
+    <Compile Include="AbstractLightSource.cs" />
     <Compile Include="LightModel.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Edge.cs" />

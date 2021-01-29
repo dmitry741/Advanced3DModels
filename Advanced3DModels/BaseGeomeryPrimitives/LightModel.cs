@@ -10,15 +10,15 @@ namespace Models3DLib
 {
     public class LightModel
     {
-        public static Color GetColor(Triangle triangle, ILightSource lightSource)
+        public static Color GetColor(Triangle triangle, Color color, ILightSource lightSource, Point3D pointObserver)
         {
             const float cMinimalPart = 0.1f;
 
+            Point3D point0 = triangle.Point0;
             Vector3 vectorNormal = Vector3.Normalize(triangle.Normal);
-            Vector3 vectorToLightPoint = Vector3.Normalize(lightSource.GetRay(triangle.Point0));
+            Vector3 vectorToLightPoint = Vector3.Normalize(lightSource.GetRay(point0));
 
             float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
-            Color color = triangle.Color;
             float lerp = (1 - cMinimalPart) * (1 + cosinus) / 2 + cMinimalPart;
 
             float R = color.R * lerp;
@@ -28,9 +28,9 @@ namespace Models3DLib
             if (triangle.Reflection)
             {
                 Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
-                Vector3 vectorToObserver = new Vector3(0, 0, -1);
+                Vector3 vectorToObserver = new Vector3(pointObserver.X - point0.X, pointObserver.Y - point0.Y, pointObserver.Z - point0.Z);
 
-                cosinus = Vector3.Dot(vectorReflect, vectorToObserver);
+                cosinus = Vector3.Dot(vectorReflect, Vector3.Normalize(vectorToObserver));
                 
                 if (cosinus > 0)
                 {

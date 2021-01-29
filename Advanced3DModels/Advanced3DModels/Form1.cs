@@ -26,6 +26,7 @@ namespace Advanced3DModels
         PointF _startPoint = PointF.Empty;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         ILightSource _lightSource = null;
+        Point3D _pointObserver = null;
 
         bool _blockEvents = false;
 
@@ -66,7 +67,7 @@ namespace Advanced3DModels
                 renderType = RenderType.FillWhite;
             }
 
-            RenderingModel.Render(g, _model, _lightSource, renderType);
+            RenderingModel.Render(g, _model, _lightSource, _pointObserver, renderType);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
@@ -144,6 +145,8 @@ namespace Advanced3DModels
             {
                 LightPoint = new Point3D(0, 0, -500)
             };
+
+            _pointObserver = new Point3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -2000);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

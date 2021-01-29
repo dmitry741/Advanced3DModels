@@ -18,7 +18,7 @@ namespace Advanced3DModels
 
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, ILightSource lightSource, RenderType renderType)
+        public static void Render(Graphics g, Model model, ILightSource lightSource, Point3D pointObserver, RenderType renderType)
         {
             if (renderType == RenderType.Edges)
             {
@@ -60,10 +60,9 @@ namespace Advanced3DModels
 
                 foreach (Triangle triangle in orderedTriangles)
                 {
-                    Color color = LightModel.GetColor(triangle, lightSource);
+                    Color color = LightModel.GetColor(triangle, triangle.Color, lightSource, pointObserver);
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);
-                    //g.DrawPolygon(Pens.Black, triangle.Points);
                 }
             }
             else if (renderType == RenderType.FillWhite)

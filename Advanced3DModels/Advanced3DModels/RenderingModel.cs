@@ -56,9 +56,11 @@ namespace Advanced3DModels
                     }
                 }
 
-                var orderedTriangles = triangles.OrderBy(t => t.Min);                
+                IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
+                    triangles.OrderBy(t => t.Min).AsEnumerable() :
+                    triangles;
 
-                foreach (Triangle triangle in orderedTriangles)
+                foreach (Triangle triangle in trianglesForRendering)
                 {
                     Color color = LightModel.GetColor(triangle, triangle.Color, lightSource, pointObserver);
                     Brush brush = new SolidBrush(color);
@@ -84,9 +86,11 @@ namespace Advanced3DModels
                     }
                 }
 
-                var orderedTriangles = triangles.OrderBy(t => t.Min);
+                IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
+                    triangles.OrderBy(t => t.Min).AsEnumerable() :
+                    triangles;
 
-                foreach (Triangle triangle in orderedTriangles)
+                foreach (Triangle triangle in trianglesForRendering)
                 {
                     g.FillPolygon(Brushes.White, triangle.Points);
                     g.DrawPolygon(Pens.Black, triangle.Points);

@@ -20,9 +20,9 @@ namespace Models3DLib
 
         #region === public ===
 
+        public bool NeedToSort { get; set; } = false;
         public IEnumerable<Edge> Edges => _edges;
         public IEnumerable<Plane> Planes => _planes;
-
         public void Transform(Matrix4x4 matrix)
         {
             foreach (Point3D point in _points)

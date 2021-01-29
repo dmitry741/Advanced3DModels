@@ -20,6 +20,21 @@ namespace Models3DLib
 
         #region === public ===
 
+        public void AddPlane(Plane plane)
+        {
+            _planes.Add(plane);
+        }
+
+        public void AddEdges(IEnumerable<Edge> edges)
+        {
+            _edges.AddRange(edges);
+        }
+
+        public void AddPoints(IEnumerable<Point3D> point3Ds)
+        {
+            _points.AddRange(point3Ds);
+        }
+
         public bool NeedToSort { get; set; } = false;
         public IEnumerable<Edge> Edges => _edges;
         public IEnumerable<Plane> Planes => _planes;
@@ -49,7 +64,54 @@ namespace Models3DLib
 
         #endregion
 
-        #region === presets ===
+        #region === private ===
+
+        private static Model SquareTilePanel(float edgeLen, float sizePrimitive, int tileRowCount, float zLevel, Color color1, Color color2)
+        {
+            float xStart = -edgeLen / 2.0f;
+            float yStart = -edgeLen / 2.0f;
+            float xEnd = edgeLen / 2.0f;
+            float yEnd = edgeLen / 2.0f;
+
+            float xs = xStart;
+            float ys = yStart;
+
+            Model model = new Model();
+
+            for (int i = 0; i < tileRowCount; i++)
+            {
+                float xe = (xEnd - xStart) * (i + 1) / tileRowCount + xStart;
+
+                for (int j = 0; j < tileRowCount; j++)
+                {
+                    float ye = (yEnd - yStart) * (j + 1) / tileRowCount + yStart;
+
+                    Point3D point1 = new Point3D(xs, ys, zLevel);
+                    Point3D point2 = new Point3D(xe, ys, zLevel);
+                    Point3D point3 = new Point3D(xe, ye, zLevel);
+                    Point3D point4 = new Point3D(xs, ye, zLevel);
+
+                    Plane panel = new Polygon4Plane(point1, point2, point3, point4, sizePrimitive, (i + j).ToString());
+
+                    foreach(Triangle triangle in panel.Triangles)
+                    {
+                        triangle.Color = (i + j) % 2 == 0 ? color1 : color2;
+                    }
+
+                    model.AddPlane(panel);
+
+                    ys = ye;
+                }
+
+                xs = xe;
+            }
+
+            return model;
+        }
+
+        #endregion
+
+        #region === models ===
 
         public static Model Cube(float edgeLen, float sizePrimitive)
         {
@@ -114,6 +176,17 @@ namespace Models3DLib
 
             return model;
         }
+
+        /*public static Model Panel(float edgeLen, float sizePrimitive, int tileRowCount, Color color1, Color color2)
+        {
+            const float cHeight = 16.0f;
+
+            for (int i = 0; i < tileRowCount; i++)
+            {
+                
+            }
+
+        }*/
 
         #endregion
     }

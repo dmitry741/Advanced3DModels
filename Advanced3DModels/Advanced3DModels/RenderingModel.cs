@@ -62,7 +62,8 @@ namespace Advanced3DModels
 
                 foreach (Triangle triangle in trianglesForRendering)
                 {
-                    Color color = LightModel.GetColor(triangle, triangle.Color, new List<AbstractLightSource> { lightSource }, pointObserver);
+                    //Color color = LightModel.GetColor(triangle, triangle.Color, new List<AbstractLightSource> { lightSource }, pointObserver);
+                    Color color = LightModel.GetColor(triangle, triangle.Color, lightSource, pointObserver);
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);
                 }

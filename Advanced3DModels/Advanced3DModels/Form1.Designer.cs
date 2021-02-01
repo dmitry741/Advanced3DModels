@@ -45,7 +45,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(596, 596);
+            this.pictureBox1.Size = new System.Drawing.Size(640, 640);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
@@ -53,7 +53,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(789, 580);
+            this.button1.Location = new System.Drawing.Point(857, 619);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 28);
             this.button1.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             this.cmbModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbModel.FormattingEnabled = true;
-            this.cmbModel.Location = new System.Drawing.Point(703, 12);
+            this.cmbModel.Location = new System.Drawing.Point(771, 12);
             this.cmbModel.Name = "cmbModel";
             this.cmbModel.Size = new System.Drawing.Size(197, 21);
             this.cmbModel.TabIndex = 4;
@@ -74,7 +74,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(651, 15);
+            this.label1.Location = new System.Drawing.Point(719, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 5;
@@ -84,7 +84,7 @@
             // 
             this.cmbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbQuality.FormattingEnabled = true;
-            this.cmbQuality.Location = new System.Drawing.Point(703, 39);
+            this.cmbQuality.Location = new System.Drawing.Point(771, 39);
             this.cmbQuality.Name = "cmbQuality";
             this.cmbQuality.Size = new System.Drawing.Size(197, 21);
             this.cmbQuality.TabIndex = 6;
@@ -93,7 +93,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(643, 42);
+            this.label2.Location = new System.Drawing.Point(711, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 7;
@@ -102,7 +102,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(666, 69);
+            this.label3.Location = new System.Drawing.Point(734, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 8;
@@ -112,7 +112,7 @@
             // 
             this.cmbLightSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLightSource.FormattingEnabled = true;
-            this.cmbLightSource.Location = new System.Drawing.Point(703, 66);
+            this.cmbLightSource.Location = new System.Drawing.Point(771, 66);
             this.cmbLightSource.Name = "cmbLightSource";
             this.cmbLightSource.Size = new System.Drawing.Size(197, 21);
             this.cmbLightSource.TabIndex = 9;
@@ -122,7 +122,7 @@
             // 
             this.cmbRenderStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRenderStatus.FormattingEnabled = true;
-            this.cmbRenderStatus.Location = new System.Drawing.Point(703, 93);
+            this.cmbRenderStatus.Location = new System.Drawing.Point(771, 93);
             this.cmbRenderStatus.Name = "cmbRenderStatus";
             this.cmbRenderStatus.Size = new System.Drawing.Size(197, 21);
             this.cmbRenderStatus.TabIndex = 10;
@@ -131,7 +131,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(621, 96);
+            this.label4.Location = new System.Drawing.Point(689, 96);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 13);
             this.label4.TabIndex = 11;
@@ -141,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 620);
+            this.ClientSize = new System.Drawing.Size(979, 659);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbRenderStatus);
             this.Controls.Add(this.cmbLightSource);

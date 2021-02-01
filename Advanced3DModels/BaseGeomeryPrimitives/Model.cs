@@ -19,11 +19,6 @@ namespace Models3DLib
 
         #region === public ===
 
-        public void AddPlane(Plane plane)
-        {
-            _planes.Add(plane);
-        }
-
         public bool NeedToSort { get; set; } = false;
         public IEnumerable<Plane> Planes => _planes;
         public void Transform(Matrix4x4 matrix)
@@ -39,6 +34,15 @@ namespace Models3DLib
                     point.Z = vector.Z;
                 }
             }
+        }
+
+        /// <summary>
+        /// Объеденить текущую модель с моделью заданную параметром model.
+        /// </summary>
+        /// <param name="model">модель для добавления в текущую модель.</param>
+        void UnionWith(Model model)
+        {
+            _planes.AddRange(model.Planes);
         }
 
         #endregion
@@ -100,6 +104,47 @@ namespace Models3DLib
         #endregion
 
         #region === models ===
+
+        public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float zLevel, Color color1, Color color2)
+        {
+            float xStart = -sizeSide / 2.0f;
+            float yStart = -sizeSide / 2.0f;
+            float xEnd = sizeSide / 2.0f;
+            float yEnd = sizeSide / 2.0f;
+
+            //float xs = xStart;
+            //float ys = yStart;
+
+            List<Plane> planes = new List<Plane>();
+            bool[] panels = new bool[] { true, false, false, false, false, true };
+
+            Color[] colors1 = new Color[] { color1, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
+            Color[] colors2 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
+
+            Model model = new Model();
+
+            for (int i = 0; i < tileRowCount; i++)
+            {
+                float x = (xEnd - xStart) * i / tileRowCount + xStart;
+
+                for (int j = 0; j < tileRowCount; j++)
+                {
+                    float y = (yEnd - yStart) * j / tileRowCount + yStart;
+
+                    Color[] colors = (i + j) % 2 == 0 ? colors1 : colors2;
+                    Model pld = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, zLevel, sizePrimitive, panels, colors);
+                    Vector3 translation = new Vector3(x - sizeSide / 2, y - sizeSide / 2, 0);
+                    Matrix4x4 matrix = Matrix4x4.CreateTranslation(translation);
+                    pld.Transform(matrix);
+                    model.UnionWith(pld);
+                }
+            }
+
+            return new Model
+            {
+                _planes = planes
+            };
+        }
 
         public static Model Cube(float sizeSide, float sizePrimitive)
         {

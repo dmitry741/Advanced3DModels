@@ -17,12 +17,12 @@ namespace Models3DLib
             d[0] = Vector3.Distance(p1.ToVector3(), p2.ToVector3());
             d[1] = Vector3.Distance(p3.ToVector3(), p4.ToVector3());
 
-            int NX = Convert.ToInt32(d.Min() / sizePrimitive);
+            int NX = Math.Max(Convert.ToInt32(d.Min() / sizePrimitive), 1);
 
             d[0] = Vector3.Distance(p3.ToVector3(), p2.ToVector3());
             d[1] = Vector3.Distance(p1.ToVector3(), p4.ToVector3());
 
-            int NY = Convert.ToInt32(d.Min() / sizePrimitive);
+            int NY = Math.Max(Convert.ToInt32(d.Min() / sizePrimitive), 1);
 
             for (int j = 0; j <= NY; j++)
             {
@@ -83,12 +83,12 @@ namespace Models3DLib
             d[0] = Vector3.Distance(p1.ToVector3(), p2.ToVector3());
             d[1] = Vector3.Distance(p3.ToVector3(), p4.ToVector3());
 
-            int NX = Convert.ToInt32(d.Min() / sizePrimitive);
+            int NX = Math.Max(Convert.ToInt32(d.Min() / sizePrimitive), 1);
 
             d[0] = Vector3.Distance(p3.ToVector3(), p2.ToVector3());
             d[1] = Vector3.Distance(p1.ToVector3(), p4.ToVector3());
 
-            int NY = Convert.ToInt32(d.Min() / sizePrimitive);
+            int NY = Math.Max(Convert.ToInt32(d.Min() / sizePrimitive), 1);
 
             for (int j = 0; j <= NY; j++)
             {

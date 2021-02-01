@@ -47,7 +47,6 @@
     <Compile Include="AbstractLightSource.cs" />
     <Compile Include="LightModel.cs" />
     <Compile Include="Plane.cs" />
-    <Compile Include="Edge.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Point3D.cs" />
     <Compile Include="ProjectorLightSource.cs" />

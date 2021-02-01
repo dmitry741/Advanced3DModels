@@ -10,7 +10,6 @@ namespace Advanced3DModels
 {
     enum RenderType
     {
-        Edges,
         Triangulations,
         FillFull,
         FillWhite
@@ -20,14 +19,7 @@ namespace Advanced3DModels
     {
         public static void Render(Graphics g, Model model, AbstractLightSource lightSource, Point3D pointObserver, RenderType renderType)
         {
-            if (renderType == RenderType.Edges)
-            {
-                foreach(Edge edge in model.Edges)
-                {
-                    g.DrawLine(Pens.Black, edge.Point1.ToPointF(), edge.Point2.ToPointF());
-                }
-            }
-            else if (renderType == RenderType.Triangulations)
+           if (renderType == RenderType.Triangulations)
             {
                 foreach(Plane plane in model.Planes)
                 {

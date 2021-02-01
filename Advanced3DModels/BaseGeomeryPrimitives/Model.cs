@@ -13,7 +13,6 @@ namespace Models3DLib
         #region === members ===
 
         protected List<Plane> _planes = new List<Plane>();
-        protected List<Edge> _edges = new List<Edge>();
         protected List<Point3D> _points = new List<Point3D>();
 
         #endregion
@@ -25,30 +24,10 @@ namespace Models3DLib
             _planes.Add(plane);
         }
 
-        public void AddEdges(IEnumerable<Edge> edges)
-        {
-            _edges.AddRange(edges);
-        }
-
-        public void AddPoints(IEnumerable<Point3D> point3Ds)
-        {
-            _points.AddRange(point3Ds);
-        }
-
         public bool NeedToSort { get; set; } = false;
-        public IEnumerable<Edge> Edges => _edges;
         public IEnumerable<Plane> Planes => _planes;
         public void Transform(Matrix4x4 matrix)
         {
-            foreach (Point3D point in _points)
-            {
-                Vector3 vector = Vector3.Transform(point.ToVector3(), matrix);
-
-                point.X = vector.X;
-                point.Y = vector.Y;
-                point.Z = vector.Z;
-            }
-
             foreach(Plane plane in _planes)
             {
                 foreach (Point3D point in plane.Points)
@@ -65,6 +44,12 @@ namespace Models3DLib
         #endregion
 
         #region === private ===
+
+        private static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
+        {
+            // TODO:
+            return null;
+        }
 
         private static Model SquareTilePanel(float edgeLen, float sizePrimitive, int tileRowCount, float zLevel, Color color1, Color color2)
         {
@@ -137,27 +122,9 @@ namespace Models3DLib
                 new Polygon4Plane(points[7], points[6], points[5], points[4], sizePrimitive, "5")
             };
 
-            List<Edge> edges = new List<Edge>
-            {
-                new Edge(points[0], points[1]),
-                new Edge(points[1], points[2]),
-                new Edge(points[2], points[3]),
-                new Edge(points[3], points[0]),
-                new Edge(points[4], points[5]),
-                new Edge(points[5], points[6]),
-                new Edge(points[6], points[7]),
-                new Edge(points[7], points[4]),
-                new Edge(points[0], points[4]),
-                new Edge(points[1], points[5]),
-                new Edge(points[2], points[6]),
-                new Edge(points[3], points[7])
-            };
-
             return new Model
             {
                 _planes = planes,
-                _points = points,
-                _edges = edges
             };
         }
 

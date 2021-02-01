@@ -50,11 +50,7 @@ namespace Advanced3DModels
             // отрисовка модели
             RenderType renderType;
 
-            if (cmbRenderStatus.SelectedIndex == 0)
-            {
-                renderType = RenderType.Edges;
-            }
-            else if (cmbRenderStatus.SelectedIndex == 1)
+            if (cmbRenderStatus.SelectedIndex == 1)
             {
                 renderType = RenderType.Triangulations;
             }
@@ -130,7 +126,6 @@ namespace Advanced3DModels
 
             // отображение
             cmbRenderStatus.BeginUpdate();
-            cmbRenderStatus.Items.Add("Ребра");
             cmbRenderStatus.Items.Add("Триангуляция");
             cmbRenderStatus.Items.Add("Полное");
             cmbRenderStatus.Items.Add("Триангуляция. Белая модель.");

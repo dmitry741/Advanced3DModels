@@ -32,7 +32,7 @@ namespace UnitTestModels3D
             Point3D point3 = new Point3D(2, 0, 0);
             Point3D point4 = new Point3D(0, 0, 0);
 
-            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f, "test");
+            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
 
             Assert.IsTrue(plane.Triangles.Count() == 8);
             Assert.IsTrue(plane.Points.Count() == 9);
@@ -48,7 +48,7 @@ namespace UnitTestModels3D
             Point3D point3 = new Point3D(3, 0, 0);
             Point3D point4 = new Point3D(0, 0, 0);
 
-            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f, "test");
+            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
 
             Assert.IsTrue(plane.Triangles.Count() == 12);
             Assert.IsTrue(plane.Points.Count() == 12);
@@ -64,7 +64,7 @@ namespace UnitTestModels3D
             Point3D point3 = new Point3D(2, 0, 0);
             Point3D point4 = new Point3D(0, 0, 0);
 
-            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f, "test");
+            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
 
             Assert.IsTrue(plane.Triangles.Count() == 12);
             Assert.IsTrue(plane.Points.Count() == 12);

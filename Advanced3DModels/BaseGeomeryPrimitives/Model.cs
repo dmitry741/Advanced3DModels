@@ -47,80 +47,49 @@ namespace Models3DLib
 
         private static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
         {
-            // TODO:
-            return null;
-        }
-
-        private static Model SquareTilePanel(float edgeLen, float sizePrimitive, int tileRowCount, float zLevel, Color color1, Color color2)
-        {
-            float xStart = -edgeLen / 2.0f;
-            float yStart = -edgeLen / 2.0f;
-            float xEnd = edgeLen / 2.0f;
-            float yEnd = edgeLen / 2.0f;
-
-            float xs = xStart;
-            float ys = yStart;
-
-            Model model = new Model();
-
-            for (int i = 0; i < tileRowCount; i++)
-            {
-                float xe = (xEnd - xStart) * (i + 1) / tileRowCount + xStart;
-
-                for (int j = 0; j < tileRowCount; j++)
-                {
-                    float ye = (yEnd - yStart) * (j + 1) / tileRowCount + yStart;
-
-                    Point3D point1 = new Point3D(xs, ys, zLevel);
-                    Point3D point2 = new Point3D(xe, ys, zLevel);
-                    Point3D point3 = new Point3D(xe, ye, zLevel);
-                    Point3D point4 = new Point3D(xs, ye, zLevel);
-
-                    Plane panel = new Polygon4Plane(point1, point2, point3, point4, sizePrimitive, (i + j).ToString());
-
-                    foreach(Triangle triangle in panel.Triangles)
-                    {
-                        triangle.Color = (i + j) % 2 == 0 ? color1 : color2;
-                    }
-
-                    model.AddPlane(panel);
-
-                    ys = ye;
-                }
-
-                xs = xe;
-            }
-
-            return model;
-        }
-
-        #endregion
-
-        #region === models ===
-
-        public static Model Cube(float edgeLen, float sizePrimitive)
-        {
             List<Point3D> points = new List<Point3D>
             {
-                new Point3D(-edgeLen / 2, edgeLen / 2, edgeLen / 2),
-                new Point3D(edgeLen / 2, edgeLen / 2, edgeLen / 2),
-                new Point3D(edgeLen / 2, -edgeLen / 2, edgeLen / 2),
-                new Point3D(-edgeLen / 2, -edgeLen / 2, edgeLen / 2),
-                new Point3D(-edgeLen / 2, edgeLen / 2, -edgeLen / 2),
-                new Point3D(edgeLen / 2, edgeLen / 2, -edgeLen / 2),
-                new Point3D(edgeLen / 2, -edgeLen / 2, -edgeLen / 2),
-                new Point3D(-edgeLen / 2, -edgeLen / 2, -edgeLen / 2)
+                new Point3D(-width / 2, height / 2, depth / 2),
+                new Point3D(width / 2, height / 2, depth / 2),
+                new Point3D(width / 2, -height / 2, depth / 2),
+                new Point3D(-width / 2, -height / 2, depth / 2),
+                new Point3D(-width / 2, height / 2, -depth / 2),
+                new Point3D(width / 2, height / 2, -depth / 2),
+                new Point3D(width / 2, -height / 2, -depth / 2),
+                new Point3D(-width / 2, -height / 2, -depth / 2)
             };
 
-            List<Plane> planes = new List<Plane>
+            List<Plane> planes = new List<Plane>();
+
+            if (panels[0])
             {
-                new Polygon4Plane(points[0], points[1], points[2], points[3], sizePrimitive, "0"),
-                new Polygon4Plane(points[0], points[4], points[5], points[1], sizePrimitive, "1"),
-                new Polygon4Plane(points[1], points[5], points[6], points[2], sizePrimitive, "2"),
-                new Polygon4Plane(points[2], points[6], points[7], points[3], sizePrimitive, "3"),
-                new Polygon4Plane(points[3], points[7], points[4], points[0], sizePrimitive, "4"),
-                new Polygon4Plane(points[7], points[6], points[5], points[4], sizePrimitive, "5")
-            };
+                planes.Add(new Polygon4Plane(points[0], points[1], points[2], points[3], sizePrimitive, colors[0], colors[0].ToString()));
+            }
+
+            if (panels[1])
+            {
+                planes.Add(new Polygon4Plane(points[0], points[4], points[5], points[1], sizePrimitive, colors[1], colors[1].ToString()));
+            }
+
+            if (panels[2])
+            {
+                planes.Add(new Polygon4Plane(points[1], points[5], points[6], points[2], sizePrimitive, colors[2], colors[2].ToString()));
+            }
+
+            if (panels[3])
+            {
+                planes.Add(new Polygon4Plane(points[2], points[6], points[7], points[3], sizePrimitive, colors[3], colors[3].ToString()));
+            }
+            
+            if (panels[4])
+            {
+                planes.Add(new Polygon4Plane(points[3], points[7], points[4], points[0], sizePrimitive, colors[4], colors[4].ToString()));
+            }
+
+            if (panels[5])
+            {
+                planes.Add(new Polygon4Plane(points[7], points[6], points[5], points[4], sizePrimitive, colors[5], colors[5].ToString()));
+            }
 
             return new Model
             {
@@ -128,32 +97,25 @@ namespace Models3DLib
             };
         }
 
-        public static Model CubeColored(float edgeLen, float sizePrimitive)
+        #endregion
+
+        #region === models ===
+
+        public static Model Cube(float sizeSide, float sizePrimitive)
         {
-            Model model = Cube(edgeLen, sizePrimitive);
-            Color[] cls = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
+            Color[] colors = new Color[] { Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen };
+            bool[] planes = new bool[] { true, true, true, true, true, true };
 
-            for (int i = 0; i < cls.Length; i++)
-            {
-                foreach (Triangle triangle in model.Planes.ElementAt(i).Triangles)
-                {
-                    triangle.Color = cls[i];
-                }
-            }
-
-            return model;
+            return Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, planes, colors);
         }
 
-        /*public static Model Panel(float edgeLen, float sizePrimitive, int tileRowCount, Color color1, Color color2)
+        public static Model CubeColored(float sizeSide, float sizePrimitive)
         {
-            const float cHeight = 16.0f;
+            Color[] colors = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
+            bool[] planes = new bool[] { true, true, true, true, true, true };
 
-            for (int i = 0; i < tileRowCount; i++)
-            {
-                
-            }
-
-        }*/
+            return Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, planes, colors);
+        }
 
         #endregion
     }

@@ -67,8 +67,6 @@ namespace Models3DLib
                 Vector3 vectorToLightPoint = Vector3.Normalize(ls.GetRay(point0));
 
                 float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
-                //float lerp = (1 - cMinimalPart) * (1 + cosinus) / 2 + cMinimalPart;
-
                 float lerp = ls.Weight * (1 - MinimalPart) * (1 + cosinus) / 2;
 
                 float rls = color.R * lerp;
@@ -88,7 +86,7 @@ namespace Models3DLib
                         float b = triangle.ReflectionCone;
                         float x = 1 - cosinus;
 
-                        float reflection = ls.Weight * Convert.ToSingle(a * Math.Exp(-b * x * x));
+                        float reflection = ls.Weight * a / (1 + b * x * x);
 
                         rls += reflection;
                         gls += reflection;

@@ -139,26 +139,70 @@ namespace Models3DLib
                 }
             }
 
-            // добавляем борта
             Vector3 trans;
             Matrix4x4 matrixTrans;
-            Model border;
-            bool[] bordersVisible;
-            Color[] bordersColors = new Color[] { color2, color2, color2, color2, color2, color2 };
+            Model furnitureItem;
+            bool[] visible;
 
-            bordersVisible = new bool[] { true, true, false, true, true, true };
-            border = Parallelepiped(sizeSide / tileRowCount, sizeSide + 2 * sizeSide / tileRowCount, depth, sizePrimitive, bordersVisible, bordersColors);
+            // добавляем борта
+            Color[] itemsColors = new Color[] { color2, color2, color2, color2, color2, color2 };
+
+            visible = new bool[] { true, true, false, true, true, true };
+            furnitureItem = Parallelepiped(sizeSide / tileRowCount, sizeSide + 2 * sizeSide / tileRowCount, depth, sizePrimitive, visible, itemsColors);
             trans = new Vector3(-sizeSide / 2 - sizeSide / tileRowCount / 2, 0, 0);
             matrixTrans = Matrix4x4.CreateTranslation(trans);
-            border.Transform(matrixTrans);
-            model.UnionWith(border);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
 
-            bordersVisible = new bool[] { true, true, true, true, false, true };
-            border = Parallelepiped(sizeSide / tileRowCount, sizeSide + 2 * sizeSide / tileRowCount, depth, sizePrimitive, bordersVisible, bordersColors);
+            visible = new bool[] { true, true, true, true, false, true };
+            furnitureItem = Parallelepiped(sizeSide / tileRowCount, sizeSide + 2 * sizeSide / tileRowCount, depth, sizePrimitive, visible, itemsColors);
             trans = new Vector3(sizeSide / 2 + sizeSide / tileRowCount / 2, 0, 0);
             matrixTrans = Matrix4x4.CreateTranslation(trans);
-            border.Transform(matrixTrans);
-            model.UnionWith(border);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
+
+            visible = new bool[] { true, true, false, false, false, true };
+            furnitureItem = Parallelepiped(sizeSide, sizeSide / tileRowCount, depth, sizePrimitive, visible, itemsColors);
+            trans = new Vector3(0, sizeSide / 2 + sizeSide / tileRowCount / 2, 0);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
+
+            visible = new bool[] { true, false, false, true, false, true };
+            furnitureItem = Parallelepiped(sizeSide, sizeSide / tileRowCount, depth, sizePrimitive, visible, itemsColors);
+            trans = new Vector3(0, -sizeSide / 2 - sizeSide / tileRowCount / 2, 0);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
+
+            // добавяем ножки
+            const float cfh = 64.0f;
+            visible = new bool[] { true, true, true, true, true, false };
+            itemsColors = new Color[] { Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, };
+
+            furnitureItem = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, cfh, sizePrimitive, visible, itemsColors);
+            trans = new Vector3(-sizeSide / 2 + sizeSide / tileRowCount / 2, -sizeSide / 2 + sizeSide / tileRowCount / 2, cfh / 2 + depth / 2);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
+
+            furnitureItem = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, cfh, sizePrimitive, visible, itemsColors);
+            trans = new Vector3(-sizeSide / 2 + sizeSide / tileRowCount / 2, sizeSide / 2 - sizeSide / tileRowCount / 2, cfh / 2 + depth / 2);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
+
+            furnitureItem = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, cfh, sizePrimitive, visible, itemsColors);
+            trans = new Vector3(sizeSide / 2 - sizeSide / tileRowCount / 2, sizeSide / 2 - sizeSide / tileRowCount / 2, cfh / 2 + depth / 2);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
+
+            furnitureItem = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, cfh, sizePrimitive, visible, itemsColors);
+            trans = new Vector3(sizeSide / 2 - sizeSide / tileRowCount / 2, -sizeSide / 2 + sizeSide / tileRowCount / 2, cfh / 2 + depth / 2);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            furnitureItem.Transform(matrixTrans);
+            model.UnionWith(furnitureItem);
 
             return model;
         }

@@ -49,9 +49,8 @@ namespace Advanced3DModels
                 }
 
                 IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
-                    triangles.OrderBy(t => t.Min).AsEnumerable() :
+                    triangles.OrderByDescending(t => t.Min).AsEnumerable() :
                     triangles;
-
 
                 foreach (Triangle triangle in trianglesForRendering)
                 {

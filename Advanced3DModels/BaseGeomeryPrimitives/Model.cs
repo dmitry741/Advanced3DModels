@@ -45,6 +45,25 @@ namespace Models3DLib
             _planes.AddRange(model.Planes);
         }
 
+        public IEnumerable<Triangle> Perspective(float width, float height, float nearPlaneDistance, float farPlaneDistance)
+        {
+            Matrix4x4 matrix = Matrix4x4.CreatePerspective(width, height, nearPlaneDistance, farPlaneDistance);
+            List<Triangle> perspective = new List<Triangle>();
+
+            foreach (Plane plane in _planes)
+            {
+                foreach (Triangle triangle in plane.Triangles)
+                {
+                    Vector3[] perspectiveVectors = triangle.Point3Ds.Select(p => Vector3.Transform(p.ToVector3(), matrix)).ToArray();
+                    Point3D[] points = perspectiveVectors.Select(v => new Point3D(v.X, v.Y, v.Z)).ToArray();
+
+                    perspective.Add(new Triangle(points, triangle.Color));
+                }
+            }
+
+            return perspective;
+        }
+
         #endregion
 
         #region === private ===

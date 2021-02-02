@@ -18,6 +18,12 @@ namespace Models3DLib
             Color = color;
         }
 
+        public Triangle(Point3D[] points, Color color)
+        {
+            _points = points;
+            Color = color;
+        }
+
         public Triangle(Point3D point1, Point3D point2, Point3D point3)
         {
             _points = new Point3D[3] { point1, point2, point3 };
@@ -45,6 +51,8 @@ namespace Models3DLib
         public float Min => _points.Min(p => p.Z);
 
         public Point3D Point0 => _points[0];
+
+        public Point3D[] Point3Ds => _points;
 
         public PointF[] Points => _points.Select(x => x.ToPointF()).ToArray();
     }

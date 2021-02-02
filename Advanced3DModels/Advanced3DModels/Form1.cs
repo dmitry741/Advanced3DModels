@@ -40,11 +40,8 @@ namespace Advanced3DModels
                 return;
 
             Graphics g = Graphics.FromImage(_bitmap);
-
-            if (cmbBack.SelectedIndex == 0)
-                g.Clear(Color.White);
-            else
-                g.Clear(Color.Black);
+            Color backColor = cmbBack.SelectedIndex == 0 ? Color.White : Color.Black;
+            g.Clear(backColor);
 
             float xTranslate = pictureBox1.Width / 2;
             float yTranslate = pictureBox1.Height / 2;
@@ -67,7 +64,7 @@ namespace Advanced3DModels
                 renderType = RenderType.FillWhite;
             }
 
-            RenderingModel.Render(g, _model, _lightSource, _pointObserver, renderType);
+            RenderingModel.Render(g, _model, _lightSource, _pointObserver, renderType, backColor);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);

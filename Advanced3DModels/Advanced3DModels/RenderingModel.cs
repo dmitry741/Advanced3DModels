@@ -17,15 +17,18 @@ namespace Advanced3DModels
 
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, Point3D pointObserver, RenderType renderType)
+        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, Point3D pointObserver, RenderType renderType, Color backColor)
         {
            if (renderType == RenderType.Triangulations)
             {
+                Color color = Color.FromArgb(255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
+                Pen pen = new Pen(color);
+
                 foreach(Plane plane in model.Planes)
                 {
                     foreach(Triangle triangle in plane.Triangles)
                     {
-                        g.DrawPolygon(Pens.Black, triangle.Points);
+                        g.DrawPolygon(pen, triangle.Points);
                     }                    
                 }
             }
@@ -54,7 +57,6 @@ namespace Advanced3DModels
 
                 foreach (Triangle triangle in trianglesForRendering)
                 {
-                    //Color color = LightModel.GetColor(triangle, triangle.Color, new List<AbstractLightSource> { lightSource1, lightSource2 }, pointObserver);
                     Color color = LightModel.GetColor(triangle, triangle.Color, lightSource, pointObserver);
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);
@@ -80,7 +82,7 @@ namespace Advanced3DModels
                 }
 
                 IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
-                    triangles.OrderBy(t => t.Min).AsEnumerable() :
+                    triangles.OrderByDescending(t => t.Min).AsEnumerable() :
                     triangles;
 
                 foreach (Triangle triangle in trianglesForRendering)

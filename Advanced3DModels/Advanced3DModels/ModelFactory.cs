@@ -41,7 +41,7 @@ namespace Advanced3DModels
             }
             else if (index == 2)
             {
-                model = Models3DLib.Model.ChessBoard(288, sizePrimitive, 8, 32, Color.Black, Color.WhiteSmoke);
+                model = Models3DLib.Model.ChessBoard(288, sizePrimitive, 8, 24, Color.DarkRed, Color.Ivory);
             }
             else
             {

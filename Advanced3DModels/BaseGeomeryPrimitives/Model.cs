@@ -117,7 +117,10 @@ namespace Models3DLib
             Color[] colors1 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color1 };
             Color[] colors2 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
 
-            Model model = new Model();
+            Model model = new Model
+            {
+                NeedToSort = true
+            };
 
             for (int i = 0; i < tileRowCount; i++)
             {
@@ -137,11 +140,25 @@ namespace Models3DLib
             }
 
             // добавляем борта
-            bool[] bordersVisible = new bool[] { false, true, true, true, true, false };
+            Vector3 trans;
+            Matrix4x4 matrixTrans;
+            Model border;
+            bool[] bordersVisible;
             Color[] bordersColors = new Color[] { color2, color2, color2, color2, color2, color2 };
 
-            Model borders = Parallelepiped(sizeSide, sizeSide, depth, sizePrimitive, bordersVisible, bordersColors);
-            model.UnionWith(borders);
+            bordersVisible = new bool[] { true, true, false, true, true, true };
+            border = Parallelepiped(sizeSide / tileRowCount, sizeSide + 2 * sizeSide / tileRowCount, depth, sizePrimitive, bordersVisible, bordersColors);
+            trans = new Vector3(-sizeSide / 2 - sizeSide / tileRowCount / 2, 0, 0);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            border.Transform(matrixTrans);
+            model.UnionWith(border);
+
+            bordersVisible = new bool[] { true, true, true, true, false, true };
+            border = Parallelepiped(sizeSide / tileRowCount, sizeSide + 2 * sizeSide / tileRowCount, depth, sizePrimitive, bordersVisible, bordersColors);
+            trans = new Vector3(sizeSide / 2 + sizeSide / tileRowCount / 2, 0, 0);
+            matrixTrans = Matrix4x4.CreateTranslation(trans);
+            border.Transform(matrixTrans);
+            model.UnionWith(border);
 
             return model;
         }

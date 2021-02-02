@@ -52,9 +52,10 @@ namespace Advanced3DModels
                     triangles.OrderBy(t => t.Min).AsEnumerable() :
                     triangles;
 
+
                 foreach (Triangle triangle in trianglesForRendering)
                 {
-                    //Color color = LightModel.GetColor(triangle, triangle.Color, new List<AbstractLightSource> { lightSource }, pointObserver);
+                    //Color color = LightModel.GetColor(triangle, triangle.Color, new List<AbstractLightSource> { lightSource1, lightSource2 }, pointObserver);
                     Color color = LightModel.GetColor(triangle, triangle.Color, lightSource, pointObserver);
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);

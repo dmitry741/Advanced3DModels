@@ -97,7 +97,7 @@ namespace Models3DLib
 
             return new Model
             {
-                _planes = planes,
+                _planes = planes
             };
         }
 
@@ -105,20 +105,16 @@ namespace Models3DLib
 
         #region === models ===
 
-        public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float zLevel, Color color1, Color color2)
+        public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float depth, Color color1, Color color2)
         {
             float xStart = -sizeSide / 2.0f;
             float yStart = -sizeSide / 2.0f;
             float xEnd = sizeSide / 2.0f;
             float yEnd = sizeSide / 2.0f;
 
-            //float xs = xStart;
-            //float ys = yStart;
-
-            List<Plane> planes = new List<Plane>();
             bool[] panels = new bool[] { true, false, false, false, false, true };
 
-            Color[] colors1 = new Color[] { color1, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
+            Color[] colors1 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color1 };
             Color[] colors2 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
 
             Model model = new Model();
@@ -132,18 +128,22 @@ namespace Models3DLib
                     float y = (yEnd - yStart) * j / tileRowCount + yStart;
 
                     Color[] colors = (i + j) % 2 == 0 ? colors1 : colors2;
-                    Model pld = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, zLevel, sizePrimitive, panels, colors);
-                    Vector3 translation = new Vector3(x - sizeSide / 2, y - sizeSide / 2, 0);
+                    Model pld = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, depth, sizePrimitive, panels, colors);
+                    Vector3 translation = new Vector3(x + sizeSide / tileRowCount / 2, y + sizeSide / tileRowCount / 2, 0);
                     Matrix4x4 matrix = Matrix4x4.CreateTranslation(translation);
                     pld.Transform(matrix);
                     model.UnionWith(pld);
                 }
             }
 
-            return new Model
-            {
-                _planes = planes
-            };
+            // добавляем борта
+            bool[] bordersVisible = new bool[] { false, true, true, true, true, false };
+            Color[] bordersColors = new Color[] { color2, color2, color2, color2, color2, color2 };
+
+            Model borders = Parallelepiped(sizeSide, sizeSide, depth, sizePrimitive, bordersVisible, bordersColors);
+            model.UnionWith(borders);
+
+            return model;
         }
 
         public static Model Cube(float sizeSide, float sizePrimitive)

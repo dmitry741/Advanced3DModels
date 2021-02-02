@@ -40,7 +40,11 @@ namespace Advanced3DModels
                 return;
 
             Graphics g = Graphics.FromImage(_bitmap);
-            g.Clear(Color.White);
+
+            if (cmbBack.SelectedIndex == 0)
+                g.Clear(Color.White);
+            else
+                g.Clear(Color.Black);
 
             float xTranslate = pictureBox1.Width / 2;
             float yTranslate = pictureBox1.Height / 2;
@@ -106,6 +110,7 @@ namespace Advanced3DModels
             cmbModel.BeginUpdate();
             cmbModel.Items.Add("Куб");
             cmbModel.Items.Add("Цветной куб");
+            cmbModel.Items.Add("Шахматная доска");
             cmbModel.SelectedIndex = 1;
             cmbModel.EndUpdate();
 
@@ -131,6 +136,13 @@ namespace Advanced3DModels
             cmbRenderStatus.Items.Add("Триангуляция. Белая модель.");
             cmbRenderStatus.SelectedIndex = 1;
             cmbRenderStatus.EndUpdate();
+
+            // фон
+            cmbBack.BeginUpdate();
+            cmbBack.Items.Add("Белый");
+            cmbBack.Items.Add("Черный");
+            cmbBack.SelectedIndex = 0;
+            cmbBack.EndUpdate();
 
             _blockEvents = false;
 
@@ -243,6 +255,14 @@ namespace Advanced3DModels
         }
 
         private void cmbRenderStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            Render();
+        }
+
+        private void cmbBack_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_blockEvents)
                 return;

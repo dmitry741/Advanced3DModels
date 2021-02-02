@@ -38,6 +38,8 @@
             this.cmbLightSource = new System.Windows.Forms.ComboBox();
             this.cmbRenderStatus = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.cmbBack = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -137,11 +139,32 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Отображение";
             // 
+            // cmbBack
+            // 
+            this.cmbBack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBack.FormattingEnabled = true;
+            this.cmbBack.Location = new System.Drawing.Point(771, 120);
+            this.cmbBack.Name = "cmbBack";
+            this.cmbBack.Size = new System.Drawing.Size(197, 21);
+            this.cmbBack.TabIndex = 12;
+            this.cmbBack.SelectedIndexChanged += new System.EventHandler(this.cmbBack_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(734, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(30, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Фон";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(979, 659);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.cmbBack);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbRenderStatus);
             this.Controls.Add(this.cmbLightSource);
@@ -176,6 +199,8 @@
         private System.Windows.Forms.ComboBox cmbLightSource;
         private System.Windows.Forms.ComboBox cmbRenderStatus;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbBack;
+        private System.Windows.Forms.Label label5;
     }
 }
 

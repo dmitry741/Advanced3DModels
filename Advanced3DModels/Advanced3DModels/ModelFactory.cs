@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Advanced3DModels
 {
@@ -37,6 +38,10 @@ namespace Advanced3DModels
             if (index == 1)
             {
                 model = Models3DLib.Model.CubeColored(modelSize, sizePrimitive);
+            }
+            else if (index == 2)
+            {
+                model = Models3DLib.Model.ChessBoard(288, sizePrimitive, 8, 32, Color.Black, Color.WhiteSmoke);
             }
             else
             {

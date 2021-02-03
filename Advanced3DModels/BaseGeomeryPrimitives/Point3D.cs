@@ -14,10 +14,7 @@ namespace Models3DLib
 
         public Point3D(float X, float Y, float Z)
         {
-            _X = new float[3];
-            _X[0] = X;
-            _X[1] = Y;
-            _X[2] = Z;
+            _X = new float[] { X, Y, Z };
         }
 
         public float X

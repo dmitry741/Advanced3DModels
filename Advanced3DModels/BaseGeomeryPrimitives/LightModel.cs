@@ -38,7 +38,7 @@ namespace Models3DLib
                     float b = triangle.ReflectionCone;
                     float x = 1 - cosinus;
 
-                    float reflection = a / (1 + b * x * x);
+                    float reflection = lightSource.Weight * a / (1 + b * x * x);
 
                     R += reflection;
                     G += reflection;

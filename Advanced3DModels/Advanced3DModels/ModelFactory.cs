@@ -16,7 +16,7 @@ namespace Advanced3DModels
 
     class ModelFactory
     {
-        public static Models3DLib.Model GetModel(int index, float modelSize,  ModelQuality modelQuality)
+        public static Models3DLib.Model GetModel(int index, ModelQuality modelQuality)
         {
             float sizePrimitive;
 
@@ -37,7 +37,7 @@ namespace Advanced3DModels
 
             if (index == 1)
             {
-                model = Models3DLib.Model.CubeColored(modelSize, sizePrimitive);
+                model = Models3DLib.Model.CubeColored(200.0f, sizePrimitive);
             }
             else if (index == 2)
             {
@@ -45,7 +45,7 @@ namespace Advanced3DModels
             }
             else
             {
-                model = Models3DLib.Model.Cube(modelSize, sizePrimitive);
+                model = Models3DLib.Model.Cube(200.0f, sizePrimitive);
             }
 
             return model;

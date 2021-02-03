@@ -88,15 +88,15 @@ namespace Advanced3DModels
             pictureBox1.Image = _bitmap;
         }
 
-        void UpdateModel()
-        {           
+        ModelQuality GetModelQuality(int index)
+        {
             ModelQuality modelQuality;
 
-            if (cmbQuality.SelectedIndex == 1)
+            if (index == 1)
             {
                 modelQuality = ModelQuality.Middle;
             }
-            else if (cmbQuality.SelectedIndex == 2)
+            else if (index == 2)
             {
                 modelQuality = ModelQuality.High;
             }
@@ -105,8 +105,14 @@ namespace Advanced3DModels
                 modelQuality = ModelQuality.Low;
             }
 
+            return modelQuality;
+        }
+
+        void UpdateModel()
+        {
+            ModelQuality modelQuality = GetModelQuality(cmbQuality.SelectedIndex);
             int index = cmbModel.SelectedIndex;
-            _model = ModelFactory.GetModel(index, 200, modelQuality);
+            _model = ModelFactory.GetModel(index, modelQuality);
             _model.Transform(_transformMatrix);
         }
 
@@ -123,7 +129,7 @@ namespace Advanced3DModels
             cmbModel.BeginUpdate();
             cmbModel.Items.Add("Куб");
             cmbModel.Items.Add("Цветной куб");
-            cmbModel.Items.Add("Шахматная доска");
+            cmbModel.Items.Add("Шахматный столик");
             cmbModel.SelectedIndex = 1;
             cmbModel.EndUpdate();
 
@@ -159,7 +165,7 @@ namespace Advanced3DModels
 
             _blockEvents = false;
 
-            _model = ModelFactory.GetModel(1, 200, ModelQuality.Middle);
+            _model = ModelFactory.GetModel(1, ModelQuality.Middle);
 
             _lightSource = new PointLightSource()
             {

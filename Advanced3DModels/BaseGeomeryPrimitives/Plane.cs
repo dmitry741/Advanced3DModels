@@ -10,8 +10,8 @@ namespace Models3DLib
 {
     public class Plane
     {
-        protected List<Point3D> _point3Ds;
-        protected List<Triangle> _triangles;
+        readonly protected List<Point3D> _point3Ds;
+        readonly protected List<Triangle> _triangles;
 
         public Plane()
         {

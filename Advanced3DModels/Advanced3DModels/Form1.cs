@@ -24,39 +24,26 @@ namespace Advanced3DModels
         Bitmap _bitmap;
         Model _model;
         PointF _startPoint = PointF.Empty;
-        Matrix4x4 _transformMatrix = Matrix4x4.Identity;
-        AbstractLightSource _lightSource = null;
         Point3D _pointObserver = null;
+        Matrix4x4 _transformMatrix = Matrix4x4.Identity;
+        AbstractLightSource _lightSource = null;        
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
 
         bool _blockEvents = false;
 
         #endregion
 
-        #region === private methods ===       
-
-        void Render()
+        #region === private methods ===
+        
+        RenderType GetRenderType(int index)
         {
-            if (_bitmap == null || _model == null)
-                return;
-
-            Graphics g = Graphics.FromImage(_bitmap);
-            Color backColor = cmbBack.SelectedIndex == 0 ? Color.White : Color.Black;
-            g.Clear(backColor);
-
-            float xTranslate = pictureBox1.Width / 2;
-            float yTranslate = pictureBox1.Height / 2;
-            Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
-            _model.Transform(translate);
-
-            // отрисовка модели
             RenderType renderType;
 
-            if (cmbRenderStatus.SelectedIndex == 0)
+            if (index == 0)
             {
                 renderType = RenderType.Triangulations;
             }
-            else if (cmbRenderStatus.SelectedIndex == 1)
+            else if (index == 1)
             {
                 renderType = RenderType.FillFull;
             }
@@ -65,14 +52,36 @@ namespace Advanced3DModels
                 renderType = RenderType.FillWhite;
             }
 
-            bool perspective = checkBoxPerspective.Checked;
+            return renderType;
+        }
 
-            Model model = !perspective ?
+        void Render()
+        {
+            if (_bitmap == null || _model == null)
+                return;
+
+            Graphics g = Graphics.FromImage(_bitmap);
+            Color backColor = cmbBack.SelectedIndex == 0 ? Color.White : Color.Black;
+
+            // отрисовка фона
+            g.Clear(backColor);
+
+            // перенос модели в центр окна
+            float xTranslate = pictureBox1.Width / 2;
+            float yTranslate = pictureBox1.Height / 2;
+            Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+            _model.Transform(translate);
+
+            // отрисовка модели
+            RenderType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
+
+            Model model = !checkBoxPerspective.Checked ?
                 _model : 
                 Model.Perspective(_model, _iperspectiveTransform, _pointObserver);
 
             RenderingModel.Render(g, model, _lightSource, _pointObserver, renderType, backColor);
 
+            // перенос модели в начало координаи
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
 

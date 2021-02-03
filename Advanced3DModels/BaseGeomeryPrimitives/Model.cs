@@ -19,12 +19,17 @@ namespace Models3DLib
         #region === private ===
 
         /// <summary>
-        /// Объеденить текущую модель с моделью заданную параметром model.
+        /// Объединить текущую модель с моделью заданную параметром model.
         /// </summary>
         /// <param name="model">модель для добавления в текущую модель.</param>
         void UnionWith(Model model)
         {
             _planes.AddRange(model.Planes);
+        }
+
+        void AddPlane(Plane plane)
+        {
+            _planes.Add(plane);
         }
 
         #endregion
@@ -47,11 +52,6 @@ namespace Models3DLib
                     point.Z = vector.Z;
                 }
             }
-        }
-
-        public void AddPlane(Plane plane)
-        {
-            _planes.Add(plane);
         }
 
         public static Model Perspective(Model sourceModel, IPerspectiveTransform iperspectiveTransform, Point3D centerOfPerspective)

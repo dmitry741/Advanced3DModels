@@ -28,7 +28,7 @@ namespace Models3DLib
             if (triangle.Reflection)
             {
                 Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
-                Vector3 vectorToObserver = new Vector3(pointObserver.X - point0.X, pointObserver.Y - point0.Y, pointObserver.Z - point0.Z);
+                Vector3 vectorToObserver = pointObserver.ToVector3() - point0.ToVector3();
 
                 cosinus = Vector3.Dot(vectorReflect, Vector3.Normalize(vectorToObserver));
                 
@@ -38,7 +38,7 @@ namespace Models3DLib
                     float b = triangle.ReflectionCone;
                     float x = 1 - cosinus;
 
-                    float reflection = Convert.ToSingle(a * Math.Exp(-b * x * x));
+                    float reflection = a / (1 + b * x * x);
 
                     R += reflection;
                     G += reflection;
@@ -76,7 +76,7 @@ namespace Models3DLib
                 if (triangle.Reflection)
                 {
                     Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
-                    Vector3 vectorToObserver = new Vector3(pointObserver.X - point0.X, pointObserver.Y - point0.Y, pointObserver.Z - point0.Z);
+                    Vector3 vectorToObserver = pointObserver.ToVector3() - point0.ToVector3();
 
                     cosinus = Vector3.Dot(vectorReflect, Vector3.Normalize(vectorToObserver));
 

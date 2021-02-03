@@ -26,12 +26,12 @@ namespace Models3DLib
 
         public Triangle(Point3D point1, Point3D point2, Point3D point3)
         {
-            _points = new Point3D[3] { point1, point2, point3 };
+            _points = new Point3D[] { point1, point2, point3 };
         }
 
         public float ReflectionBrightness { get; set; } = 80.0f;
 
-        public float ReflectionCone { get; set; } = 22600;
+        public float ReflectionCone { get; set; } = 24600;
 
         public bool Reflection { get; set; } = true;
 

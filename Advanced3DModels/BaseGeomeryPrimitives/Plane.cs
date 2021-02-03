@@ -10,8 +10,20 @@ namespace Models3DLib
 {
     public class Plane
     {
-        protected List<Point3D> _point3Ds = new List<Point3D>();
-        readonly protected List<Triangle> _triangles = new List<Triangle>();
+        protected List<Point3D> _point3Ds;
+        protected List<Triangle> _triangles;
+
+        public Plane()
+        {
+            _point3Ds = new List<Point3D>();
+            _triangles = new List<Triangle>();
+        }
+
+        public Plane(IEnumerable<Triangle> triangles)
+        {
+            _point3Ds = new List<Point3D>();
+            _triangles = triangles.ToList();
+        }
         
         #region === public ===
 

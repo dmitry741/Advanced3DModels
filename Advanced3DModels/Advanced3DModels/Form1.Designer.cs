@@ -40,6 +40,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cmbBack = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.checkBoxPerspective = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -158,11 +159,23 @@
             this.label5.TabIndex = 13;
             this.label5.Text = "Фон";
             // 
+            // checkBoxPerspective
+            // 
+            this.checkBoxPerspective.AutoSize = true;
+            this.checkBoxPerspective.Location = new System.Drawing.Point(771, 147);
+            this.checkBoxPerspective.Name = "checkBoxPerspective";
+            this.checkBoxPerspective.Size = new System.Drawing.Size(93, 17);
+            this.checkBoxPerspective.TabIndex = 14;
+            this.checkBoxPerspective.Text = "Перспектива";
+            this.checkBoxPerspective.UseVisualStyleBackColor = true;
+            this.checkBoxPerspective.CheckedChanged += new System.EventHandler(this.checkBoxPerspective_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(979, 659);
+            this.Controls.Add(this.checkBoxPerspective);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.cmbBack);
             this.Controls.Add(this.label4);
@@ -201,6 +214,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cmbBack;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox checkBoxPerspective;
     }
 }
 

@@ -13,7 +13,19 @@ namespace Models3DLib
         #region === members ===
 
         protected List<Plane> _planes = new List<Plane>();
-        protected List<Point3D> _points = new List<Point3D>();
+
+        #endregion
+
+        #region === private ===
+
+        /// <summary>
+        /// Объеденить текущую модель с моделью заданную параметром model.
+        /// </summary>
+        /// <param name="model">модель для добавления в текущую модель.</param>
+        void UnionWith(Model model)
+        {
+            _planes.AddRange(model.Planes);
+        }
 
         #endregion
 
@@ -21,9 +33,10 @@ namespace Models3DLib
 
         public bool NeedToSort { get; set; } = false;
         public IEnumerable<Plane> Planes => _planes;
+
         public void Transform(Matrix4x4 matrix)
         {
-            foreach(Plane plane in _planes)
+            foreach (Plane plane in _planes)
             {
                 foreach (Point3D point in plane.Points)
                 {
@@ -36,32 +49,37 @@ namespace Models3DLib
             }
         }
 
-        /// <summary>
-        /// Объеденить текущую модель с моделью заданную параметром model.
-        /// </summary>
-        /// <param name="model">модель для добавления в текущую модель.</param>
-        void UnionWith(Model model)
+        public void AddPlane(Plane plane)
         {
-            _planes.AddRange(model.Planes);
+            _planes.Add(plane);
         }
 
-        public IEnumerable<Triangle> Perspective(float width, float height, float nearPlaneDistance, float farPlaneDistance)
+        public static Model Perspective(Model sourceModel, IPerspectiveTransform iperspectiveTransform, Point3D centerOfPerspective)
         {
-            Matrix4x4 matrix = Matrix4x4.CreatePerspective(width, height, nearPlaneDistance, farPlaneDistance);
-            List<Triangle> perspective = new List<Triangle>();
-
-            foreach (Plane plane in _planes)
+            Model perspectiveModel = new Model
             {
+                NeedToSort = sourceModel.NeedToSort
+            };
+
+            foreach (Plane plane in sourceModel.Planes)
+            {
+                List<Triangle> perspectiveTriangles = new List<Triangle>();                
+
                 foreach (Triangle triangle in plane.Triangles)
                 {
-                    Vector3[] perspectiveVectors = triangle.Point3Ds.Select(p => Vector3.Transform(p.ToVector3(), matrix)).ToArray();
-                    Point3D[] points = perspectiveVectors.Select(v => new Point3D(v.X, v.Y, v.Z)).ToArray();
-
-                    perspective.Add(new Triangle(points, triangle.Color));
+                    IEnumerable<Point3D> perspectivePoints = triangle.Point3Ds.Select(p => iperspectiveTransform.Transform(p, centerOfPerspective));
+                    perspectiveTriangles.Add(new Triangle(perspectivePoints.ToArray(), triangle.Color));
                 }
+
+                Plane perspectivePlane = new Plane(perspectiveTriangles)
+                {
+                    VisibleBackSide = plane.VisibleBackSide
+                };
+
+                perspectiveModel.AddPlane(perspectivePlane);
             }
 
-            return perspective;
+            return perspectiveModel;
         }
 
         #endregion
@@ -195,7 +213,7 @@ namespace Models3DLib
             model.UnionWith(furnitureItem);
 
             // добавяем ножки
-            const float cfh = 64.0f;
+            const float cfh = 48.0f;
             visible = new bool[] { true, true, true, true, true, false };
             itemsColors = new Color[] { Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, Color.SandyBrown, };
 

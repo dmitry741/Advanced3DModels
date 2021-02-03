@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPerspectiveTransform.cs" />
+    <Compile Include="PerspectiveTransformation.cs" />
     <Compile Include="PointLightSource.cs" />
     <Compile Include="AbstractLightSource.cs" />
     <Compile Include="LightModel.cs" />

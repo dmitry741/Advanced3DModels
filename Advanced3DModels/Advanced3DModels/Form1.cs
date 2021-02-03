@@ -27,6 +27,7 @@ namespace Advanced3DModels
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         AbstractLightSource _lightSource = null;
         Point3D _pointObserver = null;
+        IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
 
         bool _blockEvents = false;
 
@@ -64,7 +65,13 @@ namespace Advanced3DModels
                 renderType = RenderType.FillWhite;
             }
 
-            RenderingModel.Render(g, _model, _lightSource, _pointObserver, renderType, backColor);
+            bool perspective = checkBoxPerspective.Checked;
+
+            Model model = !perspective ?
+                _model : 
+                Model.Perspective(_model, _iperspectiveTransform, _pointObserver);
+
+            RenderingModel.Render(g, model, _lightSource, _pointObserver, renderType, backColor);
 
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
@@ -150,7 +157,7 @@ namespace Advanced3DModels
                 LightPoint = new Point3D(0, 0, -500)
             };
 
-            _pointObserver = new Point3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -2000);
+            _pointObserver = new Point3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -260,6 +267,14 @@ namespace Advanced3DModels
         }
 
         private void cmbBack_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            Render();
+        }
+
+        private void checkBoxPerspective_CheckedChanged(object sender, EventArgs e)
         {
             if (_blockEvents)
                 return;

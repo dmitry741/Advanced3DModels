@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс реализующий перспективные преобразования.
+    /// </summary>
     public class PerspectiveTransformation : IPerspectiveTransform
     {
         public Point3D Transform(Point3D point, Point3D center)

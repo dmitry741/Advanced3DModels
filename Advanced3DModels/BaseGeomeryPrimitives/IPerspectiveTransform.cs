@@ -12,11 +12,11 @@ namespace Models3DLib
     public interface IPerspectiveTransform
     {
         /// <summary>
-        /// Метод выполняет перспективное преобразование
+        /// Декларация метода перспективного преобразования.
         /// </summary>
         /// <param name="point">Исходная точка.</param>
         /// <param name="center">Центр перспективы.</param>
-        /// <returns>Point3D объект.</returns>
+        /// <returns>Point3D объект. Точка с учетом проекции.</returns>
         Point3D Transform(Point3D point, Point3D center);
     }
 }

@@ -41,7 +41,12 @@
             this.cmbBack = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.checkBoxPerspective = new System.Windows.Forms.CheckBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.cmbLookAt = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.checkBoxCamera = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -56,7 +61,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(857, 619);
+            this.button1.Location = new System.Drawing.Point(856, 654);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 28);
             this.button1.TabIndex = 1;
@@ -170,11 +175,51 @@
             this.checkBoxPerspective.UseVisualStyleBackColor = true;
             this.checkBoxPerspective.CheckedChanged += new System.EventHandler(this.checkBoxPerspective_CheckedChanged);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(658, 352);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(309, 300);
+            this.pictureBox2.TabIndex = 15;
+            this.pictureBox2.TabStop = false;
+            // 
+            // cmbLookAt
+            // 
+            this.cmbLookAt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLookAt.FormattingEnabled = true;
+            this.cmbLookAt.Location = new System.Drawing.Point(771, 325);
+            this.cmbLookAt.Name = "cmbLookAt";
+            this.cmbLookAt.Size = new System.Drawing.Size(196, 21);
+            this.cmbLookAt.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(719, 328);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Камера";
+            // 
+            // checkBoxCamera
+            // 
+            this.checkBoxCamera.AutoSize = true;
+            this.checkBoxCamera.Location = new System.Drawing.Point(765, 302);
+            this.checkBoxCamera.Name = "checkBoxCamera";
+            this.checkBoxCamera.Size = new System.Drawing.Size(202, 17);
+            this.checkBoxCamera.TabIndex = 18;
+            this.checkBoxCamera.Text = "Включить дополнительную камеру";
+            this.checkBoxCamera.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(979, 659);
+            this.ClientSize = new System.Drawing.Size(979, 694);
+            this.Controls.Add(this.checkBoxCamera);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.cmbLookAt);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.checkBoxPerspective);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.cmbBack);
@@ -195,6 +240,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,6 +261,10 @@
         private System.Windows.Forms.ComboBox cmbBack;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox checkBoxPerspective;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ComboBox cmbLookAt;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox checkBoxCamera;
     }
 }
 

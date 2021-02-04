@@ -163,6 +163,13 @@ namespace Advanced3DModels
             cmbBack.SelectedIndex = 0;
             cmbBack.EndUpdate();
 
+            // камера
+            cmbLookAt.BeginUpdate();
+            cmbLookAt.Items.Add(new Camera { VectorLookAt = new Vector3(1, 0, 0), Description = "Справа" });
+            cmbLookAt.Items.Add(new Camera { VectorLookAt = new Vector3(-1, 0, 0), Description = "Слева" });
+            cmbLookAt.SelectedIndex = 0;
+            cmbLookAt.EndUpdate();
+
             _blockEvents = false;
 
             _model = ModelFactory.GetModel(1, ModelQuality.Middle);

@@ -81,11 +81,13 @@ namespace Advanced3DModels
 
             RenderingModel.Render(g, model, _lightSource, _pointObserver, renderType, backColor);
 
-            // перенос модели в начало координаи
+            // перенос модели в начало координат
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _model.Transform(translate);
 
             pictureBox1.Image = _bitmap;
+
+            // окно с дополнительной камерой
         }
 
         ModelQuality GetModelQuality(int index)

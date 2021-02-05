@@ -22,6 +22,7 @@ namespace Advanced3DModels
         #region === members ===
 
         Bitmap _bitmap;
+        Bitmap _bitmapLookAt;
         Model _model;
         PointF _startPoint = PointF.Empty;
         Point3D _pointObserver = null;
@@ -55,16 +56,18 @@ namespace Advanced3DModels
             return renderType;
         }
 
+        Camera CameraLookAt => cmbLookAt.SelectedItem as Camera;
+
         void Render()
         {
             if (_bitmap == null || _model == null)
                 return;
 
-            Graphics g = Graphics.FromImage(_bitmap);
+            Graphics g1 = Graphics.FromImage(_bitmap);
             Color backColor = cmbBack.SelectedIndex == 0 ? Color.White : Color.Black;
 
             // отрисовка фона
-            g.Clear(backColor);
+            g1.Clear(backColor);
 
             // перенос модели в центр окна
             float xTranslate = pictureBox1.Width / 2;
@@ -79,7 +82,7 @@ namespace Advanced3DModels
                 _model : 
                 Model.Perspective(_model, _iperspectiveTransform, _pointObserver);
 
-            RenderingModel.Render(g, model, _lightSource, _pointObserver, renderType, backColor);
+            RenderingModel.Render(g1, model, _lightSource, _pointObserver, renderType, backColor);
 
             // перенос модели в начало координат
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
@@ -88,6 +91,58 @@ namespace Advanced3DModels
             pictureBox1.Image = _bitmap;
 
             // окно с дополнительной камерой
+            Graphics g2 = Graphics.FromImage(_bitmapLookAt);
+
+            // отрисовка фона
+            g2.Clear(backColor);
+
+            bool bLookAt = checkBoxCamera.Checked;
+
+            if (bLookAt)
+            {
+                const float cScaleFactor = 0.5f;
+                const float cCameraFactor = 700.0f;
+
+                // создаем матрицу масштабирования
+                Matrix4x4 scaleMatrix = Matrix4x4.CreateScale(cScaleFactor);
+
+                Vector3 cameraPosition = cCameraFactor * CameraLookAt.VectorLookAt;
+                Vector3 cameraTarget = Vector3.Zero;
+                Vector3 cameraUpVector = new Vector3(0, 0, 1);
+
+                // создаем матрицу просмотра
+                Matrix4x4 lookAtMatrix = Matrix4x4.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector);
+
+                // получаем результирующую матрицу масштабирования и просмотра
+                Matrix4x4 matrixView = lookAtMatrix * scaleMatrix;
+
+                // получаем обртаную матрицу
+                if (Matrix4x4.Invert(matrixView, out var invertedMatrix))
+                {
+                    // применяем преобразование
+                    _model.Transform(matrixView);
+
+                    // перенос модели в центр окна
+                    xTranslate = pictureBox2.Width / 2;
+                    yTranslate = pictureBox2.Height / 2;
+                    translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+                    _model.Transform(translate);
+
+                    // отрисовка модели
+                    RenderingModel.Render(g2, _model, _lightSource, new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z), renderType, backColor);
+
+                    // возвращаем модель в начало координат
+                    xTranslate = -pictureBox2.Width / 2;
+                    yTranslate = -pictureBox2.Height / 2;
+                    translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+                    _model.Transform(translate);
+
+                    // восстанавливаем модель с помощью обратной матрицы
+                    _model.Transform(invertedMatrix);
+                }
+            }
+
+            pictureBox2.Image = _bitmapLookAt;
         }
 
         ModelQuality GetModelQuality(int index)
@@ -124,6 +179,7 @@ namespace Advanced3DModels
         {
             pictureBox1.BackColor = Color.White;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            _bitmapLookAt = new Bitmap(pictureBox2.Width, pictureBox2.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             _blockEvents = true;
 
@@ -167,8 +223,8 @@ namespace Advanced3DModels
 
             // камера
             cmbLookAt.BeginUpdate();
-            cmbLookAt.Items.Add(new Camera { VectorLookAt = new Vector3(1, 0, 0), Description = "Справа" });
-            cmbLookAt.Items.Add(new Camera { VectorLookAt = new Vector3(-1, 0, 0), Description = "Слева" });
+            cmbLookAt.Items.Add(new Camera { VectorLookAt = new Vector3(-1, 0, 0), Description = "Справа" });
+            cmbLookAt.Items.Add(new Camera { VectorLookAt = new Vector3(1, 0, 0), Description = "Слева" });
             cmbLookAt.SelectedIndex = 0;
             cmbLookAt.EndUpdate();
 
@@ -299,6 +355,19 @@ namespace Advanced3DModels
         }
 
         private void checkBoxPerspective_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            Render();
+        }
+
+        private void checkBoxCamera_CheckedChanged(object sender, EventArgs e)
+        {
+            Render();
+        }
+
+        private void cmbLookAt_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_blockEvents)
                 return;

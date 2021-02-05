@@ -61,7 +61,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(856, 654);
+            this.button1.Location = new System.Drawing.Point(857, 658);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 28);
             this.button1.TabIndex = 1;
@@ -191,6 +191,7 @@
             this.cmbLookAt.Name = "cmbLookAt";
             this.cmbLookAt.Size = new System.Drawing.Size(196, 21);
             this.cmbLookAt.TabIndex = 16;
+            this.cmbLookAt.SelectedIndexChanged += new System.EventHandler(this.cmbLookAt_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -210,6 +211,7 @@
             this.checkBoxCamera.TabIndex = 18;
             this.checkBoxCamera.Text = "Включить дополнительную камеру";
             this.checkBoxCamera.UseVisualStyleBackColor = true;
+            this.checkBoxCamera.CheckedChanged += new System.EventHandler(this.checkBoxCamera_CheckedChanged);
             // 
             // Form1
             // 

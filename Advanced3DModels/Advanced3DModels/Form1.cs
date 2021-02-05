@@ -109,7 +109,7 @@ namespace Advanced3DModels
                 // создаем матрицу просмотра
                 Vector3 cameraPosition = cCameraFactor * CameraLookAt.VectorLookAt;
                 Vector3 cameraTarget = Vector3.Zero;
-                Vector3 cameraUpVector = new Vector3(0, 0, 1);
+                Vector3 cameraUpVector = new Vector3(0, 1, 0);
 
                 Matrix4x4 lookAtMatrix = Matrix4x4.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector);
 
@@ -117,7 +117,7 @@ namespace Advanced3DModels
                 Matrix4x4 matrixView = lookAtMatrix * scaleMatrix;
 
                 // получаем обртаную матрицу
-                if (Matrix4x4.Invert(matrixView, out var invertedMatrix))
+                if (Matrix4x4.Invert(matrixView, out var invertMatrix))
                 {
                     // применяем преобразование
                     _model.Transform(matrixView);
@@ -137,7 +137,7 @@ namespace Advanced3DModels
                     _model.Transform(translate);
 
                     // восстанавливаем модель с помощью обратной матрицы
-                    _model.Transform(invertedMatrix);
+                    _model.Transform(invertMatrix);
                 }
             }
 

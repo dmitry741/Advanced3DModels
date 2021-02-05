@@ -106,11 +106,11 @@ namespace Advanced3DModels
                 // создаем матрицу масштабирования
                 Matrix4x4 scaleMatrix = Matrix4x4.CreateScale(cScaleFactor);
 
+                // создаем матрицу просмотра
                 Vector3 cameraPosition = cCameraFactor * CameraLookAt.VectorLookAt;
                 Vector3 cameraTarget = Vector3.Zero;
                 Vector3 cameraUpVector = new Vector3(0, 0, 1);
 
-                // создаем матрицу просмотра
                 Matrix4x4 lookAtMatrix = Matrix4x4.CreateLookAt(cameraPosition, cameraTarget, cameraUpVector);
 
                 // получаем результирующую матрицу масштабирования и просмотра
@@ -129,12 +129,11 @@ namespace Advanced3DModels
                     _model.Transform(translate);
 
                     // отрисовка модели
-                    RenderingModel.Render(g2, _model, _lightSource, new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z), renderType, backColor);
+                    Point3D observerLookAt = new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
+                    RenderingModel.Render(g2, _model, _lightSource, observerLookAt, renderType, backColor);
 
                     // возвращаем модель в начало координат
-                    xTranslate = -pictureBox2.Width / 2;
-                    yTranslate = -pictureBox2.Height / 2;
-                    translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+                    translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
                     _model.Transform(translate);
 
                     // восстанавливаем модель с помощью обратной матрицы

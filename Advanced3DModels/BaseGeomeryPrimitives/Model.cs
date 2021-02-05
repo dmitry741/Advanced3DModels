@@ -142,6 +142,74 @@ namespace Models3DLib
 
         #region === models ===
 
+        public static Model CubeSet(float sizeSide, float sizePrimitive, float totalSize)
+        {
+            const int cRowCount = 4;
+
+            Model resultModel = new Model
+            {
+                NeedToSort = true
+            };
+
+            Color[] colors;
+            bool[] visible;
+            Color color;
+            float x, y;
+            Matrix4x4 translateMatrix;
+            Vector3 translateVector;
+            Model pld;
+
+            color = Color.LightGreen;
+            colors = new Color[] { color, color, color, color, color, color };
+            visible = new bool[] { true, true, true, true, true, true };            
+
+            for (int i = 0; i < 4; i++)
+            {
+                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(x, totalSize / 2, totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(x, -totalSize / 2, totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(x, totalSize / 2, -totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(x, -totalSize / 2, -totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            return resultModel;
+        }
+
         public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float depth, Color color1, Color color2)
         {
             float xStart = -sizeSide / 2.0f;

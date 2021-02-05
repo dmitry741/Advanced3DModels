@@ -187,6 +187,7 @@ namespace Advanced3DModels
             cmbModel.Items.Add("Куб");
             cmbModel.Items.Add("Цветной куб");
             cmbModel.Items.Add("Шахматный столик");
+            cmbModel.Items.Add("Куб из кубиков");
             cmbModel.SelectedIndex = 1;
             cmbModel.EndUpdate();
 

@@ -43,6 +43,10 @@ namespace Advanced3DModels
             {
                 model = Models3DLib.Model.ChessBoard(288, sizePrimitive, 8, 24, Color.DarkRed, Color.Ivory);
             }
+            else if (index == 3)
+            {
+                model = Models3DLib.Model.CubeSet(48, sizePrimitive, 288);
+            }
             else
             {
                 model = Models3DLib.Model.Cube(200.0f, sizePrimitive);

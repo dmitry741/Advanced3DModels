@@ -45,7 +45,7 @@ namespace Advanced3DModels
             }
             else if (index == 3)
             {
-                model = Models3DLib.Model.CubeSet(48, sizePrimitive, 288);
+                model = Models3DLib.Model.CubeSet(36, sizePrimitive, 288);
             }
             else
             {

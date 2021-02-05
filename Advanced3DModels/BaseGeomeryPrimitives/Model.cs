@@ -154,7 +154,7 @@ namespace Models3DLib
             Color[] colors;
             bool[] visible;
             Color color;
-            float x, y;
+            float v;
             Matrix4x4 translateMatrix;
             Vector3 translateVector;
             Model pld;
@@ -163,44 +163,138 @@ namespace Models3DLib
             colors = new Color[] { color, color, color, color, color, color };
             visible = new bool[] { true, true, true, true, true, true };            
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < cRowCount; i++)
             {
-                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
                 pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
-                translateVector = new Vector3(x, totalSize / 2, totalSize / 2);
+                translateVector = new Vector3(v, totalSize / 2, totalSize / 2);
                 translateMatrix = Matrix4x4.CreateTranslation(translateVector);
                 pld.Transform(translateMatrix);
 
                 resultModel.UnionWith(pld);
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < cRowCount; i++)
             {
-                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
                 pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
-                translateVector = new Vector3(x, -totalSize / 2, totalSize / 2);
+                translateVector = new Vector3(v, -totalSize / 2, totalSize / 2);
                 translateMatrix = Matrix4x4.CreateTranslation(translateVector);
                 pld.Transform(translateMatrix);
 
                 resultModel.UnionWith(pld);
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < cRowCount; i++)
             {
-                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
                 pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
-                translateVector = new Vector3(x, totalSize / 2, -totalSize / 2);
+                translateVector = new Vector3(v, totalSize / 2, -totalSize / 2);
                 translateMatrix = Matrix4x4.CreateTranslation(translateVector);
                 pld.Transform(translateMatrix);
 
                 resultModel.UnionWith(pld);
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < cRowCount; i++)
             {
-                x = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
                 pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
-                translateVector = new Vector3(x, -totalSize / 2, -totalSize / 2);
+                translateVector = new Vector3(v, -totalSize / 2, -totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            color = Color.Brown;
+            colors = new Color[] { color, color, color, color, color, color };
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(-totalSize / 2, v, totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(totalSize / 2, v, totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(-totalSize / 2, v, -totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(totalSize / 2, v, -totalSize / 2);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            color = Color.DarkKhaki;
+            colors = new Color[] { color, color, color, color, color, color };
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(-totalSize / 2, totalSize / 2, v);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(totalSize / 2, totalSize / 2, v);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(totalSize / 2, -totalSize / 2, v);
+                translateMatrix = Matrix4x4.CreateTranslation(translateVector);
+                pld.Transform(translateMatrix);
+
+                resultModel.UnionWith(pld);
+            }
+
+            for (int i = 1; i < cRowCount - 1; i++)
+            {
+                v = totalSize * i / (cRowCount - 1) - totalSize / 2;
+                pld = Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, visible, colors);
+                translateVector = new Vector3(-totalSize / 2, -totalSize / 2, v);
                 translateMatrix = Matrix4x4.CreateTranslation(translateVector);
                 pld.Transform(translateMatrix);
 

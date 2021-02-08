@@ -36,44 +36,6 @@ namespace Models3DLib
 
         #region === public ===
 
-        public float BoundSize
-        {
-            get
-            {
-                float boundSize = 0;
-                float min, max;
-
-                foreach (Plane plane in _planes)
-                {
-                    min = plane.Points.Min(p => p.X);
-                    max = plane.Points.Max(p => p.X);
-
-                    if (max - min > boundSize)
-                    {
-                        boundSize = max - min;
-                    }
-
-                    min = plane.Points.Min(p => p.Y);
-                    max = plane.Points.Max(p => p.Y);
-
-                    if (max - min > boundSize)
-                    {
-                        boundSize = max - min;
-                    }
-
-                    min = plane.Points.Min(p => p.Z);
-                    max = plane.Points.Max(p => p.Z);
-
-                    if (max - min > boundSize)
-                    {
-                        boundSize = max - min;
-                    }
-                }
-
-                return boundSize;
-            }
-        }
-
         public bool NeedToSort { get; set; } = false;
         public IEnumerable<Plane> Planes => _planes;
 

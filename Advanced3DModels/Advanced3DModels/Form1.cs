@@ -36,6 +36,8 @@ namespace Advanced3DModels
         #endregion
 
         #region === private methods ===
+
+        IFog Fog => new FogCorrection(0.00005f, -200);
         
         RenderType GetRenderType(int index)
         {
@@ -237,10 +239,8 @@ namespace Advanced3DModels
 
             _model = ModelFactory.GetModel(1, ModelQuality.Middle);
 
-            _ifog = new FogCorrection(0.008f, -_model.BoundSize)
-            {
-                Enabled = false
-            };
+            _ifog = Fog;
+            _ifog.Enabled = false;
 
             _lightSource = new PointLightSource()
             {
@@ -312,6 +312,9 @@ namespace Advanced3DModels
                 return;
 
             _transformMatrix = Matrix4x4.Identity;
+            _ifog = Fog;
+            _ifog.Enabled = checkBoxFog.Checked;
+
             UpdateModel();            
             Render();
         }
@@ -353,6 +356,7 @@ namespace Advanced3DModels
             if (_blockEvents)
                 return;
 
+            checkBoxFog.Enabled = cmbRenderStatus.SelectedIndex == 1;
             Render();
         }
 

@@ -22,7 +22,7 @@ namespace Models3DLib
 
         private float Fog(float d)
         {
-            return d > 0 ? 1.0f / (1.0f + _density * d) : 1.0f;
+            return d > 0 ? 1.0f / (1.0f + _density * d * d) : 1.0f;
         }
 
         public Color Correct(float z, Color color)

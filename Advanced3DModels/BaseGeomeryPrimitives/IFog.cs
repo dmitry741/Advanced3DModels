@@ -9,6 +9,7 @@ namespace Models3DLib
 {
     public interface IFog
     {
-        Color Correct(float d, Color color);
+        Color Correct(float z, Color color);
+        bool Enabled { get; set; }
     }
 }

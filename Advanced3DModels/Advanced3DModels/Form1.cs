@@ -29,6 +29,7 @@ namespace Advanced3DModels
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         AbstractLightSource _lightSource = null;        
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
+        IFog _ifog = null;
 
         bool _blockEvents = false;
 
@@ -82,7 +83,7 @@ namespace Advanced3DModels
                 _model : 
                 Model.Perspective(_model, _iperspectiveTransform, _pointObserver);
 
-            RenderingModel.Render(g1, model, _lightSource, _pointObserver, renderType, backColor);
+            RenderingModel.Render(g1, model, _lightSource, _pointObserver, _ifog, renderType, backColor);
 
             // перенос модели в начало координат
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
@@ -130,7 +131,11 @@ namespace Advanced3DModels
 
                     // отрисовка модели
                     Point3D observerLookAt = new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
-                    RenderingModel.Render(g2, _model, _lightSource, observerLookAt, renderType, backColor);
+
+                    bool bFog = _ifog.Enabled;
+                    _ifog.Enabled = false;
+                    RenderingModel.Render(g2, _model, _lightSource, observerLookAt, _ifog, renderType, backColor);
+                    _ifog.Enabled = bFog;
 
                     // возвращаем модель в начало координат
                     translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
@@ -231,6 +236,11 @@ namespace Advanced3DModels
             _blockEvents = false;
 
             _model = ModelFactory.GetModel(1, ModelQuality.Middle);
+
+            _ifog = new FogCorrection(0.008f, -_model.BoundSize)
+            {
+                Enabled = false
+            };
 
             _lightSource = new PointLightSource()
             {
@@ -372,6 +382,12 @@ namespace Advanced3DModels
             if (_blockEvents)
                 return;
 
+            Render();
+        }
+
+        private void checkBoxFog_CheckedChanged(object sender, EventArgs e)
+        {
+            _ifog.Enabled = checkBoxFog.Checked;
             Render();
         }
     }

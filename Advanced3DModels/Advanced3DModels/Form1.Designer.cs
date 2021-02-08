@@ -45,6 +45,7 @@
             this.cmbLookAt = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxCamera = new System.Windows.Forms.CheckBox();
+            this.checkBoxFog = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -213,11 +214,23 @@
             this.checkBoxCamera.UseVisualStyleBackColor = true;
             this.checkBoxCamera.CheckedChanged += new System.EventHandler(this.checkBoxCamera_CheckedChanged);
             // 
+            // checkBoxFog
+            // 
+            this.checkBoxFog.AutoSize = true;
+            this.checkBoxFog.Location = new System.Drawing.Point(771, 170);
+            this.checkBoxFog.Name = "checkBoxFog";
+            this.checkBoxFog.Size = new System.Drawing.Size(58, 17);
+            this.checkBoxFog.TabIndex = 19;
+            this.checkBoxFog.Text = "Туман";
+            this.checkBoxFog.UseVisualStyleBackColor = true;
+            this.checkBoxFog.CheckedChanged += new System.EventHandler(this.checkBoxFog_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(979, 694);
+            this.Controls.Add(this.checkBoxFog);
             this.Controls.Add(this.checkBoxCamera);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cmbLookAt);
@@ -267,6 +280,7 @@
         private System.Windows.Forms.ComboBox cmbLookAt;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBoxCamera;
+        private System.Windows.Forms.CheckBox checkBoxFog;
     }
 }
 

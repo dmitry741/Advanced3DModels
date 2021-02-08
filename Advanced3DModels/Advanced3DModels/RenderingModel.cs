@@ -17,7 +17,7 @@ namespace Advanced3DModels
 
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, Point3D pointObserver, RenderType renderType, Color backColor)
+        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, Point3D pointObserver, IFog ifog, RenderType renderType, Color backColor)
         {
            if (renderType == RenderType.Triangulations)
             {
@@ -58,6 +58,12 @@ namespace Advanced3DModels
                 foreach (Triangle triangle in trianglesForRendering)
                 {
                     Color color = LightModel.GetColor(triangle, triangle.Color, lightSource, pointObserver);
+
+                    if (ifog.Enabled)
+                    {
+                        color = ifog.Correct(triangle.Point0.Z, color);
+                    }
+
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);
                 }

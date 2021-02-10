@@ -12,20 +12,20 @@ namespace Models3DLib
     {
         private static float MinimalPart => 0.1f;
 
-        public static Color GetColor(Triangle triangle, Color color, AbstractLightSource lightSource, Point3D pointObserver)
+        public static Color GetColor(Point3D point, Vector3 Normal, bool reflection, float reflectionBrightness, float reflectionCone, Color baseColor, AbstractLightSource lightSource, Point3D pointObserver, IFog ifog)
         {
-            Point3D point0 = triangle.Point0;
-            Vector3 vectorNormal = Vector3.Normalize(triangle.Normal);
+            Point3D point0 = point;
+            Vector3 vectorNormal = Vector3.Normalize(Normal);
             Vector3 vectorToLightPoint = Vector3.Normalize(lightSource.GetRay(point0));
 
             float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
             float lerp = (1 - MinimalPart) * (1 + cosinus) / 2 + MinimalPart;
 
-            float R = color.R * lerp;
-            float G = color.G * lerp;
-            float B = color.B * lerp;
+            float R = baseColor.R * lerp;
+            float G = baseColor.G * lerp;
+            float B = baseColor.B * lerp;
 
-            if (triangle.Reflection)
+            if (reflection)
             {
                 Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
                 Vector3 vectorToObserver = pointObserver.ToVector3() - point0.ToVector3();
@@ -34,15 +34,15 @@ namespace Models3DLib
                 
                 if (cosinus > 0)
                 {
-                    float a = triangle.ReflectionBrightness;
-                    float b = triangle.ReflectionCone;
+                    float a = reflectionBrightness;
+                    float b = reflectionCone;
                     float x = 1 - cosinus;
 
-                    float reflection = lightSource.Weight * a / (1 + b * x * x);
+                    float refl = lightSource.Weight * a / (1 + b * x * x);
 
-                    R += reflection;
-                    G += reflection;
-                    B += reflection;
+                    R += refl;
+                    G += refl;
+                    B += refl;
 
                     if (R > 255) R = 255;
                     if (G > 255) G = 255;
@@ -50,47 +50,53 @@ namespace Models3DLib
                 }
             }
 
-            return Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+            Color colorForRender = Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+
+            if (ifog != null && ifog.Enabled)
+            {
+                colorForRender = ifog.Correct(point.Z, colorForRender);
+            }
+
+            return colorForRender;
         }
 
-        public static Color GetColor(Triangle triangle, Color color, IEnumerable<AbstractLightSource> lightSources, Point3D pointObserver)
+        public static Color GetColor(Point3D point, Vector3 Normal, bool reflection, float reflectionBrightness, float reflectionCone, Color baseColor, IEnumerable<AbstractLightSource> lightSources, Point3D pointObserver, IFog ifog)
         {
-            Point3D point0 = triangle.Point0;
-            Vector3 vectorNormal = Vector3.Normalize(triangle.Normal);
+            Vector3 vectorNormal = Vector3.Normalize(Normal);
 
-            float R = color.R * MinimalPart;
-            float G = color.G * MinimalPart;
-            float B = color.B * MinimalPart;
+            float R = baseColor.R * MinimalPart;
+            float G = baseColor.G * MinimalPart;
+            float B = baseColor.B * MinimalPart;
 
             foreach (AbstractLightSource ls in lightSources)
             {
-                Vector3 vectorToLightPoint = Vector3.Normalize(ls.GetRay(point0));
+                Vector3 vectorToLightPoint = Vector3.Normalize(ls.GetRay(point));
 
                 float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
                 float lerp = ls.Weight * (1 - MinimalPart) * (1 + cosinus) / 2;
 
-                float rls = color.R * lerp;
-                float gls = color.G * lerp;
-                float bls = color.B * lerp;
+                float rls = baseColor.R * lerp;
+                float gls = baseColor.G * lerp;
+                float bls = baseColor.B * lerp;
 
-                if (triangle.Reflection)
+                if (reflection)
                 {
                     Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
-                    Vector3 vectorToObserver = pointObserver.ToVector3() - point0.ToVector3();
+                    Vector3 vectorToObserver = pointObserver.ToVector3() - point.ToVector3();
 
                     cosinus = Vector3.Dot(vectorReflect, Vector3.Normalize(vectorToObserver));
 
                     if (cosinus > 0)
                     {
-                        float a = triangle.ReflectionBrightness;
-                        float b = triangle.ReflectionCone;
+                        float a = reflectionBrightness;
+                        float b = reflectionCone;
                         float x = 1 - cosinus;
 
-                        float reflection = ls.Weight * a / (1 + b * x * x);
+                        float refl = ls.Weight * a / (1 + b * x * x);
 
-                        rls += reflection;
-                        gls += reflection;
-                        bls += reflection;
+                        rls += refl;
+                        gls += refl;
+                        bls += refl;
                     }
                 }
 
@@ -103,7 +109,14 @@ namespace Models3DLib
             if (G > 255) G = 255;
             if (B > 255) B = 255;
 
-            return Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+            Color colorForRender = Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+
+            if (ifog != null && ifog.Enabled)
+            {
+                colorForRender = ifog.Correct(point.Z, colorForRender);
+            }
+
+            return colorForRender;
         }
     }
 }

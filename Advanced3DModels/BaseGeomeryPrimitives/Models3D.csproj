@@ -48,6 +48,7 @@
     <Compile Include="IPerspectiveTransform.cs" />
     <Compile Include="LightModelParameters.cs" />
     <Compile Include="PerspectiveTransformation.cs" />
+    <Compile Include="Point3DColor.cs" />
     <Compile Include="PointLightSource.cs" />
     <Compile Include="AbstractLightSource.cs" />
     <Compile Include="LightModel.cs" />

@@ -55,11 +55,23 @@ namespace Advanced3DModels
                     triangles.OrderByDescending(t => t.Min).AsEnumerable() :
                     triangles;
 
-                List<AbstractLightSource> lsCollection = new List<AbstractLightSource> { lightSource };
+                LightModelParameters lightModelParameters = new LightModelParameters
+                {
+                    LightSources = new List<AbstractLightSource> { lightSource },
+                    PointObserver = pointObserver,
+                    Fog = ifog
+                };
 
                 foreach (Triangle triangle in trianglesForRendering)
                 {
-                    Color color = LightModel.GetColor(triangle.Point0, triangle.Normal, triangle.Reflection, triangle.ReflectionBrightness, triangle.ReflectionCone, triangle.Color, lsCollection, pointObserver, ifog);
+                    lightModelParameters.Point = triangle.Point0;
+                    lightModelParameters.Normal = triangle.Normal;
+                    lightModelParameters.Reflection = triangle.Reflection;
+                    lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
+                    lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
+                    lightModelParameters.BaseColor = triangle.Color;
+
+                    Color color = LightModel.GetColor(lightModelParameters);
                     Brush brush = new SolidBrush(color);
                     g.FillPolygon(brush, triangle.Points);
                 }

@@ -15,13 +15,13 @@ namespace Models3DLib
         public Triangle(Point3D point1, Point3D point2, Point3D point3, Color color)
         {
             _points = new Point3D[] { point1, point2, point3 };
-            Color = color;
+            BaseColor = color;
         }
 
         public Triangle(Point3D[] points, Color color)
         {
             _points = points;
-            Color = color;
+            BaseColor = color;
         }
 
         public Triangle(Point3D point1, Point3D point2, Point3D point3)
@@ -35,7 +35,7 @@ namespace Models3DLib
 
         public bool Reflection { get; set; } = true;
 
-        public Color Color { get; set; } = Color.LightGreen;
+        public Color BaseColor { get; set; } = Color.LightGreen;
 
         public Vector3 Normal
         {

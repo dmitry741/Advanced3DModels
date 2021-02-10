@@ -69,7 +69,7 @@ namespace Advanced3DModels
                     lightModelParameters.Reflection = triangle.Reflection;
                     lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                     lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
-                    lightModelParameters.BaseColor = triangle.Color;
+                    lightModelParameters.BaseColor = triangle.BaseColor;
 
                     Color color = LightModel.GetColor(lightModelParameters);
                     Brush brush = new SolidBrush(color);

@@ -68,7 +68,7 @@ namespace Models3DLib
                 foreach (Triangle triangle in plane.Triangles)
                 {
                     IEnumerable<Point3D> perspectivePoints = triangle.Point3Ds.Select(p => iperspectiveTransform.Transform(p, centerOfPerspective));
-                    perspectiveTriangles.Add(new Triangle(perspectivePoints.ToArray(), triangle.Color));
+                    perspectiveTriangles.Add(new Triangle(perspectivePoints.ToArray(), triangle.BaseColor));
                 }
 
                 Plane perspectivePlane = new Plane(perspectiveTriangles)

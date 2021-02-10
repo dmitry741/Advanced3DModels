@@ -75,9 +75,9 @@ namespace Models3DLib
                 float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
                 float lerp = ls.Weight * (1 - MinimalPart) * (1 + cosinus) / 2;
 
-                float rls = lightModelParameters.BaseColor.R * lerp;
-                float gls = lightModelParameters.BaseColor.G * lerp;
-                float bls = lightModelParameters.BaseColor.B * lerp;
+                R += lightModelParameters.BaseColor.R * lerp;
+                G += lightModelParameters.BaseColor.G * lerp;
+                B += lightModelParameters.BaseColor.B * lerp;
 
                 if (lightModelParameters.Reflection)
                 {
@@ -92,17 +92,13 @@ namespace Models3DLib
                         float b = lightModelParameters.ReflcetionCone;
                         float x = 1 - cosinus;
 
-                        float refl = ls.Weight * a / (1 + b * x * x);
+                        float refl = a / (1 + b * x * x);
 
-                        rls += refl;
-                        gls += refl;
-                        bls += refl;
+                        R += refl;
+                        G += refl;
+                        B += refl;
                     }
                 }
-
-                R += rls;
-                G += gls;
-                B += bls;
             }
 
             if (R > 255) R = 255;

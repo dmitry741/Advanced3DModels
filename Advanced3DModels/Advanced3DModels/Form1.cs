@@ -72,6 +72,9 @@ namespace Advanced3DModels
             // отрисовка фона
             g1.Clear(backColor);
 
+            // запомнили состояние модели
+            _model.SaveState();
+
             // перенос модели в центр окна
             float xTranslate = pictureBox1.Width / 2;
             float yTranslate = pictureBox1.Height / 2;
@@ -81,15 +84,19 @@ namespace Advanced3DModels
             // отрисовка модели
             RenderType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
 
-            Model model = !checkBoxPerspective.Checked ?
-                _model : 
-                Model.Perspective(_model, _iperspectiveTransform, _pointObserver);
+            bool bPerspective = checkBoxPerspective.Checked;
+            
+            if (bPerspective)
+            {
+                // перспективное преобразование
+                _model.Transform(_iperspectiveTransform, _pointObserver);
+            }            
 
-            RenderingModel.Render(g1, model, _lightSource, _pointObserver, _ifog, renderType, backColor);
+            // отрисовка в главном окне
+            RenderingModel.Render(g1, _model, _lightSource, _pointObserver, _ifog, renderType, backColor);
 
-            // перенос модели в начало координат
-            translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
-            _model.Transform(translate);
+            // восстановили сохраненное состояние
+            _model.RestoreState();
 
             pictureBox1.Image = _bitmap;
 
@@ -119,33 +126,23 @@ namespace Advanced3DModels
                 // получаем результирующую матрицу масштабирования и просмотра
                 Matrix4x4 matrixView = lookAtMatrix * scaleMatrix;
 
-                // получаем обртаную матрицу
-                if (Matrix4x4.Invert(matrixView, out var invertMatrix))
-                {
-                    // применяем преобразование
-                    _model.Transform(matrixView);
+                // применяем преобразование
+                _model.Transform(matrixView);
 
-                    // перенос модели в центр окна
-                    xTranslate = pictureBox2.Width / 2;
-                    yTranslate = pictureBox2.Height / 2;
-                    translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
-                    _model.Transform(translate);
+                // перенос модели в центр окна
+                xTranslate = pictureBox2.Width / 2;
+                yTranslate = pictureBox2.Height / 2;
+                translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+                _model.Transform(translate);
 
-                    // отрисовка модели
-                    Point3D observerLookAt = new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
+                // отрисовка модели
+                IPoint3D observerLookAt = new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
 
-                    bool bFog = _ifog.Enabled;
-                    _ifog.Enabled = false;
-                    RenderingModel.Render(g2, _model, _lightSource, observerLookAt, _ifog, renderType, backColor);
-                    _ifog.Enabled = bFog;
+                // отрисовка модели - вид с дополнительной камерой
+                RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, backColor);
 
-                    // возвращаем модель в начало координат
-                    translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
-                    _model.Transform(translate);
-
-                    // восстанавливаем модель с помощью обратной матрицы
-                    _model.Transform(invertMatrix);
-                }
+                // восстановили сохраненное состояние
+                _model.RestoreState();
             }
 
             pictureBox2.Image = _bitmapLookAt;

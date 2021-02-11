@@ -41,7 +41,18 @@ namespace Models3DLib
 
         public void SaveState()
         {
+            foreach(Plane plane in _planes)
+            {
+                plane.SaveState();
+            }
+        }
 
+        public void RestoreState()
+        {
+            foreach (Plane plane in _planes)
+            {
+                plane.RestoreState();
+            }
         }
 
         public void Transform(Matrix4x4 matrix)
@@ -59,32 +70,19 @@ namespace Models3DLib
             }
         }
 
-        public static Model Perspective(Model sourceModel, IPerspectiveTransform iperspectiveTransform, IPoint3D centerOfPerspective)
+        public void Transform(IPerspectiveTransform iperspectiveTransform, IPoint3D centerOfPerspective)
         {
-            Model perspectiveModel = new Model
+            foreach (Plane plane in _planes)
             {
-                NeedToSort = sourceModel.NeedToSort
-            };
-
-            foreach (Plane plane in sourceModel.Planes)
-            {
-                List<Triangle> perspectiveTriangles = new List<Triangle>();                
-
-                foreach (Triangle triangle in plane.Triangles)
+                foreach (IPoint3D point in plane.Points)
                 {
-                    IEnumerable<IPoint3D> perspectivePoints = triangle.Point3Ds.Select(p => iperspectiveTransform.Transform(p, centerOfPerspective));
-                    perspectiveTriangles.Add(new Triangle(perspectivePoints.ToArray(), triangle.BaseColor));
+                    IPoint3D perspectivePoint = iperspectiveTransform.Transform(point, centerOfPerspective);
+
+                    point.X = perspectivePoint.X;
+                    point.Y = perspectivePoint.Y;
+                    point.Z = perspectivePoint.Z;
                 }
-
-                Plane perspectivePlane = new Plane(perspectiveTriangles)
-                {
-                    VisibleBackSide = plane.VisibleBackSide
-                };
-
-                perspectiveModel.AddPlane(perspectivePlane);
             }
-
-            return perspectiveModel;
         }
 
         #endregion

@@ -33,9 +33,15 @@ namespace Models3DLib
             if (_state == null || _state.Length != _point3Ds.Count)
             {
                 _state = ResolverInterface.ResolveArrayIPoint3D(_point3Ds.Count);
+                _state = _state.Select(p => ResolverInterface.ResolveIPoint3D(0, 0, 0)).ToArray();
             }
 
-            Array.Copy(Points.ToArray(), _state, _state.Length);
+            for (int i = 0; i < _state.Length; i++)
+            {
+                _state[i].X = _point3Ds[i].X;
+                _state[i].Y = _point3Ds[i].Y;
+                _state[i].Z = _point3Ds[i].Z;
+            }
         }
 
         public void RestoreState()

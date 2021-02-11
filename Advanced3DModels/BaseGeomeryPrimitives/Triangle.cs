@@ -57,7 +57,7 @@ namespace Models3DLib
             }
         }
 
-        public float Min => _points.Min(p => p.Z);
+        public float MinZ => _points.Min(p => p.Z);
 
         public IPoint3D Point0 => _points[0];
 

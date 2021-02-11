@@ -52,7 +52,7 @@ namespace Advanced3DModels
                 }
 
                 IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
-                    triangles.OrderByDescending(t => t.Min).AsEnumerable() :
+                    triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
                 LightModelParameters lightModelParameters = new LightModelParameters
@@ -96,7 +96,7 @@ namespace Advanced3DModels
                 }
 
                 IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
-                    triangles.OrderByDescending(t => t.Min).AsEnumerable() :
+                    triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
                 foreach (Triangle triangle in trianglesForRendering)

@@ -10,6 +10,6 @@ namespace Models3DLib
     public abstract class AbstractLightSource
     {
         public float Weight { get; set; } = 1.0f;
-        public abstract Vector3 GetRay(Point3D point);
+        public abstract Vector3 GetRay(IPoint3D point);
     }
 }

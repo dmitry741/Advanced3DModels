@@ -11,7 +11,7 @@ namespace Models3DLib
     {
         public Vector3 VectorLightSource { get; set; }
 
-        public override Vector3 GetRay(Point3D point)
+        public override Vector3 GetRay(IPoint3D point)
         {
             return VectorLightSource;
         }

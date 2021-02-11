@@ -17,7 +17,7 @@ namespace Advanced3DModels
 
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, Point3D pointObserver, IFog ifog, RenderType renderType, Color backColor)
+        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, IPoint3D pointObserver, IFog ifog, RenderType renderType, Color backColor)
         {
            if (renderType == RenderType.Triangulations)
             {

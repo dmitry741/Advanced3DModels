@@ -17,6 +17,6 @@ namespace Models3DLib
         /// <param name="point">Исходная точка.</param>
         /// <param name="center">Центр перспективы.</param>
         /// <returns>Point3D объект. Точка с учетом проекции.</returns>
-        Point3D Transform(Point3D point, Point3D center);
+        IPoint3D Transform(IPoint3D point, IPoint3D center);
     }
 }

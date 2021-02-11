@@ -43,7 +43,7 @@ namespace Models3DLib
         {
             foreach (Plane plane in _planes)
             {
-                foreach (Point3D point in plane.Points)
+                foreach (IPoint3D point in plane.Points)
                 {
                     Vector3 vector = Vector3.Transform(point.ToVector3(), matrix);
 
@@ -54,7 +54,7 @@ namespace Models3DLib
             }
         }
 
-        public static Model Perspective(Model sourceModel, IPerspectiveTransform iperspectiveTransform, Point3D centerOfPerspective)
+        public static Model Perspective(Model sourceModel, IPerspectiveTransform iperspectiveTransform, IPoint3D centerOfPerspective)
         {
             Model perspectiveModel = new Model
             {
@@ -67,7 +67,7 @@ namespace Models3DLib
 
                 foreach (Triangle triangle in plane.Triangles)
                 {
-                    IEnumerable<Point3D> perspectivePoints = triangle.Point3Ds.Select(p => iperspectiveTransform.Transform(p, centerOfPerspective));
+                    IEnumerable<IPoint3D> perspectivePoints = triangle.Point3Ds.Select(p => iperspectiveTransform.Transform(p, centerOfPerspective));
                     perspectiveTriangles.Add(new Triangle(perspectivePoints.ToArray(), triangle.BaseColor));
                 }
 
@@ -88,16 +88,16 @@ namespace Models3DLib
 
         private static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
         {
-            List<Point3D> points = new List<Point3D>
+            List<IPoint3D> points = new List<IPoint3D>
             {
-                new Point3D(-width / 2, height / 2, depth / 2),
-                new Point3D(width / 2, height / 2, depth / 2),
-                new Point3D(width / 2, -height / 2, depth / 2),
-                new Point3D(-width / 2, -height / 2, depth / 2),
-                new Point3D(-width / 2, height / 2, -depth / 2),
-                new Point3D(width / 2, height / 2, -depth / 2),
-                new Point3D(width / 2, -height / 2, -depth / 2),
-                new Point3D(-width / 2, -height / 2, -depth / 2)
+                ResolverInterface.ResolveIPoint3D(-width / 2, height / 2, depth / 2),
+                ResolverInterface.ResolveIPoint3D(width / 2, height / 2, depth / 2),
+                ResolverInterface.ResolveIPoint3D(width / 2, -height / 2, depth / 2),
+                ResolverInterface.ResolveIPoint3D(-width / 2, -height / 2, depth / 2),
+                ResolverInterface.ResolveIPoint3D(-width / 2, height / 2, -depth / 2),
+                ResolverInterface.ResolveIPoint3D(width / 2, height / 2, -depth / 2),
+                ResolverInterface.ResolveIPoint3D(width / 2, -height / 2, -depth / 2),
+                ResolverInterface.ResolveIPoint3D(-width / 2, -height / 2, -depth / 2)
             };
 
             List<Plane> planes = new List<Plane>();

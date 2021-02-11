@@ -10,7 +10,7 @@ namespace Models3DLib
 {
     public class Polygon4Plane : Plane
     {
-        public Polygon4Plane(Point3D p1, Point3D p2, Point3D p3, Point3D p4, float sizePrimitive)
+        public Polygon4Plane(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive)
         {
             float[] d = new float[2];
 
@@ -40,7 +40,7 @@ namespace Models3DLib
                     float y = (yRight - yLeft) * i / NX + yLeft;
                     float z = (zRight - zLeft) * i / NX + zLeft;
 
-                    _point3Ds.Add(new Point3D(x, y, z));
+                    _point3Ds.Add(new Point3DColor(x, y, z));
                 }
             }
 
@@ -52,10 +52,10 @@ namespace Models3DLib
 
                 for (int i = 0; i < NX; i++)
                 {
-                    Point3D point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
-                    Point3D point2 = _point3Ds[(j + 0) * (NX + 1) + i + 1];
-                    Point3D point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
-                    Point3D point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
+                    IPoint3D point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
+                    IPoint3D point2 = _point3Ds[(j + 0) * (NX + 1) + i + 1];
+                    IPoint3D point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
+                    IPoint3D point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
 
                     if (bDirection)
                     {
@@ -75,7 +75,7 @@ namespace Models3DLib
             }
         }
 
-        public Polygon4Plane(Point3D p1, Point3D p2, Point3D p3, Point3D p4, float sizePrimitive, Color color, string name)
+        public Polygon4Plane(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color color, string name)
         {
             Name = name;
             float[] d = new float[2];
@@ -106,7 +106,7 @@ namespace Models3DLib
                     float y = (yRight - yLeft) * i / NX + yLeft;
                     float z = (zRight - zLeft) * i / NX + zLeft;
 
-                    _point3Ds.Add(new Point3D(x, y, z));
+                    _point3Ds.Add(new Point3DColor(x, y, z));
                 }
             }
 
@@ -118,10 +118,10 @@ namespace Models3DLib
 
                 for (int i = 0; i < NX; i++)
                 {
-                    Point3D point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
-                    Point3D point2 = _point3Ds[(j + 0) * (NX + 1) + i + 1];
-                    Point3D point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
-                    Point3D point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
+                    IPoint3D point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
+                    IPoint3D point2 = _point3Ds[(j + 0) * (NX + 1) + i + 1];
+                    IPoint3D point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
+                    IPoint3D point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
 
                     if (bDirection)
                     {

@@ -12,9 +12,9 @@ namespace Models3DLib
     {
         private static float MinimalPart => 0.1f;
 
-        public static Color GetColor(Point3D point, Vector3 Normal, bool reflection, float reflectionBrightness, float reflectionCone, Color baseColor, AbstractLightSource lightSource, Point3D pointObserver, IFog ifog)
+        /*public static Color GetColor(IPoint3D point, Vector3 Normal, bool reflection, float reflectionBrightness, float reflectionCone, Color baseColor, AbstractLightSource lightSource, IPoint3D pointObserver, IFog ifog)
         {
-            Point3D point0 = point;
+            IPoint3D point0 = point;
             Vector3 vectorNormal = Vector3.Normalize(Normal);
             Vector3 vectorToLightPoint = Vector3.Normalize(lightSource.GetRay(point0));
 
@@ -58,7 +58,7 @@ namespace Models3DLib
             }
 
             return colorForRender;
-        }
+        }*/
 
         public static Color GetColor(LightModelParameters lightModelParameters)
         {

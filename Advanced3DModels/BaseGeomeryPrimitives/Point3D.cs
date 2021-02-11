@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace Models3DLib
 {
-    public class Point3D
+    public class Point3D : IPoint3D
     {
         readonly float[] _X;
 

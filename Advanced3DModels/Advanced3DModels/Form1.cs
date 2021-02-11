@@ -25,7 +25,7 @@ namespace Advanced3DModels
         Bitmap _bitmapLookAt;
         Model _model;
         PointF _startPoint = PointF.Empty;
-        Point3D _pointObserver = null;
+        IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         AbstractLightSource _lightSource = null;        
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
@@ -36,6 +36,11 @@ namespace Advanced3DModels
         #endregion
 
         #region === private methods ===
+
+        IPoint3D ResolvePoint3D(float X, float Y, float Z)
+        {
+            return new Point3D(X, Y, Z);
+        }
 
         IFog Fog => new FogCorrection(0.00005f, -200);
         
@@ -136,7 +141,7 @@ namespace Advanced3DModels
                 _model.Transform(translate);
 
                 // отрисовка модели
-                IPoint3D observerLookAt = new Point3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
+                IPoint3D observerLookAt = ResolvePoint3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
 
                 // отрисовка модели - вид с дополнительной камерой
                 RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, backColor);
@@ -241,10 +246,10 @@ namespace Advanced3DModels
 
             _lightSource = new PointLightSource()
             {
-                LightPoint = new Point3D(0, 0, -500)
+                LightPoint = ResolvePoint3D(0, 0, -500)
             };
 
-            _pointObserver = new Point3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
+            _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -341,7 +346,7 @@ namespace Advanced3DModels
             {
                 _lightSource = new PointLightSource()
                 {
-                    LightPoint = new Point3D(0, 0, -500)
+                    LightPoint = ResolvePoint3D(0, 0, -500)
                 };
             }
 

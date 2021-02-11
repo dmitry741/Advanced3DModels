@@ -12,6 +12,7 @@ namespace Models3DLib
     {
         readonly protected List<Point3DColor> _point3Ds;
         readonly protected List<Triangle> _triangles;
+        protected IPoint3D[] _state = null;
 
         public Plane()
         {
@@ -26,6 +27,26 @@ namespace Models3DLib
         }
         
         #region === public ===
+
+        public void SaveState()
+        {
+            if (_state == null || _state.Length != _point3Ds.Count)
+            {
+                _state = ResolverInterface.ResolveArrayIPoint3D(_point3Ds.Count);
+            }
+
+            Array.Copy(Points.ToArray(), _state, _state.Length);
+        }
+
+        public void RestoreState()
+        {
+            for (int i = 0; i < _state.Length; i++)
+            {
+                _point3Ds[i].X = _state[i].X;
+                _point3Ds[i].Y = _state[i].Y;
+                _point3Ds[i].Z = _state[i].Z;
+            }
+        }
 
         public bool VisibleBackSide { get; set; } = false;
 

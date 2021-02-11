@@ -39,6 +39,11 @@ namespace Models3DLib
         public bool NeedToSort { get; set; } = false;
         public IEnumerable<Plane> Planes => _planes;
 
+        public void SaveState()
+        {
+
+        }
+
         public void Transform(Matrix4x4 matrix)
         {
             foreach (Plane plane in _planes)

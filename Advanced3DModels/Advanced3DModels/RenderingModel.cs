@@ -17,7 +17,7 @@ namespace Advanced3DModels
 
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, AbstractLightSource lightSource, IPoint3D pointObserver, IFog ifog, RenderType renderType, Color backColor)
+        public static void Render(Graphics g, Model model, ILightSource lightSource, IPoint3D pointObserver, IFog ifog, RenderType renderType, Color backColor)
         {
            if (renderType == RenderType.Triangulations)
             {
@@ -57,7 +57,7 @@ namespace Advanced3DModels
 
                 LightModelParameters lightModelParameters = new LightModelParameters
                 {
-                    LightSources = new List<AbstractLightSource> { lightSource },
+                    LightSources = new List<ILightSource> { lightSource },
                     PointObserver = pointObserver,
                     Fog = ifog
                 };

@@ -27,7 +27,7 @@ namespace Advanced3DModels
         PointF _startPoint = PointF.Empty;
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
-        AbstractLightSource _lightSource = null;        
+        ILightSource _lightSource = null;        
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         IFog _ifog = null;
 

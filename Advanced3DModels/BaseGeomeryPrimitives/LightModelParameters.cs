@@ -16,7 +16,7 @@ namespace Models3DLib
         public float ReflectionBrightness { get; set; }
         public float ReflcetionCone { get; set; }
         public Color BaseColor { get; set; }
-        public IEnumerable<AbstractLightSource> LightSources { get; set; }
+        public IEnumerable<ILightSource> LightSources { get; set; }
         public IPoint3D PointObserver { get; set; }
         public IFog Fog { get; set; }
     }

@@ -51,7 +51,7 @@
     <Compile Include="PerspectiveTransformation.cs" />
     <Compile Include="Point3DColor.cs" />
     <Compile Include="PointLightSource.cs" />
-    <Compile Include="AbstractLightSource.cs" />
+    <Compile Include="ILightSource.cs" />
     <Compile Include="LightModel.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Model.cs" />

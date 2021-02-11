@@ -3,19 +3,25 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models3DLib;
 using System.Linq;
 using System.Numerics;
+using System.Drawing;
 
 namespace UnitTestModels3D
 {
     [TestClass]
     public class UnitTest1
     {
+        private IPoint3D ResolvePoint3D(float X, float Y, float Z)
+        {
+            return new Point3D(X, Y, Z);
+        }
+
         [TestMethod]
         [Description("Проверяем корректность нахождения вектора нормали к треугольнику.")]
         public void TestCross()
         {
-            Point3D point1 = new Point3D(0, 0, 0);
-            Point3D point2 = new Point3D(1, 0, 0);
-            Point3D point3 = new Point3D(0, 2, 0);
+            IPoint3D point1 = ResolvePoint3D(0, 0, 0);
+            IPoint3D point2 = ResolvePoint3D(1, 0, 0);
+            IPoint3D point3 = ResolvePoint3D(0, 2, 0);
 
             Triangle triangle = new Triangle(point1, point2, point3);
             Vector3 v = triangle.Normal;
@@ -27,12 +33,12 @@ namespace UnitTestModels3D
         [Description("Проверем корректность создания триангулированной четырехугольной поверхности. Квадрат.")]
         public void TestPolgon4Plane1()
         {
-            Point3D point1 = new Point3D(0, 2, 0);
-            Point3D point2 = new Point3D(2, 2, 0);
-            Point3D point3 = new Point3D(2, 0, 0);
-            Point3D point4 = new Point3D(0, 0, 0);
+            IPoint3D point1 = ResolvePoint3D(0, 2, 0);
+            IPoint3D point2 = ResolvePoint3D(2, 2, 0);
+            IPoint3D point3 = ResolvePoint3D(2, 0, 0);
+            IPoint3D point4 = ResolvePoint3D(0, 0, 0);
 
-            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
+            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f, Color.Black, string.Empty);
 
             Assert.IsTrue(plane.Triangles.Count() == 8);
             Assert.IsTrue(plane.Points.Count() == 9);
@@ -43,12 +49,12 @@ namespace UnitTestModels3D
         [Description("Проверем корректность создания триангулированной четырехугольной поверхности. Прямоугольник длина > высоты.")]
         public void TestPolgon4Plane2()
         {
-            Point3D point1 = new Point3D(0, 2, 0);
-            Point3D point2 = new Point3D(3, 2, 0);
-            Point3D point3 = new Point3D(3, 0, 0);
-            Point3D point4 = new Point3D(0, 0, 0);
+            IPoint3D point1 = ResolvePoint3D(0, 2, 0);
+            IPoint3D point2 = ResolvePoint3D(3, 2, 0);
+            IPoint3D point3 = ResolvePoint3D(3, 0, 0);
+            IPoint3D point4 = ResolvePoint3D(0, 0, 0);
 
-            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
+            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f, Color.Black, string.Empty);
 
             Assert.IsTrue(plane.Triangles.Count() == 12);
             Assert.IsTrue(plane.Points.Count() == 12);
@@ -59,12 +65,12 @@ namespace UnitTestModels3D
         [Description("Проверем корректность создания триангулированной четырехугольной поверхности. Прямоугольник длина < высоты.")]
         public void TestPolgon4Plane3()
         {
-            Point3D point1 = new Point3D(0, 3, 0);
-            Point3D point2 = new Point3D(2, 3, 0);
-            Point3D point3 = new Point3D(2, 0, 0);
-            Point3D point4 = new Point3D(0, 0, 0);
+            IPoint3D point1 = ResolvePoint3D(0, 3, 0);
+            IPoint3D point2 = ResolvePoint3D(2, 3, 0);
+            IPoint3D point3 = ResolvePoint3D(2, 0, 0);
+            IPoint3D point4 = ResolvePoint3D(0, 0, 0);
 
-            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f);
+            Models3DLib.Plane plane = new Polygon4Plane(point1, point2, point3, point4, 1.0f, Color.Black, string.Empty);
 
             Assert.IsTrue(plane.Triangles.Count() == 12);
             Assert.IsTrue(plane.Points.Count() == 12);

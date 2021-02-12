@@ -19,9 +19,9 @@ namespace UnitTestModels3D
         [Description("Проверяем корректность нахождения вектора нормали к треугольнику.")]
         public void TestCross()
         {
-            IPoint3D point1 = ResolvePoint3D(0, 0, 0);
-            IPoint3D point2 = ResolvePoint3D(1, 0, 0);
-            IPoint3D point3 = ResolvePoint3D(0, 2, 0);
+            Point3DColor point1 = new Point3DColor(0, 0, 0);
+            Point3DColor point2 = new Point3DColor(1, 0, 0);
+            Point3DColor point3 = new Point3DColor(0, 2, 0);
 
             Triangle triangle = new Triangle(point1, point2, point3);
             Vector3 v = triangle.Normal;

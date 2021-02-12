@@ -10,41 +10,17 @@ namespace Models3DLib
 {
     public class Triangle
     {
-        readonly IPoint3D[] _points;
+        readonly Point3DColor[] _points;
 
-        public Triangle(IPoint3D point1, IPoint3D point2, IPoint3D point3, Color color)
+        public Triangle(Point3DColor point1, Point3DColor point2, Point3DColor point3)
         {
-            _points = ResolverInterface.ResolveArrayIPoint3D(3);
-
-            _points[0] = point1;
-            _points[1] = point2;
-            _points[2] = point3;
-
-            BaseColor = color;
+            _points = new Point3DColor[] { point1, point2, point3 };
         }
 
-        public Triangle(IPoint3D[] points, Color color)
+        public Triangle(Point3DColor[] points, Color color)
         {
             _points = points;
-            BaseColor = color;
         }
-
-        public Triangle(IPoint3D point1, IPoint3D point2, IPoint3D point3)
-        {
-            _points = ResolverInterface.ResolveArrayIPoint3D(3);
-
-            _points[0] = point1;
-            _points[1] = point2;
-            _points[2] = point3;
-        }
-
-        public float ReflectionBrightness { get; set; } = 80.0f;
-
-        public float ReflectionCone { get; set; } = 24600;
-
-        public bool Reflection { get; set; } = true;
-
-        public Color BaseColor { get; set; } = Color.LightGreen;
 
         public Vector3 Normal
         {
@@ -59,9 +35,9 @@ namespace Models3DLib
 
         public float MinZ => _points.Min(p => p.Z);
 
-        public IPoint3D Point0 => _points[0];
+        public Point3DColor Point0 => _points[0];
 
-        public IPoint3D[] Point3Ds => _points;
+        public Point3DColor[] Point3Ds => _points;
 
         public PointF[] Points => _points.Select(x => x.ToPointF()).ToArray();
     }

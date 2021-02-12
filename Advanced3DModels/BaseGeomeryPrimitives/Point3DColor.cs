@@ -9,11 +9,10 @@ namespace Models3DLib
 {
     public class Point3DColor : Point3D
     {
-        public Color ColorForRender { get; set; }
+        public Color ColorForRender { get; set; } = Color.Black;
 
-        public Point3DColor(float X, float Y, float Z) : base(X, Y, Z)
-        {
-            ColorForRender = Color.Black;
-        }
+        public Color BaseColor { get; set; } = Color.LightGreen;
+
+        public Point3DColor(float X, float Y, float Z) : base(X, Y, Z) { }
     }
 }

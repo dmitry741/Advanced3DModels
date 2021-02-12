@@ -25,8 +25,14 @@ namespace Models3DLib
             _point3Ds = new List<Point3DColor>();
             _triangles = triangles.ToList();
         }
-        
-        #region === public ===
+
+        #region === public ===        
+
+        public float ReflectionBrightness { get; set; } = 80.0f;
+
+        public float ReflectionCone { get; set; } = 24600;
+
+        public bool Reflection { get; set; } = true;
 
         public void SaveState()
         {

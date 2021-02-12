@@ -217,9 +217,9 @@ namespace Advanced3DModels
 
             // отображение
             cmbRenderStatus.BeginUpdate();
-            cmbRenderStatus.Items.Add("Триангуляция");
+            cmbRenderStatus.Items.Add("Каркас");
             cmbRenderStatus.Items.Add("Полное");
-            cmbRenderStatus.Items.Add("Триангуляция. Белая модель.");
+            cmbRenderStatus.Items.Add("Каркас. Без цвета.");
             cmbRenderStatus.SelectedIndex = 1;
             cmbRenderStatus.EndUpdate();
 

@@ -59,12 +59,9 @@ namespace Models3DLib
 
             Color colorForRender = Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
 
-            if (lightModelParameters.Fog != null && lightModelParameters.Fog.Enabled)
-            {
-                colorForRender = lightModelParameters.Fog.Correct(lightModelParameters.Point.Z, colorForRender);
-            }
-
-            return colorForRender;
+            return (lightModelParameters.Fog != null && lightModelParameters.Fog.Enabled) ? 
+                lightModelParameters.Fog.Correct(lightModelParameters.Point.Z, colorForRender) :
+                colorForRender;
         }
     }
 }

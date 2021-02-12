@@ -34,6 +34,8 @@ namespace Advanced3DModels
             }
             else if (renderType == RenderType.FillFull)
             {
+                IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
+
                 LightModelParameters lightModelParameters = new LightModelParameters
                 {
                     LightSources = new List<ILightSource> { lightSource },
@@ -41,17 +43,16 @@ namespace Advanced3DModels
                     Fog = ifog
                 };
 
-                IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-
-                foreach(Plane plane in planesForRender)
+                foreach (Plane plane in planesForRender)
                 {
-                    foreach(Point3DColor pc in plane.Points)
+                    lightModelParameters.Normal =  plane.Normal;
+                    lightModelParameters.Reflection = plane.Reflection;
+                    lightModelParameters.ReflectionBrightness = plane.ReflectionBrightness;
+                    lightModelParameters.ReflcetionCone = plane.ReflectionCone;
+
+                    foreach (Point3DColor pc in plane.Points)
                     {
                         lightModelParameters.Point = pc;
-                        lightModelParameters.Normal = plane.Normal;
-                        lightModelParameters.Reflection = plane.Reflection;
-                        lightModelParameters.ReflectionBrightness = plane.ReflectionBrightness;
-                        lightModelParameters.ReflcetionCone = plane.ReflectionCone;
                         lightModelParameters.BaseColor = pc.BaseColor;
 
                         pc.ColorForRender = LightModel.GetColor(lightModelParameters);
@@ -65,11 +66,11 @@ namespace Advanced3DModels
                     triangles.AddRange(plane.Triangles);
                 }
 
-                IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
+                IEnumerable<Triangle> trianglesForRender = model.NeedToSort ?
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
-                foreach (Triangle triangle in trianglesForRendering)
+                foreach (Triangle triangle in trianglesForRender)
                 {
                     Brush brush = new SolidBrush(triangle.Point0.ColorForRender);
                     g.FillPolygon(brush, triangle.Points);
@@ -77,32 +78,29 @@ namespace Advanced3DModels
             }
             else if (renderType == RenderType.FillWhite)
             {
-                /*List<Triangle> triangles = new List<Triangle>();
+                IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
+                List<Triangle> triangles = new List<Triangle>();
 
-                foreach (Plane plane in model.Planes)
+                foreach (Plane plane in planesForRender)
                 {
-                    if (!plane.VisibleBackSide)
-                    {
-                        if (plane.Normal.Z < 0)
-                        {
-                            triangles.AddRange(plane.Triangles);
-                        }
-                    }
-                    else
-                    {
-                        triangles.AddRange(plane.Triangles);
-                    }
+                    triangles.AddRange(plane.Triangles);
                 }
 
-                IEnumerable<Triangle> trianglesForRendering = model.NeedToSort ?
+                IEnumerable<Triangle> trianglesForRender = model.NeedToSort ?
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
-                foreach (Triangle triangle in trianglesForRendering)
+                Color colorPen = Color.FromArgb(255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
+                Color colorBrush = backColor;
+
+                Pen pen = new Pen(colorPen);
+                Brush brush = new SolidBrush(colorBrush);
+
+                foreach (Triangle triangle in trianglesForRender)
                 {
-                    g.FillPolygon(Brushes.White, triangle.Points);
-                    g.DrawPolygon(Pens.Black, triangle.Points);
-                }*/
+                    g.FillPolygon(brush, triangle.Points);
+                    g.DrawPolygon(pen, triangle.Points);
+                }
             }
         }
     }

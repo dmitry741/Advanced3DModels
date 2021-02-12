@@ -59,12 +59,7 @@ namespace Advanced3DModels
                     }
                 }
 
-                List<Triangle> triangles = new List<Triangle>();
-
-                foreach (Plane plane in planesForRender)
-                {
-                    triangles.AddRange(plane.Triangles);
-                }
+                IEnumerable<Triangle> triangles = planesForRender.SelectMany(x => x.Triangles);
 
                 IEnumerable<Triangle> trianglesForRender = model.NeedToSort ?
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
@@ -79,12 +74,7 @@ namespace Advanced3DModels
             else if (renderType == RenderType.FillWhite)
             {
                 IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-                List<Triangle> triangles = new List<Triangle>();
-
-                foreach (Plane plane in planesForRender)
-                {
-                    triangles.AddRange(plane.Triangles);
-                }
+                IEnumerable<Triangle> triangles = planesForRender.SelectMany(x => x.Triangles);
 
                 IEnumerable<Triangle> trianglesForRender = model.NeedToSort ?
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :

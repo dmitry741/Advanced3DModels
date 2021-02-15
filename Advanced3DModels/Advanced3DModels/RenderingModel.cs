@@ -9,18 +9,31 @@ using System.Drawing.Drawing2D;
 
 namespace Advanced3DModels
 {
-    enum RenderType
+    enum RenderModelType
     {
         Triangulations,
         FillFull,
         FillWhite
     }
 
+    enum RenderFillTriangle
+    {
+        Simple,
+        Gouraud
+    }
+
     class RenderingModel
     {
-        public static void Render(Graphics g, Model model, ILightSource lightSource, IPoint3D pointObserver, IFog ifog, RenderType renderType, Color backColor)
+        public static void Render(Graphics g, 
+            Model model, 
+            ILightSource lightSource, 
+            IPoint3D pointObserver, 
+            IFog ifog, 
+            RenderModelType renderType, 
+            RenderFillTriangle renderFillTriangle, 
+            Color backColor)
         {
-           if (renderType == RenderType.Triangulations)
+           if (renderType == RenderModelType.Triangulations)
             {
                 Color color = Color.FromArgb(255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
                 Pen pen = new Pen(color);
@@ -33,7 +46,7 @@ namespace Advanced3DModels
                     }                    
                 }
             }
-            else if (renderType == RenderType.FillFull)
+            else if (renderType == RenderModelType.FillFull)
             {
                 IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
 
@@ -66,9 +79,7 @@ namespace Advanced3DModels
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
-                bool bSimpleRendering = false;
-
-                if (bSimpleRendering)
+                if (renderFillTriangle == RenderFillTriangle.Simple)
                 {
                     foreach (Triangle triangle in trianglesForRender)
                     {
@@ -100,7 +111,7 @@ namespace Advanced3DModels
                     }
                 }
             }
-            else if (renderType == RenderType.FillWhite)
+            else if (renderType == RenderModelType.FillWhite)
             {
                 IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
                 IEnumerable<Triangle> triangles = planesForRender.SelectMany(x => x.Triangles);

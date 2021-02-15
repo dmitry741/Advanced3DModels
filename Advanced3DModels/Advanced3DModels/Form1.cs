@@ -44,21 +44,21 @@ namespace Advanced3DModels
 
         IFog Fog => new FogCorrection(0.00005f, -200);
         
-        RenderType GetRenderType(int index)
+        RenderModelType GetRenderType(int index)
         {
-            RenderType renderType;
+            RenderModelType renderType;
 
             if (index == 0)
             {
-                renderType = RenderType.Triangulations;
+                renderType = RenderModelType.Triangulations;
             }
             else if (index == 1)
             {
-                renderType = RenderType.FillFull;
+                renderType = RenderModelType.FillFull;
             }
             else
             {
-                renderType = RenderType.FillWhite;
+                renderType = RenderModelType.FillWhite;
             }
 
             return renderType;
@@ -87,7 +87,10 @@ namespace Advanced3DModels
             _model.Transform(translate);
 
             // отрисовка модели
-            RenderType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
+            RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
+
+            // тип закраски треугольников
+            RenderFillTriangle renderFillTriangle = RenderFillTriangle.Simple;
 
             bool bPerspective = checkBoxPerspective.Checked;
             
@@ -98,7 +101,7 @@ namespace Advanced3DModels
             }            
 
             // отрисовка в главном окне
-            RenderingModel.Render(g1, _model, _lightSource, _pointObserver, _ifog, renderType, backColor);
+            RenderingModel.Render(g1, _model, _lightSource, _pointObserver, _ifog, renderType, renderFillTriangle, backColor);
 
             // восстановили сохраненное состояние
             _model.RestoreState();
@@ -144,7 +147,7 @@ namespace Advanced3DModels
                 IPoint3D observerLookAt = ResolvePoint3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
 
                 // отрисовка модели - вид с дополнительной камерой
-                RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, backColor);
+                RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, renderFillTriangle, backColor);
 
                 // восстановили сохраненное состояние
                 _model.RestoreState();

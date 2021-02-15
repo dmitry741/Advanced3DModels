@@ -57,7 +57,7 @@ namespace Models3DLib
             if (G > 255) G = 255;
             if (B > 255) B = 255;
 
-            Color colorForRender = Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+            Color colorForRender = Color.FromArgb(lightModelParameters.BaseColor.A, Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
 
             return (lightModelParameters.Fog != null && lightModelParameters.Fog.Enabled) ? 
                 lightModelParameters.Fog.Correct(lightModelParameters.Point.Z, colorForRender) :

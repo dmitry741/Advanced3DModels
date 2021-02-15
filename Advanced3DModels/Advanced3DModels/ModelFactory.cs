@@ -47,6 +47,10 @@ namespace Advanced3DModels
             {
                 model = Models3DLib.Model.CubeSet(36, sizePrimitive, 288);
             }
+            else if (index == 4)
+            {
+                model = Models3DLib.Model.TransparentTable(288, sizePrimitive, 24);
+            }
             else
             {
                 model = Models3DLib.Model.Cube(200.0f, sizePrimitive);

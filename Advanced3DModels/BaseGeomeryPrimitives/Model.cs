@@ -27,11 +27,6 @@ namespace Models3DLib
             _planes.AddRange(model.Planes);
         }
 
-        void AddPlane(Plane plane)
-        {
-            _planes.Add(plane);
-        }
-
         #endregion
 
         #region === public ===
@@ -322,6 +317,40 @@ namespace Models3DLib
             }
 
             return resultModel;
+        }
+
+        public static Model TransparentTable(float sizeSide, float sizePrimitive, float depth)
+        {
+            /*float xStart = -sizeSide / 2.0f;
+            float yStart = -sizeSide / 2.0f;
+            float xEnd = sizeSide / 2.0f;
+            float yEnd = sizeSide / 2.0f;*/
+
+            bool[] panels;
+            Color[] colors;
+            const int transparency = 128;
+
+            Model model = new Model
+            {
+                NeedToSort = true,
+            };
+
+            float boxSize = sizeSide / 8;
+
+            // прозрачная столешница
+            Color tableColor = Color.FromArgb(transparency, Color.DarkGray);
+            panels = new bool[] { true, false, false, false, false, true };
+            colors = new Color[] { tableColor, Color.Black, Color.Black, Color.Black, Color.Black, tableColor };
+            Model pld = Parallelepiped(sizeSide  - boxSize, sizeSide - boxSize, depth, sizePrimitive, panels, colors);
+
+            foreach (Plane plane in pld.Planes)
+            {
+                plane.VisibleBackSide = true;
+            }
+
+            model.UnionWith(pld);
+
+            return model;
         }
 
         public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float depth, Color color1, Color color2)

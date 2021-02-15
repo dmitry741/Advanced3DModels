@@ -335,20 +335,62 @@ namespace Models3DLib
                 NeedToSort = true,
             };
 
-            float boxSize = sizeSide / 8;
+            float boxSize = sizeSide / 6;
 
             // прозрачная столешница
             Color tableColor = Color.FromArgb(transparency, Color.DarkGray);
             panels = new bool[] { true, false, false, false, false, true };
             colors = new Color[] { tableColor, Color.Black, Color.Black, Color.Black, Color.Black, tableColor };
-            Model pld = Parallelepiped(sizeSide  - boxSize, sizeSide - boxSize, depth, sizePrimitive, panels, colors);
+            Model table = Parallelepiped(sizeSide - boxSize, sizeSide - boxSize, depth, sizePrimitive, panels, colors);
 
-            foreach (Plane plane in pld.Planes)
+            foreach (Plane plane in table.Planes)
             {
                 plane.VisibleBackSide = true;
             }
 
-            model.UnionWith(pld);
+            model.UnionWith(table);
+
+            // непрозрачные боковины
+            Color boxColor = Color.Brown;
+            Model box;
+            Vector3 trans;
+            Matrix4x4 matrix4;
+
+            panels = new bool[] { true, true, true, true, true, true };
+            colors = new Color[] { boxColor, boxColor, boxColor, boxColor, boxColor, boxColor };
+
+            box = Parallelepiped(boxSize, sizeSide + boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(-sizeSide / 2, 0, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+
+            model.UnionWith(box);
+
+            box = Parallelepiped(boxSize, sizeSide + boxSize, depth, sizePrimitive, panels, colors);
+
+            trans = new Vector3(sizeSide / 2, 0, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+
+            model.UnionWith(box);
+
+            box = Parallelepiped(sizeSide, boxSize, depth, sizePrimitive, panels, colors);
+
+            trans = new Vector3(0, sizeSide / 2, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+
+            //model.UnionWith(box);
+
+
+            box = Parallelepiped(sizeSide, boxSize, depth, sizePrimitive, panels, colors);
+
+            trans = new Vector3(0, -sizeSide / 2, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+
+            //model.UnionWith(box);
+
 
             return model;
         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using Models3DLib;
+using System.Drawing.Drawing2D;
 
 namespace Advanced3DModels
 {
@@ -65,10 +66,38 @@ namespace Advanced3DModels
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
-                foreach (Triangle triangle in trianglesForRender)
+                bool bSimpleRendering = false;
+
+                if (bSimpleRendering)
                 {
-                    Brush brush = new SolidBrush(triangle.Point0.ColorForRender);
-                    g.FillPolygon(brush, triangle.Points);
+                    foreach (Triangle triangle in trianglesForRender)
+                    {
+                        Brush brush = new SolidBrush(triangle.Point0.ColorForRender);
+                        g.FillPolygon(brush, triangle.Points);
+                    }
+                }
+                else
+                {
+                    foreach (Triangle triangle in trianglesForRender)
+                    {
+                        PointF[] points = triangle.Points;
+                        Color[] surroundColors = triangle.Point3Ds.Select(pc => pc.ColorForRender).ToArray();
+
+                        PathGradientBrush pthGrBrush = new PathGradientBrush(points)
+                        {
+                            SurroundColors = surroundColors,
+                            CenterPoint = points[0],
+                            CenterColor = triangle.Point3Ds[0].ColorForRender
+                        };
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            LinearGradientBrush brush = new LinearGradientBrush(points[i], points[(i + 1) % 3], surroundColors[i], surroundColors[(i + 1) % 3]);
+                            g.DrawLine(new Pen(brush), points[i], points[(i + 1) % 3]);
+                        }
+
+                        g.FillPolygon(pthGrBrush, points);
+                    }
                 }
             }
             else if (renderType == RenderType.FillWhite)

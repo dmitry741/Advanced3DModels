@@ -46,6 +46,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxCamera = new System.Windows.Forms.CheckBox();
             this.checkBoxFog = new System.Windows.Forms.CheckBox();
+            this.cmbTriRender = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -150,7 +152,7 @@
             // 
             this.cmbBack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBack.FormattingEnabled = true;
-            this.cmbBack.Location = new System.Drawing.Point(771, 120);
+            this.cmbBack.Location = new System.Drawing.Point(771, 147);
             this.cmbBack.Name = "cmbBack";
             this.cmbBack.Size = new System.Drawing.Size(197, 21);
             this.cmbBack.TabIndex = 12;
@@ -159,7 +161,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(734, 123);
+            this.label5.Location = new System.Drawing.Point(734, 150);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(30, 13);
             this.label5.TabIndex = 13;
@@ -168,7 +170,7 @@
             // checkBoxPerspective
             // 
             this.checkBoxPerspective.AutoSize = true;
-            this.checkBoxPerspective.Location = new System.Drawing.Point(771, 147);
+            this.checkBoxPerspective.Location = new System.Drawing.Point(771, 185);
             this.checkBoxPerspective.Name = "checkBoxPerspective";
             this.checkBoxPerspective.Size = new System.Drawing.Size(93, 17);
             this.checkBoxPerspective.TabIndex = 14;
@@ -217,7 +219,7 @@
             // checkBoxFog
             // 
             this.checkBoxFog.AutoSize = true;
-            this.checkBoxFog.Location = new System.Drawing.Point(771, 170);
+            this.checkBoxFog.Location = new System.Drawing.Point(771, 208);
             this.checkBoxFog.Name = "checkBoxFog";
             this.checkBoxFog.Size = new System.Drawing.Size(58, 17);
             this.checkBoxFog.TabIndex = 19;
@@ -225,11 +227,32 @@
             this.checkBoxFog.UseVisualStyleBackColor = true;
             this.checkBoxFog.CheckedChanged += new System.EventHandler(this.checkBoxFog_CheckedChanged);
             // 
+            // cmbTriRender
+            // 
+            this.cmbTriRender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTriRender.FormattingEnabled = true;
+            this.cmbTriRender.Location = new System.Drawing.Point(771, 120);
+            this.cmbTriRender.Name = "cmbTriRender";
+            this.cmbTriRender.Size = new System.Drawing.Size(197, 21);
+            this.cmbTriRender.TabIndex = 20;
+            this.cmbTriRender.SelectedIndexChanged += new System.EventHandler(this.cmbTriRender_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(687, 123);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Треугольники";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(979, 694);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.cmbTriRender);
             this.Controls.Add(this.checkBoxFog);
             this.Controls.Add(this.checkBoxCamera);
             this.Controls.Add(this.label6);
@@ -281,6 +304,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBoxCamera;
         private System.Windows.Forms.CheckBox checkBoxFog;
+        private System.Windows.Forms.ComboBox cmbTriRender;
+        private System.Windows.Forms.Label label7;
     }
 }
 

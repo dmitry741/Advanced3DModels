@@ -89,8 +89,8 @@ namespace Advanced3DModels
             // отрисовка модели
             RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
 
-            // тип закраски треугольников
-            RenderFillTriangle renderFillTriangle = RenderFillTriangle.Simple;
+            // тип отрисовки треугольников
+            RenderFillTriangle renderFillTriangle = GetRenderFillTriangle(cmbTriRender.SelectedIndex);
 
             bool bPerspective = checkBoxPerspective.Checked;
             
@@ -176,6 +176,11 @@ namespace Advanced3DModels
             return modelQuality;
         }
 
+        RenderFillTriangle GetRenderFillTriangle(int index)
+        {
+            return (index == 0) ? RenderFillTriangle.Flat : RenderFillTriangle.Gouraud;
+        }
+
         void UpdateModel()
         {
             ModelQuality modelQuality = GetModelQuality(cmbQuality.SelectedIndex);
@@ -225,6 +230,13 @@ namespace Advanced3DModels
             cmbRenderStatus.Items.Add("Каркас. Без цвета.");
             cmbRenderStatus.SelectedIndex = 1;
             cmbRenderStatus.EndUpdate();
+
+            // треугольники
+            cmbTriRender.BeginUpdate();
+            cmbTriRender.Items.Add("Плоское отображение");
+            cmbTriRender.Items.Add("Метод Гуро");
+            cmbTriRender.SelectedIndex = 0;
+            cmbTriRender.EndUpdate();
 
             // фон
             cmbBack.BeginUpdate();
@@ -383,6 +395,14 @@ namespace Advanced3DModels
         private void checkBoxFog_CheckedChanged(object sender, EventArgs e)
         {
             _ifog.Enabled = checkBoxFog.Checked;
+            Render();
+        }
+
+        private void cmbTriRender_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
             Render();
         }
     }

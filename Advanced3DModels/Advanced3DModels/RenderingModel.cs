@@ -18,7 +18,7 @@ namespace Advanced3DModels
 
     enum RenderFillTriangle
     {
-        Simple,
+        Flat,
         Gouraud
     }
 
@@ -79,7 +79,7 @@ namespace Advanced3DModels
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
-                if (renderFillTriangle == RenderFillTriangle.Simple)
+                if (renderFillTriangle == RenderFillTriangle.Flat)
                 {
                     foreach (Triangle triangle in trianglesForRender)
                     {

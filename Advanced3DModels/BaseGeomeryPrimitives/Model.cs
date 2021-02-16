@@ -341,7 +341,7 @@ namespace Models3DLib
             Color tableColor = Color.FromArgb(transparency, Color.DarkGray);
             panels = new bool[] { true, false, false, false, false, true };
             colors = new Color[] { tableColor, Color.Black, Color.Black, Color.Black, Color.Black, tableColor };
-            Model table = Parallelepiped(sizeSide - boxSize, sizeSide - boxSize, depth, sizePrimitive, panels, colors);
+            Model table = Parallelepiped(sizeSide - 2 * boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
 
             foreach (Plane plane in table.Planes)
             {
@@ -355,41 +355,110 @@ namespace Models3DLib
             Model box;
             Vector3 trans;
             Matrix4x4 matrix4;
-
-            panels = new bool[] { true, true, true, true, true, true };
+            
             colors = new Color[] { boxColor, boxColor, boxColor, boxColor, boxColor, boxColor };
+            panels = new bool[] { true, false, true, false, true, true };
 
-            box = Parallelepiped(boxSize, sizeSide + boxSize, depth, sizePrimitive, panels, colors);
-            trans = new Vector3(-sizeSide / 2, 0, 0);
+            // левая вертикальная
+            box = Parallelepiped(boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(-sizeSide / 2 + boxSize / 2, 0, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             box.Transform(matrix4);
-
             model.UnionWith(box);
 
-            box = Parallelepiped(boxSize, sizeSide + boxSize, depth, sizePrimitive, panels, colors);
-
-            trans = new Vector3(sizeSide / 2, 0, 0);
+            // правая вертикальная
+            box = Parallelepiped(boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(sizeSide / 2 - boxSize / 2, 0, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             box.Transform(matrix4);
-
             model.UnionWith(box);
 
-            box = Parallelepiped(sizeSide, boxSize, depth, sizePrimitive, panels, colors);
+            panels = new bool[] { true, true, false, true, false, true };
 
-            trans = new Vector3(0, sizeSide / 2, 0);
+            // нижняя горизонтальная
+            box = Parallelepiped(sizeSide - 2 * boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(0, sizeSide / 2 - boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             box.Transform(matrix4);
+            model.UnionWith(box);
 
-            //model.UnionWith(box);
-
-
-            box = Parallelepiped(sizeSide, boxSize, depth, sizePrimitive, panels, colors);
-
-            trans = new Vector3(0, -sizeSide / 2, 0);
+            // верхняя горизонтальная
+            box = Parallelepiped(sizeSide - 2 * boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(0, -sizeSide / 2 + boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             box.Transform(matrix4);
+            model.UnionWith(box);
 
-            //model.UnionWith(box);
+            // вставки-квадратики по углам
+
+            // левый верхний
+            panels = new bool[] { true, false, false, true, true, true };
+            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(-sizeSide / 2 + boxSize / 2, -sizeSide / 2 + boxSize / 2, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // правый верхний
+            panels = new bool[] { true, false, true, true, false, true };
+            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(sizeSide / 2 - boxSize / 2, -sizeSide / 2 + boxSize / 2, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // правый нижний
+            panels = new bool[] { true, true, true, false, false, true };
+            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(sizeSide / 2 - boxSize / 2, sizeSide / 2 - boxSize / 2, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // левый нижний
+            panels = new bool[] { true, true, false, false, true, true };
+            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            trans = new Vector3(-sizeSide / 2 + boxSize / 2, sizeSide / 2 - boxSize / 2, 0);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // ножки
+            boxColor = Color.SandyBrown;
+            colors = new Color[] { boxColor, boxColor, boxColor, boxColor, boxColor, boxColor };
+            panels = new bool[] { true, true, true, true, true, false };
+            const float cFootSize = 24;
+            const float cFootLen = 56;
+
+            // левая верхняя
+            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, -sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // правая верхняя
+            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            trans = new Vector3(sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, -sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // правая нижняя
+            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            trans = new Vector3(sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+            // левая нижняя
+            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            matrix4 = Matrix4x4.CreateTranslation(trans);
+            box.Transform(matrix4);
+            model.UnionWith(box);
+
+
 
 
             return model;

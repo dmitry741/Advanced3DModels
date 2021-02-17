@@ -482,31 +482,32 @@ namespace Models3DLib
             panels = new bool[] { true, true, true, true, true, false };
             const float cFootSize = 24;
             const float cFootLen = 56;
+            const float ck = 1.2f;
 
             // левая верхняя
             pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
-            trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, -sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + ck * boxSize, -sizeSide / 2 - cFootLen / 2 + ck * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             pld.Transform(matrix4);
             model.UnionWith(pld);
 
             // правая верхняя
             pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
-            trans = new Vector3(sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, -sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            trans = new Vector3(sizeSide / 2 + cFootLen / 2 - ck * boxSize, -sizeSide / 2 - cFootLen / 2 + ck * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             pld.Transform(matrix4);
             model.UnionWith(pld);
 
             // правая нижняя
             pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
-            trans = new Vector3(sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            trans = new Vector3(sizeSide / 2 + cFootLen / 2 - ck * boxSize, sizeSide / 2 + cFootLen / 2 - ck * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             pld.Transform(matrix4);
             model.UnionWith(pld);
 
             // левая нижняя
             pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
-            trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, cFootLen / 2 + depth / 2);
+            trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + ck * boxSize, sizeSide / 2 + cFootLen / 2 - ck * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
             pld.Transform(matrix4);
             model.UnionWith(pld);

@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.cmbModel = new System.Windows.Forms.ComboBox();
@@ -48,6 +50,11 @@
             this.checkBoxFog = new System.Windows.Forms.CheckBox();
             this.cmbTriRender = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.btnLeft = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.btnRight = new System.Windows.Forms.Button();
+            this.btnDown = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -246,11 +253,64 @@
             this.label7.TabIndex = 21;
             this.label7.Text = "Треугольники";
             // 
+            // btnLeft
+            // 
+            this.btnLeft.ImageIndex = 1;
+            this.btnLeft.ImageList = this.imageList1;
+            this.btnLeft.Location = new System.Drawing.Point(658, 234);
+            this.btnLeft.Name = "btnLeft";
+            this.btnLeft.Size = new System.Drawing.Size(38, 38);
+            this.btnLeft.TabIndex = 22;
+            this.btnLeft.UseVisualStyleBackColor = true;
+            // 
+            // btnUp
+            // 
+            this.btnUp.ImageIndex = 3;
+            this.btnUp.ImageList = this.imageList1;
+            this.btnUp.Location = new System.Drawing.Point(695, 196);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(38, 38);
+            this.btnUp.TabIndex = 23;
+            this.btnUp.UseVisualStyleBackColor = true;
+            // 
+            // btnRight
+            // 
+            this.btnRight.ImageIndex = 2;
+            this.btnRight.ImageList = this.imageList1;
+            this.btnRight.Location = new System.Drawing.Point(731, 234);
+            this.btnRight.Name = "btnRight";
+            this.btnRight.Size = new System.Drawing.Size(38, 38);
+            this.btnRight.TabIndex = 24;
+            this.btnRight.UseVisualStyleBackColor = true;
+            // 
+            // btnDown
+            // 
+            this.btnDown.ImageIndex = 0;
+            this.btnDown.ImageList = this.imageList1;
+            this.btnDown.Location = new System.Drawing.Point(695, 272);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(38, 38);
+            this.btnDown.TabIndex = 25;
+            this.btnDown.UseVisualStyleBackColor = true;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.White;
+            this.imageList1.Images.SetKeyName(0, "arrdown.png");
+            this.imageList1.Images.SetKeyName(1, "arrleft.png");
+            this.imageList1.Images.SetKeyName(2, "arrright.png");
+            this.imageList1.Images.SetKeyName(3, "arup.png");
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(979, 694);
+            this.Controls.Add(this.btnDown);
+            this.Controls.Add(this.btnRight);
+            this.Controls.Add(this.btnUp);
+            this.Controls.Add(this.btnLeft);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.cmbTriRender);
             this.Controls.Add(this.checkBoxFog);
@@ -306,6 +366,11 @@
         private System.Windows.Forms.CheckBox checkBoxFog;
         private System.Windows.Forms.ComboBox cmbTriRender;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnLeft;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.Button btnRight;
+        private System.Windows.Forms.Button btnDown;
     }
 }
 

@@ -31,6 +31,9 @@ namespace Models3DLib
 
         #region === public ===
 
+        /// <summary>
+        /// Признак необхожимости сортировки по глубине (Z).
+        /// </summary>
         public bool NeedToSort { get; set; } = false;
 
         public IEnumerable<Plane> Planes => _planes;

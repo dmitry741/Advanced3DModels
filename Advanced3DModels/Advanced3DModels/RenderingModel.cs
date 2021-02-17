@@ -13,7 +13,7 @@ namespace Advanced3DModels
     {
         Triangulations,
         FillFull,
-        FillWhite
+        FillSolidColor
     }
 
     enum RenderFillTriangle
@@ -79,17 +79,14 @@ namespace Advanced3DModels
                     triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
                     triangles;
 
-                if (renderFillTriangle == RenderFillTriangle.Flat)
+                foreach (Triangle triangle in trianglesForRender)
                 {
-                    foreach (Triangle triangle in trianglesForRender)
+                    if (renderFillTriangle == RenderFillTriangle.Flat || !triangle.AllowToGouraudMethod)
                     {
                         Brush brush = new SolidBrush(triangle.Point0.ColorForRender);
                         g.FillPolygon(brush, triangle.Points);
                     }
-                }
-                else
-                {
-                    foreach (Triangle triangle in trianglesForRender)
+                    else
                     {
                         PointF[] points = triangle.Points;
                         Color[] surroundColors = triangle.Point3Ds.Select(pc => pc.ColorForRender).ToArray();
@@ -111,7 +108,7 @@ namespace Advanced3DModels
                     }
                 }
             }
-            else if (renderType == RenderModelType.FillWhite)
+            else if (renderType == RenderModelType.FillSolidColor)
             {
                 IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
                 IEnumerable<Triangle> triangles = planesForRender.SelectMany(x => x.Triangles);

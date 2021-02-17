@@ -321,11 +321,6 @@ namespace Models3DLib
 
         public static Model TransparentTable(float sizeSide, float sizePrimitive, float depth)
         {
-            /*float xStart = -sizeSide / 2.0f;
-            float yStart = -sizeSide / 2.0f;
-            float xEnd = sizeSide / 2.0f;
-            float yEnd = sizeSide / 2.0f;*/
-
             bool[] panels;
             Color[] colors;
             const int transparency = 128;
@@ -346,13 +341,18 @@ namespace Models3DLib
             foreach (Plane plane in table.Planes)
             {
                 plane.VisibleBackSide = true;
+
+                foreach(Triangle triangle in plane.Triangles)
+                {
+                    triangle.AllowToGouraudMethod = false;
+                }
             }
 
             model.UnionWith(table);
 
             // непрозрачные боковины
             Color boxColor = Color.Brown;
-            Model box;
+            Model pld;
             Vector3 trans;
             Matrix4x4 matrix4;
             
@@ -360,68 +360,68 @@ namespace Models3DLib
             panels = new bool[] { true, false, true, false, true, true };
 
             // левая вертикальная
-            box = Parallelepiped(boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(-sizeSide / 2 + boxSize / 2, 0, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // правая вертикальная
-            box = Parallelepiped(boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(sizeSide / 2 - boxSize / 2, 0, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             panels = new bool[] { true, true, false, true, false, true };
 
             // нижняя горизонтальная
-            box = Parallelepiped(sizeSide - 2 * boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(sizeSide - 2 * boxSize, boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(0, sizeSide / 2 - boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // верхняя горизонтальная
-            box = Parallelepiped(sizeSide - 2 * boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(sizeSide - 2 * boxSize, boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(0, -sizeSide / 2 + boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // вставки-квадратики по углам
 
             // левый верхний
             panels = new bool[] { true, false, false, true, true, true };
-            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(-sizeSide / 2 + boxSize / 2, -sizeSide / 2 + boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // правый верхний
             panels = new bool[] { true, false, true, true, false, true };
-            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(sizeSide / 2 - boxSize / 2, -sizeSide / 2 + boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // правый нижний
             panels = new bool[] { true, true, true, false, false, true };
-            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(sizeSide / 2 - boxSize / 2, sizeSide / 2 - boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // левый нижний
             panels = new bool[] { true, true, false, false, true, true };
-            box = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
+            pld = Parallelepiped(boxSize, boxSize, depth, sizePrimitive, panels, colors);
             trans = new Vector3(-sizeSide / 2 + boxSize / 2, sizeSide / 2 - boxSize / 2, 0);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // ножки
             boxColor = Color.SandyBrown;
@@ -431,35 +431,32 @@ namespace Models3DLib
             const float cFootLen = 56;
 
             // левая верхняя
-            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
             trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, -sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // правая верхняя
-            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
             trans = new Vector3(sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, -sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // правая нижняя
-            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
             trans = new Vector3(sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             // левая нижняя
-            box = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
+            pld = Parallelepiped(cFootSize, cFootSize, cFootLen, sizePrimitive, panels, colors);
             trans = new Vector3(-sizeSide / 2 - cFootLen / 2 + 1.2f * boxSize, sizeSide / 2 + cFootLen / 2 - 1.2f * boxSize, cFootLen / 2 + depth / 2);
             matrix4 = Matrix4x4.CreateTranslation(trans);
-            box.Transform(matrix4);
-            model.UnionWith(box);
-
-
-
+            pld.Transform(matrix4);
+            model.UnionWith(pld);
 
             return model;
         }

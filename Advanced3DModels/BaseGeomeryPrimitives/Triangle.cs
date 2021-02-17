@@ -33,6 +33,8 @@ namespace Models3DLib
             }
         }
 
+        public bool AllowToGouraudMethod { get; set; } = true;
+
         public float MinZ => _points.Min(p => p.Z);
 
         public Point3DColor Point0 => _points[0];

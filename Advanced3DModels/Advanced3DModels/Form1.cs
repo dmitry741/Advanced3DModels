@@ -406,5 +406,49 @@ namespace Advanced3DModels
 
             Render();
         }
+
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationY(angle);
+
+            _model.Transform(matrixRotation);
+            _transformMatrix *= matrixRotation;
+
+            Render();
+        }
+
+        private void btnRight_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(-Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationY(angle);
+
+            _model.Transform(matrixRotation);
+            _transformMatrix *= matrixRotation;
+
+            Render();
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(-Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationX(angle);
+
+            _model.Transform(matrixRotation);
+            _transformMatrix *= matrixRotation;
+
+            Render();
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationX(angle);
+
+            _model.Transform(matrixRotation);
+            _transformMatrix *= matrixRotation;
+
+            Render();
+        }
     }
 }

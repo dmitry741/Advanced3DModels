@@ -8,20 +8,7 @@ using Models3DLib;
 using System.Drawing.Drawing2D;
 
 namespace Advanced3DModels
-{
-    enum RenderModelType
-    {
-        Triangulations,
-        FillFull,
-        FillSolidColor
-    }
-
-    enum RenderFillTriangle
-    {
-        Flat,
-        Gouraud
-    }
-
+{    
     class RenderingModel
     {
         public static void Render(Graphics g, 
@@ -30,56 +17,26 @@ namespace Advanced3DModels
             IPoint3D pointObserver, 
             IFog ifog, 
             RenderModelType renderType, 
-            RenderFillTriangle renderFillTriangle, 
+            RenderFillTriangle renderFillTriangle,
             Color backColor)
         {
-           if (renderType == RenderModelType.Triangulations)
+            
+            if (renderType == RenderModelType.Triangulations)
             {
                 Color color = Color.FromArgb(255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
                 Pen pen = new Pen(color);
+                IEnumerable<Triangle> triangles = model.GetTrianglesForRender(null, null, null, renderType);
 
-                foreach(Plane plane in model.Planes)
+                foreach(Triangle triangle in triangles)
                 {
-                    foreach(Triangle triangle in plane.Triangles)
-                    {
-                        g.DrawPolygon(pen, triangle.Points);
-                    }                    
-                }
+                    g.DrawPolygon(pen, triangle.Points);
+                }                    
             }
             else if (renderType == RenderModelType.FillFull)
             {
-                IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
+                IEnumerable<Triangle> triangles = model.GetTrianglesForRender(new List<ILightSource> { lightSource }, pointObserver, ifog, renderType);
 
-                LightModelParameters lightModelParameters = new LightModelParameters
-                {
-                    LightSources = new List<ILightSource> { lightSource },
-                    PointObserver = pointObserver,
-                    Fog = ifog
-                };
-
-                foreach (Plane plane in planesForRender)
-                {
-                    lightModelParameters.Normal =  plane.Normal;
-                    lightModelParameters.Reflection = plane.Reflection;
-                    lightModelParameters.ReflectionBrightness = plane.ReflectionBrightness;
-                    lightModelParameters.ReflcetionCone = plane.ReflectionCone;
-
-                    foreach (Point3DColor pc in plane.Points)
-                    {
-                        lightModelParameters.Point = pc;
-                        lightModelParameters.BaseColor = pc.BaseColor;
-
-                        pc.ColorForRender = LightModel.GetColor(lightModelParameters);
-                    }
-                }
-
-                IEnumerable<Triangle> triangles = planesForRender.SelectMany(x => x.Triangles);
-
-                IEnumerable<Triangle> trianglesForRender = model.NeedToSort ?
-                    triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
-                    triangles;
-
-                foreach (Triangle triangle in trianglesForRender)
+                foreach (Triangle triangle in triangles)
                 {
                     if (renderFillTriangle == RenderFillTriangle.Flat || !triangle.AllowToGouraudMethod)
                     {
@@ -110,20 +67,14 @@ namespace Advanced3DModels
             }
             else if (renderType == RenderModelType.FillSolidColor)
             {
-                IEnumerable<Plane> planesForRender = model.Planes.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-                IEnumerable<Triangle> triangles = planesForRender.SelectMany(x => x.Triangles);
-
-                IEnumerable<Triangle> trianglesForRender = model.NeedToSort ?
-                    triangles.OrderByDescending(t => t.MinZ).AsEnumerable() :
-                    triangles;
-
                 Color colorPen = Color.FromArgb(255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
                 Color colorBrush = backColor;
-
                 Pen pen = new Pen(colorPen);
                 Brush brush = new SolidBrush(colorBrush);
 
-                foreach (Triangle triangle in trianglesForRender)
+                IEnumerable<Triangle> triangles = model.GetTrianglesForRender(null, null, null, renderType);
+
+                foreach (Triangle triangle in triangles)
                 {
                     g.FillPolygon(brush, triangle.Points);
                     g.DrawPolygon(pen, triangle.Points);

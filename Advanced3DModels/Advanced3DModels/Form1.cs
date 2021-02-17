@@ -64,14 +64,6 @@ namespace Advanced3DModels
             return renderType;
         }
 
-        void RenderLogo(Graphics g)
-        {
-            const string logo = "www.mysite.ru";
-            Font font = new Font("Verdana", 12.0f);
-            SizeF szf = g.MeasureString(logo, font);
-            g.DrawString(logo, font, Brushes.Gray, 12.0f, pictureBox1.Height - szf.Height - 8.0f);
-        }
-
         Camera CameraLookAt => cmbLookAt.SelectedItem as Camera;
 
         void Render()
@@ -84,9 +76,6 @@ namespace Advanced3DModels
 
             // отрисовка фона
             g1.Clear(backColor);
-
-            // отрисовка лого
-            RenderLogo(g1);
 
             // запомнили состояние модели
             _model.SaveState();

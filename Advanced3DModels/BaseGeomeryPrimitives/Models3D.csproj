@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="FogCorrection.cs" />
     <Compile Include="IFog.cs" />
     <Compile Include="IPerspectiveTransform.cs" />

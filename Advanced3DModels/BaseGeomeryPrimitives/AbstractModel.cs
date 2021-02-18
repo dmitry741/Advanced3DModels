@@ -10,8 +10,6 @@ namespace Models3DLib
 {
     public abstract class AbstractModel
     {
-        #region === public ===
-
         /// <summary>
         /// Объединить текущую модель с моделью заданную параметром model.
         /// </summary>
@@ -77,7 +75,5 @@ namespace Models3DLib
             IPoint3D pointObserver,
             IFog ifog,
             RenderModelType renderType);
-
-        #endregion
     }
 }

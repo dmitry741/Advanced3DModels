@@ -17,7 +17,7 @@ namespace Models3DLib
             _points = new Point3DColor[] { point1, point2, point3 };
         }
 
-        public Triangle(Point3DColor[] points, Color color)
+        public Triangle(Point3DColor[] points)
         {
             _points = points;
         }
@@ -32,6 +32,12 @@ namespace Models3DLib
                 return Vector3.Cross(v1, v2);
             }
         }
+
+        public float ReflectionBrightness { get; set; } = 80.0f;
+
+        public float ReflectionCone { get; set; } = 24600;
+
+        public bool Reflection { get; set; } = true;
 
         public bool AllowToGouraudMethod { get; set; } = true;
 

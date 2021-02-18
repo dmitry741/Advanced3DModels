@@ -23,7 +23,7 @@ namespace Advanced3DModels
 
         Bitmap _bitmap;
         Bitmap _bitmapLookAt;
-        Model _model;
+        AbstractModel _model;
         PointF _startPoint = PointF.Empty;
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;

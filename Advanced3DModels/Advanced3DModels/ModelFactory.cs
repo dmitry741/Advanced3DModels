@@ -16,7 +16,7 @@ namespace Advanced3DModels
 
     class ModelFactory
     {
-        public static Models3DLib.Model GetModel(int index, ModelQuality modelQuality)
+        public static Models3DLib.AbstractModel GetModel(int index, ModelQuality modelQuality)
         {
             float sizePrimitive;
 
@@ -33,27 +33,27 @@ namespace Advanced3DModels
                     break;
             }
 
-            Models3DLib.Model model;
+            Models3DLib.AbstractModel model;
 
             if (index == 1)
             {
-                model = Models3DLib.Model.CubeColored(200.0f, sizePrimitive);
+                model = Models3DLib.PresetsModel.CubeColored(200.0f, sizePrimitive);
             }
             else if (index == 2)
             {
-                model = Models3DLib.Model.ChessBoard(288, sizePrimitive, 8, 24, Color.DarkRed, Color.Ivory);
+                model = Models3DLib.PresetsModel.ChessBoard(288, sizePrimitive, 8, 24, Color.DarkRed, Color.Ivory);
             }
             else if (index == 3)
             {
-                model = Models3DLib.Model.CubeSet(36, sizePrimitive, 288);
+                model = Models3DLib.PresetsModel.CubeSet(36, sizePrimitive, 288);
             }
             else if (index == 4)
             {
-                model = Models3DLib.Model.TransparentTable(288, sizePrimitive, 24);
+                model = Models3DLib.PresetsModel.TransparentTable(288, sizePrimitive, 24);
             }
             else
             {
-                model = Models3DLib.Model.Cube(200.0f, sizePrimitive);
+                model = Models3DLib.PresetsModel.Cube(200.0f, sizePrimitive);
             }
 
             return model;

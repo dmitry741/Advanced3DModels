@@ -12,7 +12,7 @@ namespace Advanced3DModels
     class RenderingModel
     {
         public static void Render(Graphics g, 
-            Model model, 
+            AbstractModel model, 
             ILightSource lightSource, 
             IPoint3D pointObserver, 
             IFog ifog, 

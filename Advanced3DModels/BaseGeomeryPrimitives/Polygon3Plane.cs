@@ -45,10 +45,7 @@ namespace Models3DLib
                 }
 
                 int trCount = 2 * (i - 1) + 1;
-
-                int index1 = 0;
-                int index2 = 0;
-                int index3 = 0;
+                int index1, index2, index3;
 
                 for (int j = 0; j < trCount; j++)
                 {
@@ -64,12 +61,19 @@ namespace Models3DLib
                         index2 = j + (i + 1) * i / 2 - j / 2;
                         index3 = index1 + 1;
                     }
+
+                    Point3DColor[] point3DColors = new Point3DColor[]
+                    {
+                        _point3Ds[index1], _point3Ds[index2], _point3Ds[index3]
+                    };
+
+                    _triangles.Add(new Triangle(point3DColors));
                 }
             }
 
             // huuihiootr5r655r6
 
-            for (int i = 0; i < split; i++)
+            /*for (int i = 0; i < split; i++)
             {
                 float xLeft1 = (p2.X - p1.X) * i / split + p1.X;
                 float yLeft1 = (p2.Y - p1.Y) * i / split + p1.Y;
@@ -123,7 +127,7 @@ namespace Models3DLib
 
                    _triangles.Add(new Triangle(point3DColors));
                 }
-            }
+            }*/
         }
     }
 }

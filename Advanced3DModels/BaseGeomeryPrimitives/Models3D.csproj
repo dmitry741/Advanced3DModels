@@ -58,6 +58,7 @@
     <Compile Include="Plane.cs" />
     <Compile Include="AbstractModel.cs" />
     <Compile Include="Point3D.cs" />
+    <Compile Include="Polygon3Plane.cs" />
     <Compile Include="PresetsModel.cs" />
     <Compile Include="ProjectorLightSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

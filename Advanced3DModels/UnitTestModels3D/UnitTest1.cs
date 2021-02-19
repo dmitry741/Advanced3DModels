@@ -76,5 +76,55 @@ namespace UnitTestModels3D
             Assert.IsTrue(plane.Points.Count() == 12);
             Assert.IsTrue(plane.Triangles.All(x => x.Normal.Z > 0));
         }
+
+        [TestMethod]
+        [Description("Проверем корректность создания триангулированной треуголной поверхности.")]
+        public void TestPolgon3Plane1()
+        {
+            IPoint3D point1 = ResolvePoint3D(6, 6, 0);
+            IPoint3D point2 = ResolvePoint3D(0, 0, 0);
+            IPoint3D point3 = ResolvePoint3D(12, 0, 0);
+
+            Models3DLib.Plane plane = new Polygon3Plane(point1, point2, point3, 3.0f, Color.Black, string.Empty);
+
+            Assert.IsTrue(plane.Triangles.Count() == 9);
+            Assert.IsTrue(plane.Points.Count() == 10);
+
+            // 0
+            Triangle triangle0 = plane.Triangles.ElementAt(0);
+
+            Assert.IsTrue(triangle0.Point3Ds[0].X == 6);
+            Assert.IsTrue(triangle0.Point3Ds[0].Y == 6);
+
+            Assert.IsTrue(triangle0.Point3Ds[1].X == 4);
+            Assert.IsTrue(triangle0.Point3Ds[1].Y == 4);
+
+            Assert.IsTrue(triangle0.Point3Ds[2].X == 8);
+            Assert.IsTrue(triangle0.Point3Ds[2].Y == 4);
+
+            // 2
+            Triangle triangle2 = plane.Triangles.ElementAt(2);
+
+            Assert.IsTrue(triangle2.Point3Ds[0].X == 4);
+            Assert.IsTrue(triangle2.Point3Ds[0].Y == 4);
+
+            Assert.IsTrue(triangle2.Point3Ds[1].X == 6);
+            Assert.IsTrue(triangle2.Point3Ds[1].Y == 2);
+
+            Assert.IsTrue(triangle2.Point3Ds[2].X == 8);
+            Assert.IsTrue(triangle2.Point3Ds[2].Y == 4);
+
+            // 8
+            Triangle triangle8 = plane.Triangles.ElementAt(8);
+
+            Assert.IsTrue(triangle8.Point3Ds[0].X == 10);
+            Assert.IsTrue(triangle8.Point3Ds[0].Y == 2);
+
+            Assert.IsTrue(triangle8.Point3Ds[1].X == 8);
+            Assert.IsTrue(triangle8.Point3Ds[1].Y == 0);
+
+            Assert.IsTrue(triangle8.Point3Ds[2].X == 12);
+            Assert.IsTrue(triangle8.Point3Ds[2].Y == 0);
+        }
     }
 }

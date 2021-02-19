@@ -15,6 +15,8 @@ namespace Models3DLib
 
         public Point3DColor(float X, float Y, float Z) : base(X, Y, Z) { }
 
+        public Point3DColor(IPoint3D point3D) : base(point3D.X, point3D.Y, point3D.Z) { }
+
         public static Point3DColor DeepCopy(Point3DColor point3DColor)
         {
             return new Point3DColor(point3DColor.X, point3DColor.Y, point3DColor.Z) 

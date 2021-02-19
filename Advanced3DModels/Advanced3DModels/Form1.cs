@@ -206,7 +206,7 @@ namespace Advanced3DModels
             cmbModel.Items.Add("Шахматный столик");
             cmbModel.Items.Add("Куб из кубиков");
             cmbModel.Items.Add("Прозрачный столик");
-            cmbModel.Items.Add("Октаедр");
+            cmbModel.Items.Add("Октаэдр");
             cmbModel.SelectedIndex = 1;
             cmbModel.EndUpdate();
 

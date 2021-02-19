@@ -68,6 +68,43 @@ namespace Models3DLib
 
         #region === models ===
 
+        public static AbstractModel Octahedron(float sideSize, float sizePrimitive)
+        {
+            float s = Convert.ToSingle(Math.Sqrt(2) / 2);
+
+            IPoint3D[] corePoints = ResolverInterface.ResolveArrayIPoint3D(6);
+
+            corePoints[0] = ResolverInterface.ResolveIPoint3D(s, 0, 0);
+            corePoints[1] = ResolverInterface.ResolveIPoint3D(0, s, 0);
+            corePoints[2] = ResolverInterface.ResolveIPoint3D(-s, 0, 0);
+            corePoints[3] = ResolverInterface.ResolveIPoint3D(0, -s, 0);
+            corePoints[4] = ResolverInterface.ResolveIPoint3D(0, 0, s);
+            corePoints[5] = ResolverInterface.ResolveIPoint3D(0, 0, -s);
+
+            Matrix4x4 scaleMatrix = Matrix4x4.CreateScale(sideSize);
+            IEnumerable<Vector3> ve = corePoints.Select(point => Vector3.Transform(point.ToVector3(), scaleMatrix));
+            corePoints = ve.Select(v => ResolverInterface.ResolveIPoint3D(v.X, v.Y, v.Z)).ToArray();
+
+            //Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood
+
+            List<Plane> planes = new List<Plane>();
+
+            planes.Add(new Polygon3Plane(corePoints[4], corePoints[0], corePoints[1], sizePrimitive, Color.LightGreen, string.Empty));
+            planes.Add(new Polygon3Plane(corePoints[4], corePoints[1], corePoints[2], sizePrimitive, Color.LightGreen, string.Empty));
+            planes.Add(new Polygon3Plane(corePoints[4], corePoints[2], corePoints[3], sizePrimitive, Color.LightGreen, string.Empty));
+            planes.Add(new Polygon3Plane(corePoints[4], corePoints[3], corePoints[0], sizePrimitive, Color.LightGreen, string.Empty));
+
+            planes.Add(new Polygon3Plane(corePoints[5], corePoints[1], corePoints[0], sizePrimitive, Color.LightGreen, string.Empty));
+            planes.Add(new Polygon3Plane(corePoints[5], corePoints[2], corePoints[1], sizePrimitive, Color.LightGreen, string.Empty));
+            planes.Add(new Polygon3Plane(corePoints[5], corePoints[3], corePoints[2], sizePrimitive, Color.LightGreen, string.Empty));
+            planes.Add(new Polygon3Plane(corePoints[5], corePoints[0], corePoints[3], sizePrimitive, Color.LightGreen, string.Empty));
+
+            return new FlatPlanesModel
+            {
+                Planes = planes
+            };
+        }
+
         public static AbstractModel CubeSet(float sizeSide, float sizePrimitive, float totalSize)
         {
             const int cRowCount = 4;

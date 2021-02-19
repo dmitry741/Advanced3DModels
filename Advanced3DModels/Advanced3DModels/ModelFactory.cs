@@ -51,6 +51,10 @@ namespace Advanced3DModels
             {
                 model = Models3DLib.PresetsModel.TransparentTable(288, sizePrimitive, 24);
             }
+            else if (index == 5)
+            {
+                model = Models3DLib.PresetsModel.Octahedron(272, sizePrimitive);
+            }
             else
             {
                 model = Models3DLib.PresetsModel.Cube(200.0f, sizePrimitive);

@@ -43,6 +43,28 @@ namespace Models3DLib
 
                     _point3Ds.Add(new Point3DColor(x, y, z) { BaseColor = baseColor });
                 }
+
+                int trCount = 2 * (i - 1) + 1;
+
+                int index1 = 0;
+                int index2 = 0;
+                int index3 = 0;
+
+                for (int j = 0; j < trCount; j++)
+                {
+                    if (j % 2 == 0)
+                    {
+                        index1 = j + (i - 1) * i / 2 - j / 2;
+                        index2 = j + (i + 1) * i / 2 - j / 2;
+                        index3 = index2 + 1;
+                    }
+                    else
+                    {
+                        index1 = j - 1 + (i - 1) * i / 2 - j / 2;
+                        index2 = j + (i + 1) * i / 2 - j / 2;
+                        index3 = index1 + 1;
+                    }
+                }
             }
 
             // huuihiootr5r655r6

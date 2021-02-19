@@ -51,8 +51,8 @@ namespace Models3DLib
                 {
                     if (j % 2 == 0)
                     {
-                        index1 = j + (i - 1) * i / 2 - j / 2;
-                        index2 = j + (i + 1) * i / 2 - j / 2;
+                        index1 = j / 2 + (i - 1) * i / 2;
+                        index2 = j / 2 + (i + 1) * i / 2;
                         index3 = index2 + 1;
                     }
                     else

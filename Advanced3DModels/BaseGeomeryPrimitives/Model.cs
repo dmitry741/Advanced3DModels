@@ -28,18 +28,12 @@ namespace Models3DLib
 
         public void SaveState()
         {
-            foreach(Plane plane in Planes)
-            {
-                plane.SaveState();
-            }
+            Planes.ForEach(plane => plane.SaveState());
         }
 
         public void RestoreState()
         {
-            foreach (Plane plane in Planes)
-            {
-                plane.RestoreState();
-            }
+            Planes.ForEach(plane => plane.RestoreState());
         }
 
         public void Transform(Matrix4x4 matrix)

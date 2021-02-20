@@ -13,6 +13,11 @@ namespace Models3DLib
             return new Point3D(X, Y, Z);
         }
 
+        public static IPoint3D ResolveIPoint3D(IPoint3D point)
+        {
+            return ResolveIPoint3D(point.X, point.Y, point.Z);
+        }
+
         public static IPoint3D[] ResolveArrayIPoint3D(int count)
         {
             return new Point3D[count];

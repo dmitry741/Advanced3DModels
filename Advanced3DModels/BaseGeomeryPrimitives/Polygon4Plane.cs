@@ -41,7 +41,7 @@ namespace Models3DLib
                     float y = (yRight - yLeft) * i / NX + yLeft;
                     float z = (zRight - zLeft) * i / NX + zLeft;
 
-                    _point3Ds.Add(new Point3DColor(x, y, z) { BaseColor = baseColor });
+                    _point3Ds.Add(ResolverInterface.ResolveIPoint3D(x, y, z));
                 }
             }
 
@@ -53,20 +53,20 @@ namespace Models3DLib
 
                 for (int i = 0; i < NX; i++)
                 {
-                    Point3DColor point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
-                    Point3DColor point2 = _point3Ds[(j + 0) * (NX + 1) + i + 1];
-                    Point3DColor point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
-                    Point3DColor point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
+                    IPoint3D point1 = _point3Ds[(j + 0) * (NX + 1) + i + 0];
+                    IPoint3D point2 = _point3Ds[(j + 0) * (NX + 1) + i + 1];
+                    IPoint3D point3 = _point3Ds[(j + 1) * (NX + 1) + i + 1];
+                    IPoint3D point4 = _point3Ds[(j + 1) * (NX + 1) + i + 0];
 
                     if (bDirection)
                     {
-                        _triangles.Add(new Triangle(point1, point3, point2));
-                        _triangles.Add(new Triangle(point1, point4, point3));
+                        _triangles.Add(new Triangle(point1, point3, point2) { BaseColor = baseColor });
+                        _triangles.Add(new Triangle(point1, point4, point3) { BaseColor = baseColor });
                     }
                     else
                     {
-                        _triangles.Add(new Triangle(point1, point4, point2));
-                        _triangles.Add(new Triangle(point4, point3, point2));
+                        _triangles.Add(new Triangle(point1, point4, point2) { BaseColor = baseColor });
+                        _triangles.Add(new Triangle(point4, point3, point2) { BaseColor = baseColor });
                     }
 
                     bDirection = !bDirection;

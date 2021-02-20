@@ -12,7 +12,7 @@ namespace Models3DLib
     {
         #region === private ===
 
-        private static AbstractModel Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
+        private static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
         {
             List<IPoint3D> points = new List<IPoint3D>
             {
@@ -58,7 +58,7 @@ namespace Models3DLib
                 planes.Add(new Polygon4Plane(points[7], points[6], points[5], points[4], sizePrimitive, colors[5], colors[5].ToString()));
             }
 
-            return new FlatPlanesModel
+            return new Model
             {
                 Planes = planes
             };
@@ -68,7 +68,7 @@ namespace Models3DLib
 
         #region === models ===
 
-        public static AbstractModel Octahedron(float sideSize, float sizePrimitive)
+        public static Model Octahedron(float sideSize, float sizePrimitive)
         {
             float s = Convert.ToSingle(Math.Sqrt(2) / 2);
 
@@ -93,17 +93,17 @@ namespace Models3DLib
                 new Polygon3Plane(corePoints[5], corePoints[0], corePoints[3], sizePrimitive, Color.DarkBlue, string.Empty)
             };
 
-            return new FlatPlanesModel
+            return new Model
             {
                 Planes = planes
             };
         }
 
-        public static AbstractModel CubeSet(float sizeSide, float sizePrimitive, float totalSize)
+        public static Model CubeSet(float sizeSide, float sizePrimitive, float totalSize)
         {
             const int cRowCount = 4;
 
-            AbstractModel resultModel = new FlatPlanesModel
+            Model resultModel = new Model
             {
                 NeedToSort = true
             };
@@ -114,7 +114,7 @@ namespace Models3DLib
             float v;
             Matrix4x4 translateMatrix;
             Vector3 translateVector;
-            AbstractModel pld;
+            Model pld;
 
             color = Color.LightGreen;
             colors = new Color[] { color, color, color, color, color, color };
@@ -278,13 +278,13 @@ namespace Models3DLib
             return resultModel;
         }
 
-        public static AbstractModel TransparentTable(float sizeSide, float sizePrimitive, float depth)
+        public static Model TransparentTable(float sizeSide, float sizePrimitive, float depth)
         {
             bool[] panels;
             Color[] colors;
             const int transparency = 128;
 
-            AbstractModel model = new FlatPlanesModel
+            Model model = new Model
             {
                 NeedToSort = true,
             };
@@ -295,15 +295,14 @@ namespace Models3DLib
             Color tableColor = Color.FromArgb(transparency, Color.DarkGray);
             panels = new bool[] { true, false, false, false, false, true };
             colors = new Color[] { tableColor, Color.Black, Color.Black, Color.Black, Color.Black, tableColor };
-            AbstractModel table = Parallelepiped(sizeSide - 2 * boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
+            Model table = Parallelepiped(sizeSide - 2 * boxSize, sizeSide - 2 * boxSize, depth, sizePrimitive, panels, colors);
 
             foreach (Plane plane in table.Planes)
             {
-                plane.VisibleBackSide = true;
-
                 foreach (Triangle triangle in plane.Triangles)
                 {
                     triangle.AllowToGouraudMethod = false;
+                    triangle.VisibleBackSide = true;
                 }
             }
 
@@ -311,7 +310,7 @@ namespace Models3DLib
 
             // непрозрачные боковины
             Color boxColor = Color.Brown;
-            AbstractModel pld;
+            Model pld;
             Vector3 trans;
             Matrix4x4 matrix4;
 
@@ -421,7 +420,7 @@ namespace Models3DLib
             return model;
         }
 
-        public static AbstractModel ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float depth, Color color1, Color color2)
+        public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float depth, Color color1, Color color2)
         {
             float xStart = -sizeSide / 2.0f;
             float yStart = -sizeSide / 2.0f;
@@ -433,7 +432,7 @@ namespace Models3DLib
             Color[] colors1 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color1 };
             Color[] colors2 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
 
-            AbstractModel model = new FlatPlanesModel
+            Model model = new Model
             {
                 NeedToSort = true
             };
@@ -447,7 +446,7 @@ namespace Models3DLib
                     float y = (yEnd - yStart) * j / tileRowCount + yStart;
 
                     Color[] colors = (i + j) % 2 == 0 ? colors1 : colors2;
-                    AbstractModel pld = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, depth, sizePrimitive, panels, colors);
+                    Model pld = Parallelepiped(sizeSide / tileRowCount, sizeSide / tileRowCount, depth, sizePrimitive, panels, colors);
                     Vector3 translation = new Vector3(x + sizeSide / tileRowCount / 2, y + sizeSide / tileRowCount / 2, 0);
                     Matrix4x4 matrix = Matrix4x4.CreateTranslation(translation);
                     pld.Transform(matrix);
@@ -457,7 +456,7 @@ namespace Models3DLib
 
             Vector3 trans;
             Matrix4x4 matrixTrans;
-            AbstractModel furnitureItem;
+            Model furnitureItem;
             bool[] visible;
 
             // добавляем борта
@@ -523,7 +522,7 @@ namespace Models3DLib
             return model;
         }
 
-        public static AbstractModel Cube(float sizeSide, float sizePrimitive)
+        public static Model Cube(float sizeSide, float sizePrimitive)
         {
             Color[] colors = new Color[] { Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen };
             bool[] planes = new bool[] { true, true, true, true, true, true };
@@ -531,7 +530,7 @@ namespace Models3DLib
             return Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, planes, colors);
         }
 
-        public static AbstractModel CubeColored(float sizeSide, float sizePrimitive)
+        public static Model CubeColored(float sizeSide, float sizePrimitive)
         {
             Color[] colors = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
             bool[] planes = new bool[] { true, true, true, true, true, true };

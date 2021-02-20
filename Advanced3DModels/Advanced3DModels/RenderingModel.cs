@@ -12,7 +12,7 @@ namespace Advanced3DModels
     class RenderingModel
     {
         public static void Render(Graphics g, 
-            AbstractModel model, 
+            Model model, 
             ILightSource lightSource, 
             IPoint3D pointObserver, 
             IFog ifog, 
@@ -20,12 +20,12 @@ namespace Advanced3DModels
             RenderFillTriangle renderFillTriangle,
             Color backColor)
         {
-            
+            IEnumerable<Triangle> triangles = model.GetTrianglesForRender(renderType);
+
             if (renderType == RenderModelType.Triangulations)
             {
                 Color color = Color.FromArgb(255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
                 Pen pen = new Pen(color);
-                IEnumerable<Triangle> triangles = model.GetTrianglesForRender(null, null, null, renderType);
 
                 foreach(Triangle triangle in triangles)
                 {
@@ -34,25 +34,47 @@ namespace Advanced3DModels
             }
             else if (renderType == RenderModelType.FillFull)
             {
-                IEnumerable<Triangle> triangles = model.GetTrianglesForRender(new List<ILightSource> { lightSource }, pointObserver, ifog, renderType);
+                LightModelParameters lightModelParameters = new LightModelParameters
+                {
+                    LightSources = new List<ILightSource>() { lightSource },
+                    PointObserver = pointObserver,
+                    Fog = ifog
+                };
 
                 foreach (Triangle triangle in triangles)
                 {
+                    lightModelParameters.Normal = triangle.Normal;
+                    lightModelParameters.Reflection = triangle.Reflection;
+                    lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
+                    lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
+
                     if (renderFillTriangle == RenderFillTriangle.Flat || !triangle.AllowToGouraudMethod)
                     {
-                        Brush brush = new SolidBrush(triangle.Point0.ColorForRender);
+                        lightModelParameters.Point = triangle.Point0;
+                        lightModelParameters.BaseColor = triangle.BaseColor;
+                        Color color = LightModel.GetColor(lightModelParameters);
+
+                        Brush brush = new SolidBrush(color);
                         g.FillPolygon(brush, triangle.Points);
                     }
                     else
                     {
+                        Color[] surroundColors = new Color[3];
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            lightModelParameters.Point = triangle.Point3Ds[i];
+                            lightModelParameters.BaseColor = triangle.BaseColor;
+                            surroundColors[i] = LightModel.GetColor(lightModelParameters);
+                        }
+
                         PointF[] points = triangle.Points;
-                        Color[] surroundColors = triangle.Point3Ds.Select(pc => pc.ColorForRender).ToArray();
 
                         PathGradientBrush pthGrBrush = new PathGradientBrush(points)
                         {
                             SurroundColors = surroundColors,
                             CenterPoint = points[0],
-                            CenterColor = triangle.Point3Ds[0].ColorForRender
+                            CenterColor = surroundColors[0]
                         };
 
                         for (int i = 0; i < 3; i++)
@@ -71,8 +93,6 @@ namespace Advanced3DModels
                 Color colorBrush = backColor;
                 Pen pen = new Pen(colorPen);
                 Brush brush = new SolidBrush(colorBrush);
-
-                IEnumerable<Triangle> triangles = model.GetTrianglesForRender(null, null, null, renderType);
 
                 foreach (Triangle triangle in triangles)
                 {

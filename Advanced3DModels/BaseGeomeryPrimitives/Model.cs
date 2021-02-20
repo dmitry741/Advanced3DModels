@@ -8,13 +8,13 @@ using System.Drawing;
 
 namespace Models3DLib
 {
-    public abstract class AbstractModel
+    public class Model
     {
         /// <summary>
         /// Объединить текущую модель с моделью заданную параметром model.
         /// </summary>
         /// <param name="model">Модель для добавления.</param>
-        public void UnionWith(AbstractModel model)
+        public void UnionWith(Model model)
         {
             Planes.AddRange(model.Planes);
         }
@@ -71,9 +71,22 @@ namespace Models3DLib
             }
         }
 
-        public abstract IEnumerable<Triangle> GetTrianglesForRender(IEnumerable<ILightSource> lightSources,
-            IPoint3D pointObserver,
-            IFog ifog,
-            RenderModelType renderType);
+        public IEnumerable<Triangle> GetTrianglesForRender(RenderModelType renderType)
+        {
+            IEnumerable<Triangle> triangles = null;
+
+            if (renderType == RenderModelType.FillFull || renderType == RenderModelType.FillSolidColor)
+            {
+                IEnumerable<Triangle> all = Planes.SelectMany(pl => pl.Triangles);
+                IEnumerable<Triangle> trs = all.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
+                triangles = NeedToSort ? trs.OrderByDescending(t => t.MinZ).AsEnumerable() : trs;
+            }
+            else if (renderType == RenderModelType.Triangulations)
+            {
+                triangles = Planes.SelectMany(x => x.Triangles);
+            }
+
+            return triangles;
+        }
     }
 }

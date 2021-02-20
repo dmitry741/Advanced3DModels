@@ -44,19 +44,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
-    <Compile Include="FlatPlanesModel.cs" />
     <Compile Include="FogCorrection.cs" />
     <Compile Include="IFog.cs" />
     <Compile Include="IPerspectiveTransform.cs" />
     <Compile Include="IPoint3D.cs" />
     <Compile Include="LightModelParameters.cs" />
     <Compile Include="PerspectiveTransformation.cs" />
-    <Compile Include="Point3DColor.cs" />
     <Compile Include="PointLightSource.cs" />
     <Compile Include="ILightSource.cs" />
     <Compile Include="LightModel.cs" />
     <Compile Include="Plane.cs" />
-    <Compile Include="AbstractModel.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Point3D.cs" />
     <Compile Include="Polygon3Plane.cs" />
     <Compile Include="PresetsModel.cs" />
@@ -64,7 +62,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Polygon4Plane.cs" />
     <Compile Include="ResolverInterface.cs" />
-    <Compile Include="Surface.cs" />
     <Compile Include="Triangle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -23,7 +23,7 @@ namespace Models3DLib
 
             int split = Math.Max(Convert.ToInt32(d.Min() / sizePrimitive), 1);
 
-            _point3Ds.Add(new Point3DColor(p1) { BaseColor = baseColor });
+            _point3Ds.Add(ResolverInterface.ResolveIPoint3D(p1));
 
             for (int i = 1; i <= split; i++)
             {
@@ -41,7 +41,7 @@ namespace Models3DLib
                     float y = (yRight - yLeft) * j / i + yLeft;
                     float z = (zRight - zLeft) * j / i + zLeft;
 
-                    _point3Ds.Add(new Point3DColor(x, y, z) { BaseColor = baseColor });
+                    _point3Ds.Add(ResolverInterface.ResolveIPoint3D(x, y, z));
                 }
 
                 int trCount = 2 * (i - 1) + 1;
@@ -62,12 +62,13 @@ namespace Models3DLib
                         index3 = index1 + 1;
                     }
 
-                    Point3DColor[] point3DColors = new Point3DColor[]
-                    {
-                        _point3Ds[index1], _point3Ds[index2], _point3Ds[index3]
-                    };
+                    IPoint3D[] point3DColors = ResolverInterface.ResolveArrayIPoint3D(3);
 
-                    _triangles.Add(new Triangle(point3DColors));
+                    point3DColors[0] = _point3Ds[index1];
+                    point3DColors[1] = _point3Ds[index2];
+                    point3DColors[2] = _point3Ds[index3];
+
+                    _triangles.Add(new Triangle(point3DColors) { BaseColor = baseColor });
                 }
             }
         }

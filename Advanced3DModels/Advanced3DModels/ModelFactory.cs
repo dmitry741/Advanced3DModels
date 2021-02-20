@@ -16,7 +16,7 @@ namespace Advanced3DModels
 
     class ModelFactory
     {
-        public static Models3DLib.AbstractModel GetModel(int index, ModelQuality modelQuality)
+        public static Models3DLib.Model GetModel(int index, ModelQuality modelQuality)
         {
             float sizePrimitive;
 
@@ -33,7 +33,7 @@ namespace Advanced3DModels
                     break;
             }
 
-            Models3DLib.AbstractModel model;
+            Models3DLib.Model model;
 
             if (index == 1)
             {

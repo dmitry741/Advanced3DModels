@@ -12,7 +12,7 @@ namespace Models3DLib
     {
         public IPoint3D Point { get; set; }
         public Vector3 Normal { get; set; }
-        public bool Reflection { get; set; }
+        public bool ReflectionEnable { get; set; }
         public float ReflectionBrightness { get; set; }
         public float ReflcetionCone { get; set; }
         public Color BaseColor { get; set; }

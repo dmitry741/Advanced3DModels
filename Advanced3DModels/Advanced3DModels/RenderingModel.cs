@@ -44,7 +44,7 @@ namespace Advanced3DModels
                 foreach (Triangle triangle in triangles)
                 {
                     lightModelParameters.Normal = triangle.Normal;
-                    lightModelParameters.Reflection = triangle.Reflection;
+                    lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
                     lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                     lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
 

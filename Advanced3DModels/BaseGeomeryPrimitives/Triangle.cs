@@ -45,7 +45,7 @@ namespace Models3DLib
 
         public float ReflectionCone { get; set; } = 24600;
 
-        public bool Reflection { get; set; } = true;
+        public bool ReflectionEnable { get; set; } = true;
 
         public bool AllowToGouraudMethod { get; set; } = true;
 

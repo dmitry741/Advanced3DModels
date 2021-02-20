@@ -31,7 +31,7 @@ namespace Models3DLib
                 G += lightModelParameters.BaseColor.G * lerp;
                 B += lightModelParameters.BaseColor.B * lerp;
 
-                if (lightModelParameters.Reflection)
+                if (lightModelParameters.ReflectionEnable)
                 {
                     Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
                     Vector3 vectorToObserver = lightModelParameters.PointObserver.ToVector3() - lightModelParameters.Point.ToVector3();

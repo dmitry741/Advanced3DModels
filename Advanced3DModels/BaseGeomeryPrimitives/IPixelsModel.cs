@@ -10,8 +10,9 @@ namespace Models3DLib
 {
     public interface IPixelsModel
     {
-        bool Contains(PointF point);
+        bool Contains(float X, float Y);
         RectangleF BoundRect { get; }
         Vector3 GetNormal(float X, float Y);
+        IPoint3D GetPoint(float X, float Y);
     }
 }

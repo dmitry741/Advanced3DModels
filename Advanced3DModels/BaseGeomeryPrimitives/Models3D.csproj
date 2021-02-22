@@ -47,6 +47,7 @@
     <Compile Include="FogCorrection.cs" />
     <Compile Include="IFog.cs" />
     <Compile Include="IPerspectiveTransform.cs" />
+    <Compile Include="IPixelsModel.cs" />
     <Compile Include="IPoint3D.cs" />
     <Compile Include="LightModelParameters.cs" />
     <Compile Include="PerspectiveTransformation.cs" />

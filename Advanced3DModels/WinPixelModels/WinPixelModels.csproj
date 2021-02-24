@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseGeomeryPrimitives\Models3D.csproj">
+      <Project>{cba112eb-473d-4f10-8969-3979bf2b51d9}</Project>
+      <Name>Models3D</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models3D", "BaseGeomeryPrim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestModels3D", "UnitTestModels3D\UnitTestModels3D.csproj", "{750EBE02-B97E-4CF5-A2A5-9FE075B2E502}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinPixelModels", "WinPixelModels\WinPixelModels.csproj", "{28888B56-5205-438E-88D4-7E2A2DACB776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{750EBE02-B97E-4CF5-A2A5-9FE075B2E502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{750EBE02-B97E-4CF5-A2A5-9FE075B2E502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{750EBE02-B97E-4CF5-A2A5-9FE075B2E502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28888B56-5205-438E-88D4-7E2A2DACB776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28888B56-5205-438E-88D4-7E2A2DACB776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28888B56-5205-438E-88D4-7E2A2DACB776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28888B56-5205-438E-88D4-7E2A2DACB776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

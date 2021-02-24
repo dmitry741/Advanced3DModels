@@ -13,6 +13,7 @@ namespace Models3DLib
         bool Contains(float X, float Y);
         RectangleF BoundRect { get; }
         Vector3 GetNormal(float X, float Y);
-        IPoint3D GetPoint(float X, float Y);
+        float GetZ(float X, float Y);
+        Color GetColor(float X, float Y);
     }
 }

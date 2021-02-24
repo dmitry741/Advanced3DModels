@@ -12,11 +12,13 @@ namespace Models3DLib
     {
         IPoint3D _center;
         float _radius;
+        Color _baseColor;
 
-        public Sphere(IPoint3D center, float radius)
+        public Sphere(IPoint3D center, float radius, Color baseColor)
         {
             _center = center;
             _radius = radius;
+            _baseColor = baseColor;
         }
 
         public RectangleF BoundRect
@@ -40,16 +42,19 @@ namespace Models3DLib
 
         public Vector3 GetNormal(float X, float Y)
         {
-            float rootvar = _radius * _radius - (X - _center.X) * (X - _center.X) - (Y - _center.Y) * (Y - _center.Y);
-            float Z = _center.Z - Convert.ToSingle(Math.Sqrt(rootvar));
+            float Z = GetZ(X, Y);
             return new Vector3(X - _center.X, Y - _center.Y, Z - _center.Z);
         }
 
-        public IPoint3D GetPoint(float X, float Y)
+        public float GetZ(float X, float Y)
         {
             float rootvar = _radius * _radius - (X - _center.X) * (X - _center.X) - (Y - _center.Y) * (Y - _center.Y);
-            float Z = _center.Z - Convert.ToSingle(Math.Sqrt(rootvar));
-            return ResolverInterface.ResolveIPoint3D(X, Y, Z);
+            return _center.Z - Convert.ToSingle(Math.Sqrt(rootvar));
+        }
+
+        public Color GetColor(float X, float Y)
+        {
+            return _baseColor;
         }
     }
 }

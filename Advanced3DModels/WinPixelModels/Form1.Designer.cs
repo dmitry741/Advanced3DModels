@@ -51,6 +51,7 @@
             this.cmbModels.Name = "cmbModels";
             this.cmbModels.Size = new System.Drawing.Size(121, 21);
             this.cmbModels.TabIndex = 1;
+            this.cmbModels.SelectedIndexChanged += new System.EventHandler(this.cmbModels_SelectedIndexChanged);
             // 
             // label1
             // 

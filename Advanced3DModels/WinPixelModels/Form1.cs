@@ -31,7 +31,7 @@ namespace WinPixelModels
 
         #region === private methods ===
 
-        Bitmap GetModelBitmap(IPixelsModel model, IEnumerable<ILightSource> lightSources, IPoint3D observerView, Color backColor)
+        Bitmap GetModelBitmap(IPixelsModel model, IEnumerable<ILightSource> lightSources, IPoint3D pointObserver, Color backColor)
         {
             RectangleF br = model.BoundRect;
 
@@ -45,24 +45,43 @@ namespace WinPixelModels
             Rectangle r = new Rectangle(0, 0, _bitmapPixelModel.Width, _bitmapPixelModel.Height);
             System.Drawing.Imaging.BitmapData bitmapData = _bitmapPixelModel.LockBits(r, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
-            int stride = bitmapData.Stride;
-            int bytes = Math.Abs(stride) * bitmapData.Height;
+            int stride = Math.Abs(bitmapData.Stride);
+            int bytes = stride * bitmapData.Height;
             byte[] rgbValues = new byte[bytes];
 
-            // TODO:
-
-
-            for (int x = Convert.ToInt32(br.X); x < br.X + br.Width; x++)
+            LightModelParameters lightModelParameters = new LightModelParameters
             {
-                for (int y = Convert.ToInt32(br.Y); y < br.Y + br.Height; y++)
-                {
-                    if (model.Contains(x, y))
-                    {
+                LightSources = lightSources,
+                PointObserver = pointObserver,
+                ReflectionEnable = true,
+                ReflectionBrightness = 80.0f,
+                ReflcetionCone = 1200f
+            };
 
+            for (int x = 0; x < _bitmapPixelModel.Width; x++)
+            {
+                for (int y = 0; y < _bitmapPixelModel.Height; y++)
+                {
+                    int index = y * stride + x * 3;
+                    float xm = x + br.X;
+                    float ym = y + br.Y;
+
+                    if (model.Contains(xm, ym))
+                    {
+                        lightModelParameters.Normal = _ipixelsModel.GetNormal(x + br.X, y + br.Y);
+                        lightModelParameters.Point = ResolvePoint3D(xm, ym, _ipixelsModel.GetZ(xm, ym));
+                        lightModelParameters.BaseColor = _ipixelsModel.GetColor(xm, ym);
+                        Color color = LightModel.GetColor(lightModelParameters);
+
+                        rgbValues[index + 0] = color.B;
+                        rgbValues[index + 1] = color.G;
+                        rgbValues[index + 2] = color.R;
                     }
                     else
                     {
-
+                        rgbValues[index + 0] = backColor.B;
+                        rgbValues[index + 1] = backColor.G;
+                        rgbValues[index + 2] = backColor.R;
                     }
                 }
             }
@@ -77,8 +96,8 @@ namespace WinPixelModels
         {
             return new List<ILightSource>
             {
-                new PointLightSource() { LightPoint = ResolvePoint3D(0, 0, -500), Weight = 0.5f },
-                new PointLightSource() { LightPoint = ResolvePoint3D(0, 200, -600), Weight = 0.5f }
+                new PointLightSource() { LightPoint = ResolvePoint3D(-100, -100, -500), Weight = 0.5f },
+                new PointLightSource() { LightPoint = ResolvePoint3D(100, 300, -600), Weight = 0.5f }
             };
         }
 
@@ -93,7 +112,9 @@ namespace WinPixelModels
             // отрисовка фона
             g.Clear(Color.White);
 
-            // TODO:
+            // отрисаовка картинки с моделью
+            Bitmap bitmapModel = GetModelBitmap(_ipixelsModel, _lightSources, _pointObserverView, Color.White);
+            g.DrawImage(bitmapModel, (pictureBox1.Width - bitmapModel.Width) / 2, (pictureBox1.Height - bitmapModel.Height) / 2);
 
             pictureBox1.Image = _bitmap;
         }
@@ -106,7 +127,7 @@ namespace WinPixelModels
         IPixelsModel GetModel(int index)
         {
             IPoint3D point3D = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
-            float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 80;
+            float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 120;
 
             return new Sphere(point3D, radius, Color.DarkGray);
         }

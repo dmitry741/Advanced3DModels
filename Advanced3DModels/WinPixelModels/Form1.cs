@@ -55,8 +55,10 @@ namespace WinPixelModels
                 PointObserver = pointObserver,
                 ReflectionEnable = true,
                 ReflectionBrightness = 80.0f,
-                ReflcetionCone = 1200f
+                ReflcetionCone = 1000f
             };
+
+            Color colorForRender;
 
             for (int x = 0; x < _bitmapPixelModel.Width; x++)
             {
@@ -71,18 +73,16 @@ namespace WinPixelModels
                         lightModelParameters.Normal = _ipixelsModel.GetNormal(x + br.X, y + br.Y);
                         lightModelParameters.Point = ResolvePoint3D(xm, ym, _ipixelsModel.GetZ(xm, ym));
                         lightModelParameters.BaseColor = _ipixelsModel.GetColor(xm, ym);
-                        Color color = LightModel.GetColor(lightModelParameters);
-
-                        rgbValues[index + 0] = color.B;
-                        rgbValues[index + 1] = color.G;
-                        rgbValues[index + 2] = color.R;
+                        colorForRender = LightModel.GetColor(lightModelParameters);
                     }
                     else
                     {
-                        rgbValues[index + 0] = backColor.B;
-                        rgbValues[index + 1] = backColor.G;
-                        rgbValues[index + 2] = backColor.R;
+                        colorForRender = backColor;
                     }
+
+                    rgbValues[index + 0] = colorForRender.B;
+                    rgbValues[index + 1] = colorForRender.G;
+                    rgbValues[index + 2] = colorForRender.R;
                 }
             }
 
@@ -94,11 +94,20 @@ namespace WinPixelModels
 
         IEnumerable<ILightSource> GetLightSources()
         {
-            return new List<ILightSource>
+            List<ILightSource> lightSources = new List<ILightSource>();
+
+            if (checkBox1.Checked) 
+                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(-100, -100, -500) });
+
+            if (checkBox2.Checked)
+                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(100, 300, -600) });
+
+            foreach(ILightSource ls in lightSources)
             {
-                new PointLightSource() { LightPoint = ResolvePoint3D(-100, -100, -500), Weight = 0.5f },
-                new PointLightSource() { LightPoint = ResolvePoint3D(100, 300, -600), Weight = 0.5f }
-            };
+                ls.Weight = 1.0f / lightSources.Count();
+            }
+
+            return lightSources;
         }
 
         void Render()
@@ -127,9 +136,9 @@ namespace WinPixelModels
         IPixelsModel GetModel(int index)
         {
             IPoint3D point3D = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
-            float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 120;
+            float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 100;
 
-            return new Sphere(point3D, radius, Color.DarkGray);
+            return new Sphere(point3D, radius, Color.Gray);
         }
 
         #endregion
@@ -162,6 +171,12 @@ namespace WinPixelModels
                 return;
 
             _ipixelsModel = GetModel(cmbModels.SelectedIndex);
+            Render();
+        }
+
+        private void CheckBoxLightSourceChecked(object sender, EventArgs e)
+        {
+            _lightSources = GetLightSources();
             Render();
         }
     }

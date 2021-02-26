@@ -85,6 +85,7 @@
             this.checkBox1.TabIndex = 4;
             this.checkBox1.Text = "Источник света 1";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBoxLightSourceChecked);
             // 
             // checkBox2
             // 
@@ -97,6 +98,7 @@
             this.checkBox2.TabIndex = 5;
             this.checkBox2.Text = "Источник света 2";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBoxLightSourceChecked);
             // 
             // Form1
             // 

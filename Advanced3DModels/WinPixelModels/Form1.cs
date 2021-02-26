@@ -70,7 +70,7 @@ namespace WinPixelModels
 
                     if (model.Contains(xm, ym))
                     {
-                        lightModelParameters.Normal = _ipixelsModel.GetNormal(x + br.X, y + br.Y);
+                        lightModelParameters.Normal = _ipixelsModel.GetNormal(xm, ym);
                         lightModelParameters.Point = ResolvePoint3D(xm, ym, _ipixelsModel.GetZ(xm, ym));
                         lightModelParameters.BaseColor = _ipixelsModel.GetColor(xm, ym);
                         colorForRender = LightModel.GetColor(lightModelParameters);

@@ -84,6 +84,16 @@ namespace Models3DLib
             throw new NotImplementedException();
         }
 
+        public void Transform(Matrix4x4 matrix)
+        {
+            foreach (IPoint3D point in _point3Ds)
+            {
+                Vector3 vector = Vector3.Transform(point.ToVector3(), matrix);
 
+                point.X = vector.X;
+                point.Y = vector.Y;
+                point.Z = vector.Z;
+            }
+        }
     }
 }

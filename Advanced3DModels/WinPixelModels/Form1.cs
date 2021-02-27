@@ -97,10 +97,10 @@ namespace WinPixelModels
             List<ILightSource> lightSources = new List<ILightSource>();
 
             if (checkBox1.Checked) 
-                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(-100, -100, -500) });
+                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(-100, -100, -500), Weight = 0.7f });
 
             if (checkBox2.Checked)
-                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(100, 300, -600) });
+                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(100, 300, -600), Weight = 0.7f });
 
             foreach(ILightSource ls in lightSources)
             {

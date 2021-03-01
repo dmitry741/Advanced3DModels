@@ -68,8 +68,20 @@ namespace Models3DLib
 
         public float GetZ(float X, float Y)
         {
-            // TODO:
-            throw new NotImplementedException();
+            IEnumerable<Triangle> visibleTriangles = _triangles.Where(t => t.Normal.Z < 0);
+            Triangle triangle = visibleTriangles.First(t => Contains(GetProjectionZ0(t), X, Y));
+
+            Vector3 v1 = triangle.Point3Ds[1].ToVector3() - triangle.Point3Ds[0].ToVector3();
+            Vector3 v2 = triangle.Point3Ds[2].ToVector3() - triangle.Point3Ds[0].ToVector3();
+            Vector3 nornal = Vector3.Cross(v1, v2);
+
+            float A = nornal.X;
+            float B = nornal.Y;
+            float C = nornal.Z;
+            float D = -A * triangle.Point0.X - B * triangle.Point0.Y - C * triangle.Point0.Z;
+            float Z = (-A * X - B * Y - D) / C;
+
+            return Z;
         }
 
         public void Transform(Matrix4x4 matrix)

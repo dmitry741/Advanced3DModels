@@ -12,6 +12,7 @@ namespace Models3DLib
     {
         protected List<IPoint3D> _point3Ds = new List<IPoint3D>();
         protected List<Triangle> _triangles = new List<Triangle>();
+        IContains _icontains;
 
         #region === private methods ===
 
@@ -23,21 +24,8 @@ namespace Models3DLib
 
         protected bool Contains(Triangle triangle, float X, float Y)
         {
-            Vector3 v1 = triangle.Point3Ds[1].ToVector3() - triangle.Point3Ds[0].ToVector3();
-            Vector3 v2 = triangle.Point3Ds[2].ToVector3() - triangle.Point3Ds[0].ToVector3();
-            float S = Vector3.Cross(v1, v2).Length() / 2; // площадь треугольника
-
-            IPoint3D testPoint = ResolverInterface.ResolveIPoint3D(X, Y, 0);
-
-            Vector3 vt0 = triangle.Point3Ds[0].ToVector3() - testPoint.ToVector3();
-            Vector3 vt1 = triangle.Point3Ds[1].ToVector3() - testPoint.ToVector3();
-            Vector3 vt2 = triangle.Point3Ds[2].ToVector3() - testPoint.ToVector3();
-
-            float S1 = Vector3.Cross(vt2, vt0).Length() / 2;
-            float S2 = Vector3.Cross(vt0, vt1).Length() / 2;
-            float S3 = Vector3.Cross(vt1, vt2).Length() / 2;
-
-            return Math.Abs(S - S1 - S2 - S3) < 0.001;
+            _icontains = new TriangleContains() { TestTriangle = triangle };
+            return _icontains.Contains(X, Y);
         }
 
         #endregion

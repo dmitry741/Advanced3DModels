@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    public class Sphere : IPixelsModel
+    public class SpherePixelModel : IPixelsModel
     {
         IPoint3D _center;
         float _radius;
         Color _baseColor;
+        IContains _icontainer;
 
-        public Sphere(IPoint3D center, float radius, Color baseColor)
+        public SpherePixelModel(IPoint3D center, float radius, Color baseColor)
         {
             _center = center;
             _radius = radius;
+            _icontainer = new ShpereContains(center, radius);
             _baseColor = baseColor;
         }
 
@@ -37,7 +39,7 @@ namespace Models3DLib
 
         public bool Contains(float X, float Y)
         {
-            return (X - _center.X) * (X - _center.X) + (Y - _center.Y) * (Y - _center.Y) < _radius * _radius;
+            return _icontainer.Contains(X, Y);
         }
 
         public Vector3 GetNormal(float X, float Y)

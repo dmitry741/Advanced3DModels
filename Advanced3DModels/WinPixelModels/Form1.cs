@@ -138,7 +138,7 @@ namespace WinPixelModels
             IPoint3D point3D = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
             float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 100;
 
-            return new Sphere(point3D, radius, Color.Gray);
+            return new SpherePixelModel(point3D, radius, Color.Gray);
         }
 
         #endregion

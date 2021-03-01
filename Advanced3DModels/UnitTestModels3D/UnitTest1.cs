@@ -126,5 +126,20 @@ namespace UnitTestModels3D
             Assert.IsTrue(triangle8.Point3Ds[2].X == 12);
             Assert.IsTrue(triangle8.Point3Ds[2].Y == 0);
         }
+
+        [TestMethod]
+        [Description("Принадлежность точки треугольнику.")]
+        public void TriangleIn()
+        {
+            IPoint3D point1 = ResolvePoint3D(0, 3, 0);
+            IPoint3D point2 = ResolvePoint3D(0, 0, 0);
+            IPoint3D point3 = ResolvePoint3D(3, 0, 0);
+
+            Triangle triangle = new Triangle(point1, point2, point3);
+            TriangleContains triangleContains = new TriangleContains { TestTriangle = triangle };
+
+            Assert.IsTrue(triangleContains.Contains(1, 1));
+            Assert.IsFalse(triangleContains.Contains(2, 2));
+        }
     }
 }

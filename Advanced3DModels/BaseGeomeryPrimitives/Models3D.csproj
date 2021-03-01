@@ -46,6 +46,7 @@
     <Compile Include="AbstarctConvexPixelModel.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FogCorrection.cs" />
+    <Compile Include="IContains.cs" />
     <Compile Include="IFog.cs" />
     <Compile Include="IPerspectiveTransform.cs" />
     <Compile Include="IPixelsModel.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Polygon4Plane.cs" />
     <Compile Include="ResolverInterface.cs" />
-    <Compile Include="Sphere.cs" />
+    <Compile Include="SpherePixelModel.cs" />
     <Compile Include="Triangle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -49,7 +49,7 @@ namespace Models3DLib
             float S2 = Vector3.Cross(vt0, vt1).Length() / 2;
             float S3 = Vector3.Cross(vt1, vt2).Length() / 2;
 
-            return Math.Abs(S - S1 - S2 - S3) < 0.001;
+            return Math.Abs(S - S1 - S2 - S3) < 0.01;
         }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="IPixelsModel.cs" />
     <Compile Include="IPoint3D.cs" />
     <Compile Include="LightModelParameters.cs" />
+    <Compile Include="OctahedronPixelModels.cs" />
     <Compile Include="PerspectiveTransformation.cs" />
     <Compile Include="PointLightSource.cs" />
     <Compile Include="ILightSource.cs" />

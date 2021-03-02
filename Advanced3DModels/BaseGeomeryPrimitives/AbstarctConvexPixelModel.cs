@@ -13,6 +13,7 @@ namespace Models3DLib
         protected List<IPoint3D> _point3Ds = new List<IPoint3D>();
         protected List<Triangle> _triangles = new List<Triangle>();
         IContains _icontains;
+        Triangle _lastin = null;
 
         #region === private methods ===
 
@@ -49,37 +50,26 @@ namespace Models3DLib
         public bool Contains(float X, float Y)
         {
             IEnumerable<Triangle> visibleTriangles = _triangles.Where(t => t.Normal.Z < 0);
-            return visibleTriangles.Any(t => Contains(GetProjectionZ0(t), X, Y));
+            _lastin = visibleTriangles.FirstOrDefault(t => Contains(GetProjectionZ0(t), X, Y));
+            return _lastin != null;
         }
 
         public Color GetColor(float X, float Y)
         {
-            IEnumerable<Triangle> visibleTriangles = _triangles.Where(t => t.Normal.Z < 0);
-            Triangle triangle = visibleTriangles.First(t => Contains(GetProjectionZ0(t), X, Y));
-            return triangle.BaseColor;
+            return _lastin.BaseColor;
         }
 
         public Vector3 GetNormal(float X, float Y)
         {
-            IEnumerable<Triangle> visibleTriangles = _triangles.Where(t => t.Normal.Z < 0);
-            Triangle triangle = visibleTriangles.First(t => Contains(GetProjectionZ0(t), X, Y));
-            return triangle.Normal;
+            return _lastin.Normal;
         }
 
         public float GetZ(float X, float Y)
         {
-            IEnumerable<Triangle> visibleTriangles = _triangles.Where(t => t.Normal.Z < 0);
-            Triangle triangle = visibleTriangles.First(t => Contains(GetProjectionZ0(t), X, Y));
+            Vector3 normal = _lastin.Normal;
 
-            Vector3 v1 = triangle.Point3Ds[1].ToVector3() - triangle.Point3Ds[0].ToVector3();
-            Vector3 v2 = triangle.Point3Ds[2].ToVector3() - triangle.Point3Ds[0].ToVector3();
-            Vector3 nornal = Vector3.Cross(v1, v2);
-
-            float A = nornal.X;
-            float B = nornal.Y;
-            float C = nornal.Z;
-            float D = -A * triangle.Point0.X - B * triangle.Point0.Y - C * triangle.Point0.Z;
-            float Z = (-A * X - B * Y - D) / C;
+            float D = -Vector3.Dot(normal, _lastin.Point0.ToVector3());
+            float Z = (-normal.X * X - normal.Y * Y - D) / normal.Z;
 
             return Z;
         }

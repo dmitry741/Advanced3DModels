@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
+using System.Numerics;
 
 namespace WinPixelModels
 {
@@ -135,10 +136,34 @@ namespace WinPixelModels
 
         IPixelsModel GetModel(int index)
         {
-            IPoint3D point3D = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
-            float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 100;
+            IPixelsModel pixelsModel;
 
-            return new SpherePixelModel(point3D, radius, Color.Gray);
+            if (index == 0)
+            {
+                IPoint3D point3D = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
+                float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 100;
+                pixelsModel = new SpherePixelModel(point3D, radius, Color.Gray);
+            }
+            else
+            {
+                AbstarctConvexPixelModel acpm = new OctahedronPixelModels(300);
+
+                float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
+                float angleY = Convert.ToSingle(3.6 * Math.PI / 4);
+                Matrix4x4 rotationX = Matrix4x4.CreateRotationX(angleX);
+                Matrix4x4 rotationY = Matrix4x4.CreateRotationY(angleY);
+                Matrix4x4 rot = rotationX * rotationY;
+
+                acpm.Transform(rot);
+
+                Matrix4x4 trans = Matrix4x4.CreateTranslation(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
+
+                acpm.Transform(trans);
+
+                pixelsModel = acpm;
+            }
+
+            return pixelsModel;
         }
 
         #endregion
@@ -152,7 +177,15 @@ namespace WinPixelModels
             _lightSources = GetLightSources();
             _pointObserverView = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
 
-            // TODO:
+            _blockEvent = true;
+
+            cmbModels.BeginUpdate();
+            cmbModels.Items.Add("Сфера");
+            cmbModels.Items.Add("Октаэдр");
+            cmbModels.SelectedIndex = 0;
+            cmbModels.EndUpdate();
+
+            _blockEvent = false;
         }
 
         private void button1_Click(object sender, EventArgs e)

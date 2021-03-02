@@ -49,7 +49,7 @@
             // 
             this.cmbModels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbModels.FormattingEnabled = true;
-            this.cmbModels.Location = new System.Drawing.Point(674, 12);
+            this.cmbModels.Location = new System.Drawing.Point(634, 12);
             this.cmbModels.Name = "cmbModels";
             this.cmbModels.Size = new System.Drawing.Size(121, 21);
             this.cmbModels.TabIndex = 1;
@@ -58,7 +58,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(622, 15);
+            this.label1.Location = new System.Drawing.Point(582, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(697, 538);
+            this.button1.Location = new System.Drawing.Point(658, 538);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 31);
             this.button1.TabIndex = 3;
@@ -79,7 +79,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(625, 52);
+            this.checkBox1.Location = new System.Drawing.Point(585, 52);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(115, 17);
             this.checkBox1.TabIndex = 4;
@@ -92,7 +92,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(625, 75);
+            this.checkBox2.Location = new System.Drawing.Point(585, 75);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(115, 17);
             this.checkBox2.TabIndex = 5;
@@ -104,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(807, 581);
+            this.ClientSize = new System.Drawing.Size(768, 581);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button1);
@@ -114,7 +114,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Рендеринг моделей";
+            this.Text = "Попиксельный рендеринг моделей";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

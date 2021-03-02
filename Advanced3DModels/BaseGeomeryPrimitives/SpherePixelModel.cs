@@ -44,8 +44,7 @@ namespace Models3DLib
 
         public Vector3 GetNormal(float X, float Y)
         {
-            float Z = GetZ(X, Y);
-            return new Vector3(X - _center.X, Y - _center.Y, Z - _center.Z);
+            return new Vector3(X - _center.X, Y - _center.Y, GetZ(X, Y) - _center.Z);
         }
 
         public float GetZ(float X, float Y)

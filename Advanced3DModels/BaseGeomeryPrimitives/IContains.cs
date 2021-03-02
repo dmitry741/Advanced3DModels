@@ -39,11 +39,11 @@ namespace Models3DLib
             Vector3 v2 = TestTriangle.Point3Ds[2].ToVector3() - TestTriangle.Point3Ds[0].ToVector3();
             float S = Vector3.Cross(v1, v2).Length() / 2; // площадь треугольника
 
-            IPoint3D testPoint = ResolverInterface.ResolveIPoint3D(X, Y, 0);
+            Vector3 testVector = ResolverInterface.ResolveIPoint3D(X, Y, 0).ToVector3();
 
-            Vector3 vt0 = TestTriangle.Point3Ds[0].ToVector3() - testPoint.ToVector3();
-            Vector3 vt1 = TestTriangle.Point3Ds[1].ToVector3() - testPoint.ToVector3();
-            Vector3 vt2 = TestTriangle.Point3Ds[2].ToVector3() - testPoint.ToVector3();
+            Vector3 vt0 = TestTriangle.Point3Ds[0].ToVector3() - testVector;
+            Vector3 vt1 = TestTriangle.Point3Ds[1].ToVector3() - testVector;
+            Vector3 vt2 = TestTriangle.Point3Ds[2].ToVector3() - testVector;
 
             float S1 = Vector3.Cross(vt2, vt0).Length() / 2;
             float S2 = Vector3.Cross(vt0, vt1).Length() / 2;

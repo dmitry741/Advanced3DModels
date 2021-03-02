@@ -21,8 +21,8 @@ namespace WinPixelModels
 
         #region === members ===
 
-        Bitmap _bitmap;
-        Bitmap _bitmapPixelModel;
+        Bitmap _bitmap = null;
+        Bitmap _bitmapPixelModel = null;
         IPixelsModel _ipixelsModel;
         bool _blockEvent = false;
         IEnumerable<ILightSource> _lightSources = null;
@@ -34,14 +34,10 @@ namespace WinPixelModels
 
         Bitmap GetModelBitmap(IPixelsModel model, IEnumerable<ILightSource> lightSources, IPoint3D pointObserver, Color backColor)
         {
-            RectangleF br = model.BoundRect;
-
-            if (_bitmapPixelModel == null || 
-                Convert.ToInt32(br.Width) != _bitmapPixelModel.Width ||
-                Convert.ToInt32(br.Height) != _bitmapPixelModel.Height)
-            {
-                _bitmapPixelModel = new Bitmap(Convert.ToInt32(model.BoundRect.Width), Convert.ToInt32(model.BoundRect.Height), System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            }
+            if (_bitmapPixelModel != null)
+                return _bitmapPixelModel;
+            
+            _bitmapPixelModel = new Bitmap(Convert.ToInt32(model.BoundRect.Width), Convert.ToInt32(model.BoundRect.Height), System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             Rectangle r = new Rectangle(0, 0, _bitmapPixelModel.Width, _bitmapPixelModel.Height);
             System.Drawing.Imaging.BitmapData bitmapData = _bitmapPixelModel.LockBits(r, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -59,6 +55,7 @@ namespace WinPixelModels
                 ReflcetionCone = 1000f
             };
 
+            RectangleF br = model.BoundRect;
             Color colorForRender;
             IPoint3D point = ResolvePoint3D(0, 0, 0);
 
@@ -66,16 +63,15 @@ namespace WinPixelModels
             {
                 for (int y = 0; y < _bitmapPixelModel.Height; y++)
                 {
-                    point.X = x + br.X;
-                    point.Y = y + br.Y;
-
-                    if (model.Contains(point.X, point.Y))
+                    if (model.Contains(x + br.X, y + br.Y))
                     {
-                        point.Z = _ipixelsModel.GetZ(point.X, point.Y);
+                        point.X = x + br.X;
+                        point.Y = y + br.Y;
+                        point.Z = model.GetZ(point.X, point.Y);
 
-                        lightModelParameters.Normal = _ipixelsModel.GetNormal(point.X, point.Y);
+                        lightModelParameters.Normal = model.GetNormal(point.X, point.Y);
                         lightModelParameters.Point = point;
-                        lightModelParameters.BaseColor = _ipixelsModel.GetColor(point.X, point.Y);
+                        lightModelParameters.BaseColor = model.GetColor(point.X, point.Y);
                         colorForRender = LightModel.GetColor(lightModelParameters);
                     }
                     else
@@ -207,12 +203,14 @@ namespace WinPixelModels
                 return;
 
             _ipixelsModel = GetModel(cmbModels.SelectedIndex);
+            _bitmapPixelModel = null;
             Render();
         }
 
         private void CheckBoxLightSourceChecked(object sender, EventArgs e)
         {
             _lightSources = GetLightSources();
+            _bitmapPixelModel = null;
             Render();
         }
     }

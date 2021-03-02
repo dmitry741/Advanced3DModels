@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstarctConvexPixelModel.cs" />
+    <Compile Include="AbstractConvexPixelModel.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FogCorrection.cs" />
     <Compile Include="IContains.cs" />

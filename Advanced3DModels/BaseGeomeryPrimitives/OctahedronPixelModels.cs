@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace Models3DLib
 {
-    public class OctahedronPixelModels : AbstarctConvexPixelModel
+    public class OctahedronPixelModels : AbstractConvexPixelModel
     {
         public OctahedronPixelModels(float scaleFactor)
         {

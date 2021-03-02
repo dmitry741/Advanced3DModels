@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    public class AbstarctConvexPixelModel : IPixelsModel
+    public class AbstractConvexPixelModel : IPixelsModel
     {
         protected List<IPoint3D> _point3Ds = new List<IPoint3D>();
         protected List<Triangle> _triangles = new List<Triangle>();
@@ -25,7 +25,7 @@ namespace Models3DLib
 
         protected bool Contains(Triangle triangle, float X, float Y)
         {
-            _icontains = new TriangleContains() { TestTriangle = triangle };
+            _icontains = new TriangleContains { TestTriangle = triangle };
             return _icontains.Contains(X, Y);
         }
 
@@ -67,7 +67,6 @@ namespace Models3DLib
         public float GetZ(float X, float Y)
         {
             Vector3 normal = _lastin.Normal;
-
             float D = -Vector3.Dot(normal, _lastin.Point0.ToVector3());
             float Z = (-normal.X * X - normal.Y * Y - D) / normal.Z;
 

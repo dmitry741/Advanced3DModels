@@ -60,20 +60,22 @@ namespace WinPixelModels
             };
 
             Color colorForRender;
+            IPoint3D point = ResolvePoint3D(0, 0, 0);
 
             for (int x = 0; x < _bitmapPixelModel.Width; x++)
             {
                 for (int y = 0; y < _bitmapPixelModel.Height; y++)
                 {
-                    int index = y * stride + x * 3;
-                    float xm = x + br.X;
-                    float ym = y + br.Y;
+                    point.X = x + br.X;
+                    point.Y = y + br.Y;
 
-                    if (model.Contains(xm, ym))
+                    if (model.Contains(point.X, point.Y))
                     {
-                        lightModelParameters.Normal = _ipixelsModel.GetNormal(xm, ym);
-                        lightModelParameters.Point = ResolvePoint3D(xm, ym, _ipixelsModel.GetZ(xm, ym));
-                        lightModelParameters.BaseColor = _ipixelsModel.GetColor(xm, ym);
+                        point.Z = _ipixelsModel.GetZ(point.X, point.Y);
+
+                        lightModelParameters.Normal = _ipixelsModel.GetNormal(point.X, point.Y);
+                        lightModelParameters.Point = point;
+                        lightModelParameters.BaseColor = _ipixelsModel.GetColor(point.X, point.Y);
                         colorForRender = LightModel.GetColor(lightModelParameters);
                     }
                     else
@@ -81,6 +83,7 @@ namespace WinPixelModels
                         colorForRender = backColor;
                     }
 
+                    int index = y * stride + x * 3;
                     rgbValues[index + 0] = colorForRender.B;
                     rgbValues[index + 1] = colorForRender.G;
                     rgbValues[index + 2] = colorForRender.R;
@@ -146,7 +149,7 @@ namespace WinPixelModels
             }
             else
             {
-                AbstarctConvexPixelModel acpm = new OctahedronPixelModels(300);
+                AbstractConvexPixelModel acpm = new OctahedronPixelModels(300);
 
                 float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
                 float angleY = Convert.ToSingle(3.6 * Math.PI / 4);

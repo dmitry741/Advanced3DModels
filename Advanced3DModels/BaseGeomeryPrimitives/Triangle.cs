@@ -39,6 +39,8 @@ namespace Models3DLib
 
         public bool VisibleBackSide { get; set; } = false;
 
+        public Color[] TextureColors { get; set; }
+
         public Color BaseColor { get; set; } = Color.LightGreen;
 
         public float ReflectionBrightness { get; set; } = 80.0f;

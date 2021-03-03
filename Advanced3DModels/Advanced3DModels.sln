@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestModels3D", "UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinPixelModels", "WinPixelModels\WinPixelModels.csproj", "{28888B56-5205-438E-88D4-7E2A2DACB776}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinTextureModels", "WinTextureModels\WinTextureModels.csproj", "{1D668163-6C68-4F26-BBF8-3B45EDE8E639}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{28888B56-5205-438E-88D4-7E2A2DACB776}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28888B56-5205-438E-88D4-7E2A2DACB776}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28888B56-5205-438E-88D4-7E2A2DACB776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D668163-6C68-4F26-BBF8-3B45EDE8E639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D668163-6C68-4F26-BBF8-3B45EDE8E639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D668163-6C68-4F26-BBF8-3B45EDE8E639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D668163-6C68-4F26-BBF8-3B45EDE8E639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

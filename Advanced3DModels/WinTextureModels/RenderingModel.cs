@@ -36,7 +36,7 @@ namespace WinTextureModels
                 for (int i = 0; i < 3; i++)
                 {
                     lightModelParameters.Point = triangle.Point3Ds[i];
-                    lightModelParameters.BaseColor = triangle.TextureColors[i];
+                    lightModelParameters.BaseColor = (triangle.TextureColors != null) ? triangle.TextureColors[i] : triangle.BaseColor;
                     surroundColors[i] = LightModel.GetColor(lightModelParameters);
                 }
 

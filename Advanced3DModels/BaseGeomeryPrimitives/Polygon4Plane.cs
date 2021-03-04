@@ -103,13 +103,13 @@ namespace Models3DLib
                         index = yPixel * stride + xPixel * 3;
                         colors[0] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
-                        index = yPixel * stride + (xPixel + 1) * 3;
+                        index = yPixel * stride + Convert.ToInt32(kx * (i + 1)) * 3;
                         colors[1] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
-                        index = (yPixel + 1) * stride + (xPixel + 1) * 3;
+                        index = Convert.ToInt32(ky * (j + 1)) * stride + Convert.ToInt32(kx * (i + 1)) * 3;
                         colors[2] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
-                        index = (yPixel + 1) * stride + xPixel * 3;
+                        index = Convert.ToInt32(ky * (j + 1)) * stride + xPixel * 3;
                         colors[3] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
                         if (bDirection)

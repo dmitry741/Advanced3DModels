@@ -82,5 +82,26 @@ namespace Models3DLib
 
             return triangles;
         }
+
+        public void SetTexture(string tag, Bitmap bitmap, bool stretch)
+        {
+            Rectangle r = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            System.Drawing.Imaging.BitmapData bitmapData = bitmap.LockBits(r, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+            int stride = Math.Abs(bitmapData.Stride);
+            int bytes = stride * bitmapData.Height;
+            byte[] rgbValues = new byte[bytes];
+
+            System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, rgbValues, 0, bytes);
+
+            List<Polygon4Plane> planes = Planes.
+                Where(plane => (plane.Name == tag) && plane is Polygon4Plane).
+                Select(plane => plane as Polygon4Plane).
+                ToList();
+
+            planes.ForEach(plane => plane.SetTexture(rgbValues, stride, bitmap.Width, bitmap.Height, stretch));
+
+            bitmap.UnlockBits(bitmapData);
+        }
     }
 }

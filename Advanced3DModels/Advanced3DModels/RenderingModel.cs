@@ -47,6 +47,7 @@ namespace Advanced3DModels
                     lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
                     lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                     lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
+                    lightModelParameters.BaseColor = triangle.BaseColor;
 
                     if (renderFillTriangle == RenderFillTriangle.Flat || !triangle.AllowToGouraudMethod)
                     {
@@ -64,7 +65,6 @@ namespace Advanced3DModels
                         for (int i = 0; i < 3; i++)
                         {
                             lightModelParameters.Point = triangle.Point3Ds[i];
-                            lightModelParameters.BaseColor = triangle.BaseColor;
                             surroundColors[i] = LightModel.GetColor(lightModelParameters);
                         }
 

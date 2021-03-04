@@ -36,7 +36,7 @@ namespace Advanced3DModels
             {
                 LightModelParameters lightModelParameters = new LightModelParameters
                 {
-                    LightSources = new List<ILightSource>() { lightSource },
+                    LightSources = new List<ILightSource> { lightSource },
                     PointObserver = pointObserver,
                     Fog = ifog
                 };

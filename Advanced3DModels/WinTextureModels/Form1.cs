@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
 using System.Numerics;
+using System.Drawing.Drawing2D;
 
 namespace WinTextureModels
 {
@@ -41,9 +42,38 @@ namespace WinTextureModels
 
         #region === private ===
 
+        void RenderTr(Graphics g)
+        {
+            PointF[] points = new PointF[3];
+
+            points[0] = new PointF(40, 40);
+            points[1] = new PointF(400, 80);
+            points[2] = new PointF(220, 420);
+
+            Color[] colors = new Color[] { Color.Red, Color.Green, Color.Blue };
+
+            PathGradientBrush pthGrBrush = new PathGradientBrush(points)
+            {
+                SurroundColors = colors,
+                CenterPoint = points[0],
+                CenterColor = colors[0]
+            };
+
+            for (int i = 0; i < 3; i++)
+            {
+                LinearGradientBrush brush = new LinearGradientBrush(points[i], points[(i + 1) % 3], colors[i], colors[(i + 1) % 3]);
+                //Pen pen = new Pen(Color.White) { Width = 1 };
+                Pen pen = new Pen(brush) { Width = 1 };
+                g.DrawLine(pen, points[i], points[(i + 1) % 3]);
+            }
+
+            g.FillPolygon(pthGrBrush, points);
+        }
+
+
         Model GetModel(ModelQuality modelQuality)
         {
-            float sizePrimitive = 12;
+            float sizePrimitive = 4;
 
             /*switch (modelQuality)
             {
@@ -82,7 +112,7 @@ namespace WinTextureModels
             Graphics g = Graphics.FromImage(_bitmap);
 
             // отрисовка фона
-            g.Clear(Color.White);
+            g.Clear(Color.Gray);
 
             // запомнили состояние модели
             _model.SaveState();
@@ -106,6 +136,8 @@ namespace WinTextureModels
 
             // восстановили сохраненное состояние
             _model.RestoreState();
+
+            //RenderTr(g);
 
             pictureBox1.Image = _bitmap;
         }
@@ -211,7 +243,7 @@ namespace WinTextureModels
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Bitmap texture = Properties.Resources.wood1;
+            Bitmap texture = new Bitmap("C:\\Dmitry\\OnlineSchool\\Textures\\two.png");
             _model.SetTexture("side", texture, true);
 
             Render();

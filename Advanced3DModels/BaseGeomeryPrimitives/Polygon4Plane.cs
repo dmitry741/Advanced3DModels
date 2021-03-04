@@ -81,7 +81,7 @@ namespace Models3DLib
         public void SetTexture(byte[] rgbValues, int stride, int width, int height, bool stretch)
         {
             bool bLeftTopRightBottom = true;
-            int index, xPixel, yPixel;
+            int index, xPixel1, yPixel1, xPixel2, yPixel2;
             int triIterator = 0;
 
             if (stretch)
@@ -92,24 +92,26 @@ namespace Models3DLib
                 for (int j = 0; j < _nY; j++)
                 {
                     bool bDirection = bLeftTopRightBottom;
-                    yPixel = Convert.ToInt32(ky * j);
+                    yPixel1 = Convert.ToInt32(ky * (j + 0));
+                    yPixel2 = Convert.ToInt32(ky * (j + 1));
 
                     for (int i = 0; i < _nX; i++)
                     {
-                        xPixel = Convert.ToInt32(kx * i);
+                        xPixel1 = Convert.ToInt32(kx * (i + 0));
+                        xPixel2 = Convert.ToInt32(kx * (i + 1));
 
                         Color[] colors = new Color[4];
 
-                        index = yPixel * stride + xPixel * 3;
+                        index = yPixel1 * stride + xPixel1 * 3;
                         colors[0] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
-                        index = yPixel * stride + Convert.ToInt32(kx * (i + 1)) * 3;
+                        index = yPixel1 * stride + xPixel2 * 3;
                         colors[1] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
-                        index = Convert.ToInt32(ky * (j + 1)) * stride + Convert.ToInt32(kx * (i + 1)) * 3;
+                        index = yPixel2 * stride + xPixel2 * 3;
                         colors[2] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
-                        index = Convert.ToInt32(ky * (j + 1)) * stride + xPixel * 3;
+                        index = yPixel2 * stride + xPixel1 * 3;
                         colors[3] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
 
                         if (bDirection)
@@ -131,8 +133,8 @@ namespace Models3DLib
             }
             else
             {
-                xPixel = 0;
-                yPixel = 0;
+                xPixel1 = 0;
+                yPixel1 = 0;
 
                 for (int j = 0; j < _nY; j++)
                 {
@@ -151,9 +153,9 @@ namespace Models3DLib
                         Color[] colors = new Color[4];
 
                         // 0
-                        if (xPixel < width && yPixel < height)
+                        if (xPixel1 < width && yPixel1 < height)
                         {
-                            index = yPixel * stride + xPixel * 3;
+                            index = yPixel1 * stride + xPixel1 * 3;
                             colors[0] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
                         }
                         else
@@ -162,9 +164,9 @@ namespace Models3DLib
                         }
 
                         // 1
-                        if (xPixel + w < width && yPixel < height)
+                        if (xPixel1 + w < width && yPixel1 < height)
                         {
-                            index = yPixel  * stride + (xPixel + w) * 3;
+                            index = yPixel1  * stride + (xPixel1 + w) * 3;
                             colors[1] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
                         }
                         else
@@ -173,9 +175,9 @@ namespace Models3DLib
                         }
 
                         // 2
-                        if (xPixel + w < width && yPixel + h < height)
+                        if (xPixel1 + w < width && yPixel1 + h < height)
                         {
-                            index = (yPixel + h) * stride + (xPixel + w) * 3;
+                            index = (yPixel1 + h) * stride + (xPixel1 + w) * 3;
                             colors[2] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
                         }
                         else
@@ -184,9 +186,9 @@ namespace Models3DLib
                         }
 
                         // 3
-                        if (xPixel < width && yPixel + h < height)
+                        if (xPixel1 < width && yPixel1 + h < height)
                         {
-                            index = (yPixel + h) * stride + xPixel * 3;
+                            index = (yPixel1 + h) * stride + xPixel1 * 3;
                             colors[3] = Color.FromArgb(rgbValues[index + 2], rgbValues[index + 1], rgbValues[index + 0]);
                         }
                         else

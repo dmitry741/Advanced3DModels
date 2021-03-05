@@ -135,7 +135,7 @@ namespace WinPixelModels
             Bitmap bitmapModel = GetModelBitmap(_ipixelsModel, _lightSources, _pointObserverView, Color.White);
             g.DrawImage(bitmapModel, (pictureBox1.Width - bitmapModel.Width) / 2, (pictureBox1.Height - bitmapModel.Height) / 2);
 
-            // перенос модели в центр окна
+            // перенос модели в начало координат
             translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
             _ipixelsModel.Transform(translate);
 
@@ -159,7 +159,7 @@ namespace WinPixelModels
             }
             else if (index == 1)
             {
-                AbstractConvexPixelModel acpm = new OctahedronPixelModels(300);
+                pixelsModel = new OctahedronPixelModels(300);
 
                 float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
                 float angleY = Convert.ToSingle(3.6 * Math.PI / 4);
@@ -167,14 +167,12 @@ namespace WinPixelModels
                 Matrix4x4 rotationY = Matrix4x4.CreateRotationY(angleY);
                 Matrix4x4 rot = rotationX * rotationY;
 
-                acpm.Transform(rot);
-
-                pixelsModel = acpm;
+                pixelsModel.Transform(rot);
             }
             else
             {
                 Color[] colors = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
-                AbstractConvexPixelModel acpm = new ParallelepipedPixelModel(280, 280, 280, colors);
+                pixelsModel = new ParallelepipedPixelModel(280, 280, 280, colors);
 
                 float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
                 float angleY = Convert.ToSingle(3.6 * Math.PI / 4);
@@ -182,9 +180,7 @@ namespace WinPixelModels
                 Matrix4x4 rotationY = Matrix4x4.CreateRotationY(angleY);
                 Matrix4x4 rot = rotationX * rotationY;
 
-                acpm.Transform(rot);
-
-                pixelsModel = acpm;
+                pixelsModel.Transform(rot);
             }
 
             return pixelsModel;

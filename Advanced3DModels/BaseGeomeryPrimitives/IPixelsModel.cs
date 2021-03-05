@@ -15,5 +15,6 @@ namespace Models3DLib
         Vector3 GetNormal(float X, float Y);
         float GetZ(float X, float Y);
         Color GetColor(float X, float Y);
+        void Transform(Matrix4x4 matrix);
     }
 }

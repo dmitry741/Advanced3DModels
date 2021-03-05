@@ -57,5 +57,14 @@ namespace Models3DLib
         {
             return _baseColor;
         }
+
+        public void Transform(Matrix4x4 matrix)
+        {
+            Vector3 vector = Vector3.Transform(_center.ToVector3(), matrix);
+
+            _center.X = vector.X;
+            _center.Y = vector.Y;
+            _center.Z = vector.Z;
+        }
     }
 }

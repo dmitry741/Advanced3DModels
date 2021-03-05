@@ -37,10 +37,14 @@ namespace WinPixelModels
             if (_bitmapPixelModel != null)
                 return _bitmapPixelModel;
             
-            _bitmapPixelModel = new Bitmap(Convert.ToInt32(model.BoundRect.Width), Convert.ToInt32(model.BoundRect.Height), System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            _bitmapPixelModel = new Bitmap(Convert.ToInt32(model.BoundRect.Width), 
+                Convert.ToInt32(model.BoundRect.Height), 
+                System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             Rectangle r = new Rectangle(0, 0, _bitmapPixelModel.Width, _bitmapPixelModel.Height);
-            System.Drawing.Imaging.BitmapData bitmapData = _bitmapPixelModel.LockBits(r, System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            System.Drawing.Imaging.BitmapData bitmapData = _bitmapPixelModel.LockBits(r, 
+                System.Drawing.Imaging.ImageLockMode.ReadWrite, 
+                System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             int stride = Math.Abs(bitmapData.Stride);
             int bytes = stride * bitmapData.Height;
@@ -97,10 +101,10 @@ namespace WinPixelModels
             List<ILightSource> lightSources = new List<ILightSource>();
 
             if (checkBox1.Checked) 
-                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(-100, -100, -500), Weight = 0.7f });
+                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(180, 180, -500), Weight = 0.7f });
 
             if (checkBox2.Checked)
-                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(100, 300, -600), Weight = 0.7f });
+                lightSources.Add(new PointLightSource() { LightPoint = ResolvePoint3D(380, 580, -600), Weight = 0.7f });
 
             foreach(ILightSource ls in lightSources)
             {
@@ -121,9 +125,19 @@ namespace WinPixelModels
             // отрисовка фона
             g.Clear(Color.White);
 
-            // отрисаовка картинки с моделью
+            // перенос модели в центр окна
+            float xTranslate = pictureBox1.Width / 2;
+            float yTranslate = pictureBox1.Height / 2;
+            Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+            _ipixelsModel.Transform(translate);
+
+            // отрисовка картинки с моделью
             Bitmap bitmapModel = GetModelBitmap(_ipixelsModel, _lightSources, _pointObserverView, Color.White);
             g.DrawImage(bitmapModel, (pictureBox1.Width - bitmapModel.Width) / 2, (pictureBox1.Height - bitmapModel.Height) / 2);
+
+            // перенос модели в центр окна
+            translate = Matrix4x4.CreateTranslation(-xTranslate, -yTranslate, 0f);
+            _ipixelsModel.Transform(translate);
 
             pictureBox1.Image = _bitmap;
         }
@@ -139,7 +153,7 @@ namespace WinPixelModels
 
             if (index == 0)
             {
-                IPoint3D point3D = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
+                IPoint3D point3D = ResolvePoint3D(0, 0, 0);
                 float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 100;
                 pixelsModel = new SpherePixelModel(point3D, radius, Color.Gray);
             }
@@ -155,16 +169,12 @@ namespace WinPixelModels
 
                 acpm.Transform(rot);
 
-                Matrix4x4 trans = Matrix4x4.CreateTranslation(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
-
-                acpm.Transform(trans);
-
                 pixelsModel = acpm;
             }
             else
             {
                 Color[] colors = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
-                AbstractConvexPixelModel acpm = new ParallelepipedPixelModel(200, 200, 200, colors);
+                AbstractConvexPixelModel acpm = new ParallelepipedPixelModel(280, 280, 280, colors);
 
                 float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
                 float angleY = Convert.ToSingle(3.6 * Math.PI / 4);
@@ -173,10 +183,6 @@ namespace WinPixelModels
                 Matrix4x4 rot = rotationX * rotationY;
 
                 acpm.Transform(rot);
-
-                Matrix4x4 trans = Matrix4x4.CreateTranslation(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
-
-                acpm.Transform(trans);
 
                 pixelsModel = acpm;
             }
@@ -232,6 +238,50 @@ namespace WinPixelModels
             _lightSources = GetLightSources();
             _bitmapPixelModel = null;
             Render();
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(-Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationX(angle);
+
+            _ipixelsModel.Transform(matrixRotation);
+
+            _bitmapPixelModel = null;
+            Render();
+        }
+
+        private void btnRight_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(-Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationY(angle);
+
+            _ipixelsModel.Transform(matrixRotation);
+
+            _bitmapPixelModel = null;
+            Render();            
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationX(angle);
+
+            _ipixelsModel.Transform(matrixRotation);
+
+            _bitmapPixelModel = null;
+            Render();
+        }
+
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            float angle = Convert.ToSingle(Math.PI / 2 / 15);
+            Matrix4x4 matrixRotation = Matrix4x4.CreateRotationY(angle);
+
+            _ipixelsModel.Transform(matrixRotation);
+
+            _bitmapPixelModel = null;
+            Render();            
         }
     }
 }

@@ -40,7 +40,16 @@ namespace WinTextureModels
                     surroundColors[i] = LightModel.GetColor(lightModelParameters);
                 }
 
-                PointF[] points = triangle.Points;
+                double R = surroundColors.Average(color => color.R);
+                double G = surroundColors.Average(color => color.G);
+                double B = surroundColors.Average(color => color.B);
+
+                Color averageColor = Color.FromArgb(Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B));
+
+                Brush brush = new SolidBrush(averageColor);
+                g.FillPolygon(brush, triangle.Points);
+
+                /*PointF[] points = triangle.Points;
 
                 PathGradientBrush pthGrBrush = new PathGradientBrush(points)
                 {
@@ -49,7 +58,7 @@ namespace WinTextureModels
                     CenterColor = surroundColors[0]
                 };
 
-                g.FillPolygon(pthGrBrush, points);                
+                g.FillPolygon(pthGrBrush, points);              
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -68,7 +77,7 @@ namespace WinTextureModels
 
                     Brush brush = new LinearGradientBrush(point1, point2, surroundColors[i], surroundColors[(i + 1) % 3]);
                     g.DrawLine(new Pen(brush), points[i], points[(i + 1) % 3]);
-                }
+                }*/
             }
         }
     }

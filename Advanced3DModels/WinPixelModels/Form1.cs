@@ -143,9 +143,28 @@ namespace WinPixelModels
                 float radius = Math.Min(pictureBox1.Width / 2, pictureBox1.Height / 2) - 100;
                 pixelsModel = new SpherePixelModel(point3D, radius, Color.Gray);
             }
-            else
+            else if (index == 1)
             {
                 AbstractConvexPixelModel acpm = new OctahedronPixelModels(300);
+
+                float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
+                float angleY = Convert.ToSingle(3.6 * Math.PI / 4);
+                Matrix4x4 rotationX = Matrix4x4.CreateRotationX(angleX);
+                Matrix4x4 rotationY = Matrix4x4.CreateRotationY(angleY);
+                Matrix4x4 rot = rotationX * rotationY;
+
+                acpm.Transform(rot);
+
+                Matrix4x4 trans = Matrix4x4.CreateTranslation(pictureBox1.Width / 2, pictureBox1.Height / 2, 0);
+
+                acpm.Transform(trans);
+
+                pixelsModel = acpm;
+            }
+            else
+            {
+                Color[] colors = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
+                AbstractConvexPixelModel acpm = new ParallelepipedPixelModel(200, 200, 200, colors);
 
                 float angleX = Convert.ToSingle(2.25 * Math.PI / 6);
                 float angleY = Convert.ToSingle(3.6 * Math.PI / 4);
@@ -181,6 +200,7 @@ namespace WinPixelModels
             cmbModels.BeginUpdate();
             cmbModels.Items.Add("Сфера");
             cmbModels.Items.Add("Октаэдр");
+            cmbModels.Items.Add("Цветной куб");
             cmbModels.SelectedIndex = 0;
             cmbModels.EndUpdate();
 

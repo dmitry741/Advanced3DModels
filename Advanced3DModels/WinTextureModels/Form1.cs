@@ -243,8 +243,8 @@ namespace WinTextureModels
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Bitmap texture = new Bitmap("C:\\Dmitry\\OnlineSchool\\Textures\\two.png");
-            _model.SetTexture("side", texture, true);
+            Bitmap texture = new Bitmap("C:\\Dmitry\\OnlineSchool\\Textures\\three.png");
+            _model.SetTexture("side", texture, false);
 
             Render();
         }

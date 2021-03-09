@@ -37,7 +37,7 @@
             this.btnRight = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +45,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(776, 657);
+            this.pictureBox1.Size = new System.Drawing.Size(652, 550);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDownEvent);
@@ -53,9 +53,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(834, 634);
+            this.btnClose.Location = new System.Drawing.Point(670, 527);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(98, 35);
+            this.btnClose.Size = new System.Drawing.Size(114, 35);
             this.btnClose.TabIndex = 1;
             this.btnClose.Text = "Выйти";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -74,7 +74,7 @@
             // 
             this.btnDown.ImageIndex = 0;
             this.btnDown.ImageList = this.imageList1;
-            this.btnDown.Location = new System.Drawing.Point(834, 333);
+            this.btnDown.Location = new System.Drawing.Point(707, 301);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(38, 38);
             this.btnDown.TabIndex = 29;
@@ -85,7 +85,7 @@
             // 
             this.btnRight.ImageIndex = 2;
             this.btnRight.ImageList = this.imageList1;
-            this.btnRight.Location = new System.Drawing.Point(870, 295);
+            this.btnRight.Location = new System.Drawing.Point(743, 263);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(38, 38);
             this.btnRight.TabIndex = 28;
@@ -96,7 +96,7 @@
             // 
             this.btnUp.ImageIndex = 3;
             this.btnUp.ImageList = this.imageList1;
-            this.btnUp.Location = new System.Drawing.Point(834, 257);
+            this.btnUp.Location = new System.Drawing.Point(707, 225);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(38, 38);
             this.btnUp.TabIndex = 27;
@@ -107,29 +107,30 @@
             // 
             this.btnLeft.ImageIndex = 1;
             this.btnLeft.ImageList = this.imageList1;
-            this.btnLeft.Location = new System.Drawing.Point(797, 295);
+            this.btnLeft.Location = new System.Drawing.Point(670, 263);
             this.btnLeft.Name = "btnLeft";
             this.btnLeft.Size = new System.Drawing.Size(38, 38);
             this.btnLeft.TabIndex = 26;
             this.btnLeft.UseVisualStyleBackColor = true;
             this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
             // 
-            // button1
+            // checkBox1
             // 
-            this.button1.Location = new System.Drawing.Point(831, 408);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 46);
-            this.button1.TabIndex = 30;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(670, 12);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(93, 17);
+            this.checkBox1.TabIndex = 31;
+            this.checkBox1.Text = "Перспектива";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1011, 681);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(796, 571);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnRight);
             this.Controls.Add(this.btnUp);
@@ -144,6 +145,7 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -156,7 +158,7 @@
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.Button btnLeft;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

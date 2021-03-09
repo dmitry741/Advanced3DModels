@@ -10,9 +10,9 @@ namespace Models3DLib
 {
     public class PresetsModel
     {
-        #region === private ===
+        #region === models ===
 
-        private static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
+        public static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
         {
             List<IPoint3D> points = new List<IPoint3D>
             {
@@ -63,10 +63,6 @@ namespace Models3DLib
                 Planes = planes
             };
         }
-
-        #endregion
-
-        #region === models ===
 
         public static Model Octahedron(float sideSize, float sizePrimitive)
         {

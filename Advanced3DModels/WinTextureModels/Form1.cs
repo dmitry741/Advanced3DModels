@@ -73,7 +73,7 @@ namespace WinTextureModels
 
         Model GetModel(ModelQuality modelQuality)
         {
-            float sizePrimitive = 8;
+            float sizePrimitive = 4;
 
             /*switch (modelQuality)
             {
@@ -88,12 +88,20 @@ namespace WinTextureModels
                     break;
             }*/
 
-            Model model = PresetsModel.Cube(300.0f, sizePrimitive);
+            Color back = Color.FromArgb(94, 27, 44);
+            Color[] colors = new Color[] { back, back, back, back, back, back };
+            bool[] panels = new bool[] { true, true, true, true, true, true };
+            Model model = PresetsModel.Parallelepiped(353, 219, 36, sizePrimitive, panels, colors);
 
+            int iterator = 0;
             foreach(Models3DLib.Plane plane in model.Planes)
             {
-                plane.Name = "side";
+                plane.Name = iterator.ToString();
+                iterator++;
             }
+
+            Bitmap texture = Properties.Resources.sweets;
+            model.SetTexture("5", texture, true);
 
             return model;
         }
@@ -123,7 +131,7 @@ namespace WinTextureModels
             Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
             _model.Transform(translate);
 
-            bool bPerspective = false;
+            bool bPerspective = checkBox1.Checked;
 
             // перспективное преобразование
             if (bPerspective)
@@ -241,11 +249,8 @@ namespace WinTextureModels
             Render();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Bitmap texture = new Bitmap("C:\\Dmitry\\OnlineSchool\\Textures\\girl1.png");
-            _model.SetTexture("side", texture, false);
-
             Render();
         }
     }

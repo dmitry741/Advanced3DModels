@@ -66,5 +66,20 @@ namespace Models3DLib
             _center.Y = vector.Y;
             _center.Z = vector.Z;
         }
+
+        public bool ReflectionEnable(float X, float Y)
+        {
+            return true;
+        }
+
+        public float ReflectionBrightness(float X, float Y)
+        {
+            return 80f;
+        }
+
+        public float ReflcetionCone(float X, float Y)
+        {
+            return 1000f;
+        }
     }
 }

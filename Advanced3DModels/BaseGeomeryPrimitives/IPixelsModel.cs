@@ -16,5 +16,9 @@ namespace Models3DLib
         float GetZ(float X, float Y);
         Color GetColor(float X, float Y);
         void Transform(Matrix4x4 matrix);
+
+        bool ReflectionEnable(float X, float Y);
+        float ReflectionBrightness(float X, float Y);
+        float ReflcetionCone(float X, float Y);
     }
 }

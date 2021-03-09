@@ -84,5 +84,20 @@ namespace Models3DLib
                 point.Z = vector.Z;
             }
         }
+
+        public bool ReflectionEnable(float X, float Y)
+        {
+            return _lastin.ReflectionEnable;
+        }
+
+        public float ReflectionBrightness(float X, float Y)
+        {
+            return 80;
+        }
+
+        public float ReflcetionCone(float X, float Y)
+        {
+            return 2000f;
+        }
     }
 }

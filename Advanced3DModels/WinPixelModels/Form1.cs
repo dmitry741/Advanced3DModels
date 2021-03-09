@@ -54,9 +54,6 @@ namespace WinPixelModels
             {
                 LightSources = lightSources,
                 PointObserver = pointObserver,
-                ReflectionEnable = true,
-                ReflectionBrightness = 80.0f,
-                ReflcetionCone = 1000f
             };
 
             RectangleF br = model.BoundRect;
@@ -72,6 +69,10 @@ namespace WinPixelModels
                         point.X = x + br.X;
                         point.Y = y + br.Y;
                         point.Z = model.GetZ(point.X, point.Y);
+
+                        lightModelParameters.ReflectionEnable = model.ReflectionEnable(point.X, point.Y);
+                        lightModelParameters.ReflectionBrightness = model.ReflectionBrightness(point.X, point.Y);
+                        lightModelParameters.ReflcetionCone = model.ReflcetionCone(point.X, point.Y);
 
                         lightModelParameters.Normal = model.GetNormal(point.X, point.Y);
                         lightModelParameters.Point = point;

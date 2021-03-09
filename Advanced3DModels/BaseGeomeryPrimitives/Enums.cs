@@ -15,7 +15,8 @@ namespace Models3DLib
 
     public enum RenderFillTriangle
     {
-        Flat,
+        Flat0,
+        Flat3,
         Gouraud
     }
 }

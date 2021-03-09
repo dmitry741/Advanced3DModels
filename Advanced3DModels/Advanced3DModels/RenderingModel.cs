@@ -49,13 +49,31 @@ namespace Advanced3DModels
                     lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
                     lightModelParameters.BaseColor = triangle.BaseColor;
 
-                    if (renderFillTriangle == RenderFillTriangle.Flat || !triangle.AllowToGouraudMethod)
+                    if (renderFillTriangle == RenderFillTriangle.Flat0 || !triangle.AllowToGouraudMethod)
                     {
                         lightModelParameters.Point = triangle.Point0;
-                        lightModelParameters.BaseColor = triangle.BaseColor;
                         Color color = LightModel.GetColor(lightModelParameters);
 
                         Brush brush = new SolidBrush(color);
+                        g.FillPolygon(brush, triangle.Points);
+                    }
+                    else if (renderFillTriangle == RenderFillTriangle.Flat3)
+                    {                        
+                        Color[] colors = new Color[3];
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            lightModelParameters.Point = triangle.Point3Ds[i];
+                            colors[i] = LightModel.GetColor(lightModelParameters);
+                        }
+
+                        int R = Convert.ToInt32(colors.Average(x => x.R));
+                        int G = Convert.ToInt32(colors.Average(x => x.G));
+                        int B = Convert.ToInt32(colors.Average(x => x.B));
+
+                        Color color = Color.FromArgb(R, G, B);
+                        Brush brush = new SolidBrush(color);
+
                         g.FillPolygon(brush, triangle.Points);
                     }
                     else

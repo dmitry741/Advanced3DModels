@@ -178,7 +178,22 @@ namespace Advanced3DModels
 
         RenderFillTriangle GetRenderFillTriangle(int index)
         {
-            return (index == 0) ? RenderFillTriangle.Flat : RenderFillTriangle.Gouraud;
+            RenderFillTriangle renderFillTriangle;
+
+            if (index == 0)
+            {
+                renderFillTriangle = RenderFillTriangle.Flat0;
+            }
+            else if (index == 1)
+            {
+                renderFillTriangle = RenderFillTriangle.Flat3;
+            }
+            else
+            {
+                renderFillTriangle = RenderFillTriangle.Gouraud;
+            }
+
+            return renderFillTriangle;
         }
 
         void UpdateModel()
@@ -235,7 +250,8 @@ namespace Advanced3DModels
 
             // треугольники
             cmbTriRender.BeginUpdate();
-            cmbTriRender.Items.Add("Плоское отображение");
+            cmbTriRender.Items.Add("Плоское по одной точке");
+            cmbTriRender.Items.Add("Плоское по трем точкам");
             cmbTriRender.Items.Add("Метод Гуро");
             cmbTriRender.SelectedIndex = 0;
             cmbTriRender.EndUpdate();

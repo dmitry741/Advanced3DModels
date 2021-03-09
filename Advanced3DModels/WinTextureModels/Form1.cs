@@ -73,7 +73,7 @@ namespace WinTextureModels
 
         Model GetModel(ModelQuality modelQuality)
         {
-            float sizePrimitive = 4;
+            float sizePrimitive = 8;
 
             /*switch (modelQuality)
             {
@@ -243,7 +243,7 @@ namespace WinTextureModels
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Bitmap texture = new Bitmap("C:\\Dmitry\\OnlineSchool\\Textures\\three.png");
+            Bitmap texture = new Bitmap("C:\\Dmitry\\OnlineSchool\\Textures\\girl1.png");
             _model.SetTexture("side", texture, false);
 
             Render();

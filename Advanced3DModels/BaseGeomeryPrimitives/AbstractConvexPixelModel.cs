@@ -12,8 +12,10 @@ namespace Models3DLib
     {
         protected List<IPoint3D> _point3Ds = new List<IPoint3D>();
         protected List<Triangle> _triangles = new List<Triangle>();
+        protected IPoint3D[] _state = null;
+
         IContains _icontains;
-        Triangle _lastin = null;
+        Triangle _lastin = null;        
 
         #region === private methods ===
 
@@ -30,6 +32,32 @@ namespace Models3DLib
         }
 
         #endregion
+
+        public void SaveState()
+        {
+            if (_state == null || _state.Length != _point3Ds.Count)
+            {
+                _state = ResolverInterface.ResolveArrayIPoint3D(_point3Ds.Count);
+                _state = _state.Select(p => ResolverInterface.ResolveIPoint3D(0, 0, 0)).ToArray();
+            }
+
+            for (int i = 0; i < _state.Length; i++)
+            {
+                _state[i].X = _point3Ds[i].X;
+                _state[i].Y = _point3Ds[i].Y;
+                _state[i].Z = _point3Ds[i].Z;
+            }
+        }
+
+        public void RestoreState()
+        {
+            for (int i = 0; i < _state.Length; i++)
+            {
+                _point3Ds[i].X = _state[i].X;
+                _point3Ds[i].Y = _state[i].Y;
+                _point3Ds[i].Z = _state[i].Z;
+            }
+        }
 
         public RectangleF BoundRect
         {
@@ -82,6 +110,17 @@ namespace Models3DLib
                 point.X = vector.X;
                 point.Y = vector.Y;
                 point.Z = vector.Z;
+            }
+        }
+
+        public void Transform(IPerspectiveTransform iperspectiveTransform, IPoint3D centerOfPerspective)
+        {
+            foreach (IPoint3D point in _point3Ds)
+            {
+                IPoint3D perspectivePoint = iperspectiveTransform.Transform(point, centerOfPerspective);
+
+                point.X = perspectivePoint.X;
+                point.Y = perspectivePoint.Y;
             }
         }
 

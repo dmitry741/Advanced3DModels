@@ -57,7 +57,7 @@ namespace Advanced3DModels
             }
             else
             {
-                model = Models3DLib.PresetsModel.Cube(200.0f, sizePrimitive);
+                model = Models3DLib.PresetsModel.Cube(240.0f, sizePrimitive);
             }
 
             return model;

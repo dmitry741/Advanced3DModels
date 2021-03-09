@@ -53,8 +53,8 @@ namespace Advanced3DModels
                     {
                         lightModelParameters.Point = triangle.Point0;
                         Color color = LightModel.GetColor(lightModelParameters);
-
                         Brush brush = new SolidBrush(color);
+
                         g.FillPolygon(brush, triangle.Points);
                     }
                     else if (renderFillTriangle == RenderFillTriangle.Flat3)

@@ -583,7 +583,7 @@ namespace Models3DLib
 
             Model tr = new Model
             {
-                Planes = pl,
+                Planes = pl
             };
 
             Model arrow = new Model

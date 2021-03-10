@@ -29,9 +29,9 @@ namespace WinTextureModels
 
             foreach (Triangle triangle in triangles)
             {
-                lightModelParameters.Normal = triangle.Normal;                
+                lightModelParameters.Normal = triangle.Normal;
                 lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
-                lightModelParameters.ReflcetionCone = triangle.ReflectionCone;                
+                lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
 
                 for (int i = 0; i < 3; i++)
                 {

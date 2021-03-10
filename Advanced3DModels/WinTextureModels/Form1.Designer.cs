@@ -45,7 +45,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(652, 550);
+            this.pictureBox1.Size = new System.Drawing.Size(627, 523);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDownEvent);
@@ -53,7 +53,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(670, 527);
+            this.btnClose.Location = new System.Drawing.Point(645, 500);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(114, 35);
             this.btnClose.TabIndex = 1;
@@ -74,7 +74,7 @@
             // 
             this.btnDown.ImageIndex = 0;
             this.btnDown.ImageList = this.imageList1;
-            this.btnDown.Location = new System.Drawing.Point(707, 301);
+            this.btnDown.Location = new System.Drawing.Point(682, 301);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(38, 38);
             this.btnDown.TabIndex = 29;
@@ -85,7 +85,7 @@
             // 
             this.btnRight.ImageIndex = 2;
             this.btnRight.ImageList = this.imageList1;
-            this.btnRight.Location = new System.Drawing.Point(743, 263);
+            this.btnRight.Location = new System.Drawing.Point(718, 263);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(38, 38);
             this.btnRight.TabIndex = 28;
@@ -96,7 +96,7 @@
             // 
             this.btnUp.ImageIndex = 3;
             this.btnUp.ImageList = this.imageList1;
-            this.btnUp.Location = new System.Drawing.Point(707, 225);
+            this.btnUp.Location = new System.Drawing.Point(682, 225);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(38, 38);
             this.btnUp.TabIndex = 27;
@@ -107,7 +107,7 @@
             // 
             this.btnLeft.ImageIndex = 1;
             this.btnLeft.ImageList = this.imageList1;
-            this.btnLeft.Location = new System.Drawing.Point(670, 263);
+            this.btnLeft.Location = new System.Drawing.Point(645, 263);
             this.btnLeft.Name = "btnLeft";
             this.btnLeft.Size = new System.Drawing.Size(38, 38);
             this.btnLeft.TabIndex = 26;
@@ -117,7 +117,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(670, 12);
+            this.checkBox1.Location = new System.Drawing.Point(645, 12);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(93, 17);
             this.checkBox1.TabIndex = 31;
@@ -129,7 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 571);
+            this.ClientSize = new System.Drawing.Size(765, 544);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnRight);

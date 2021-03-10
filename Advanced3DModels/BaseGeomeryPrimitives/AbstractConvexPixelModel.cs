@@ -113,17 +113,6 @@ namespace Models3DLib
             }
         }
 
-        public void Transform(IPerspectiveTransform iperspectiveTransform, IPoint3D centerOfPerspective)
-        {
-            foreach (IPoint3D point in _point3Ds)
-            {
-                IPoint3D perspectivePoint = iperspectiveTransform.Transform(point, centerOfPerspective);
-
-                point.X = perspectivePoint.X;
-                point.Y = perspectivePoint.Y;
-            }
-        }
-
         public bool ReflectionEnable(float X, float Y)
         {
             return _lastin.ReflectionEnable;
@@ -131,7 +120,7 @@ namespace Models3DLib
 
         public float ReflectionBrightness(float X, float Y)
         {
-            return 80;
+            return 60;
         }
 
         public float ReflcetionCone(float X, float Y)

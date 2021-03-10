@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
 using System.Numerics;
-using System.Drawing.Drawing2D;
 
 namespace WinTextureModels
 {
@@ -22,71 +21,20 @@ namespace WinTextureModels
 
         #region === members ===
 
-        enum ModelQuality
-        {
-            Low,
-            Middle,
-            High
-        }
-
         Bitmap _bitmap = null;
-        //bool _blockEvent = false;
         PointF _startPoint = PointF.Empty;
         IPoint3D _pointObserver = null;
-        Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         ILightSource _lightSource = null;
-        IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
+        readonly IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         Model _model = null;
 
         #endregion
 
         #region === private ===
 
-        void RenderTr(Graphics g)
-        {
-            PointF[] points = new PointF[3];
-
-            points[0] = new PointF(40, 40);
-            points[1] = new PointF(400, 80);
-            points[2] = new PointF(220, 420);
-
-            Color[] colors = new Color[] { Color.Red, Color.Green, Color.Blue };
-
-            PathGradientBrush pthGrBrush = new PathGradientBrush(points)
-            {
-                SurroundColors = colors,
-                CenterPoint = points[0],
-                CenterColor = colors[0]
-            };
-
-            for (int i = 0; i < 3; i++)
-            {
-                LinearGradientBrush brush = new LinearGradientBrush(points[i], points[(i + 1) % 3], colors[i], colors[(i + 1) % 3]);
-                //Pen pen = new Pen(Color.White) { Width = 1 };
-                Pen pen = new Pen(brush) { Width = 1 };
-                g.DrawLine(pen, points[i], points[(i + 1) % 3]);
-            }
-
-            g.FillPolygon(pthGrBrush, points);
-        }
-
-
-        Model GetModel(ModelQuality modelQuality)
+        Model GetModel()
         {
             float sizePrimitive = 4;
-
-            /*switch (modelQuality)
-            {
-                case ModelQuality.Middle:
-                    sizePrimitive = 12;
-                    break;
-                case ModelQuality.High:
-                    sizePrimitive = 8;
-                    break;
-                default:
-                    sizePrimitive = 16;
-                    break;
-            }*/
 
             Color back = Color.FromArgb(94, 27, 44);
             Color[] colors = new Color[] { back, back, back, back, back, back };
@@ -94,6 +42,7 @@ namespace WinTextureModels
             Model model = PresetsModel.Parallelepiped(353, 219, 36, sizePrimitive, panels, colors);
 
             int iterator = 0;
+
             foreach(Models3DLib.Plane plane in model.Planes)
             {
                 plane.Name = iterator.ToString();
@@ -145,8 +94,6 @@ namespace WinTextureModels
             // восстановили сохраненное состояние
             _model.RestoreState();
 
-            //RenderTr(g);
-
             pictureBox1.Image = _bitmap;
         }
 
@@ -157,11 +104,9 @@ namespace WinTextureModels
             pictureBox1.BackColor = Color.White;
 
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            _model = GetModel(ModelQuality.Middle);
+            _model = GetModel();
             _lightSource = new PointLightSource { LightPoint = ResolvePoint3D(0, 0, -500) };
             _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
-
-            // TODO
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -196,7 +141,6 @@ namespace WinTextureModels
                 Matrix4x4 matrix = matrixRotationXZ * matrixRotationYZ;
 
                 _model.Transform(matrix);
-                _transformMatrix *= matrix;
 
                 Render();
 
@@ -211,7 +155,6 @@ namespace WinTextureModels
             Matrix4x4 matrixRotation = Matrix4x4.CreateRotationX(angle);
 
             _model.Transform(matrixRotation);
-            _transformMatrix *= matrixRotation;
 
             Render();
         }
@@ -222,7 +165,6 @@ namespace WinTextureModels
             Matrix4x4 matrixRotation = Matrix4x4.CreateRotationY(angle);
 
             _model.Transform(matrixRotation);
-            _transformMatrix *= matrixRotation;
 
             Render();
         }
@@ -233,7 +175,6 @@ namespace WinTextureModels
             Matrix4x4 matrixRotation = Matrix4x4.CreateRotationX(angle);
 
             _model.Transform(matrixRotation);
-            _transformMatrix *= matrixRotation;
 
             Render();
         }
@@ -244,7 +185,6 @@ namespace WinTextureModels
             Matrix4x4 matrixRotation = Matrix4x4.CreateRotationY(angle);
 
             _model.Transform(matrixRotation);
-            _transformMatrix *= matrixRotation;
 
             Render();
         }

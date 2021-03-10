@@ -222,6 +222,7 @@ namespace Advanced3DModels
             cmbModel.Items.Add("Куб из кубиков");
             cmbModel.Items.Add("Прозрачный столик");
             cmbModel.Items.Add("Октаэдр");
+            cmbModel.Items.Add("Стрелка");
             cmbModel.SelectedIndex = 1;
             cmbModel.EndUpdate();
 

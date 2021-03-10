@@ -55,6 +55,10 @@ namespace Advanced3DModels
             {
                 model = Models3DLib.PresetsModel.Octahedron(272, sizePrimitive);
             }
+            else if (index == 6)
+            {
+                model = Models3DLib.PresetsModel.Arrow(200, 60, 60, 100, 24, sizePrimitive, Color.Gold);
+            }
             else
             {
                 model = Models3DLib.PresetsModel.Cube(240.0f, sizePrimitive);

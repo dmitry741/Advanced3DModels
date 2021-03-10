@@ -10,8 +10,6 @@ namespace Models3DLib
 {
     public class PresetsModel
     {
-        #region === models ===
-
         public static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
         {
             List<IPoint3D> points = new List<IPoint3D>
@@ -533,6 +531,70 @@ namespace Models3DLib
 
             return Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, planes, colors);
         }
-        #endregion
+
+        public static Model Arrow(float baseWidth, float baseHeight, float arrowRadius, float arrowHeight, float depth, float sizePrimitive, Color color)
+        {
+            Color[] colors = { color, color, color, color, color, color };
+            bool[] planes = new bool[] { true, true, false, true, true, true };
+
+            Model parallelepiped = Parallelepiped(baseWidth, baseHeight, depth, sizePrimitive, planes, colors);
+            List<Plane> pl = new List<Plane>();
+            IPoint3D point1, point2, point3, point4;
+
+            point1 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -arrowRadius, depth / 2);
+            point2 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 + arrowHeight - 0.5f, 0, depth / 2);
+            point3 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, arrowRadius, depth / 2);
+
+            pl.Add(new Polygon3Plane(point1, point2, point3, sizePrimitive, color, string.Empty));
+
+            point1 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, arrowRadius, -depth / 2);
+            point2 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 + arrowHeight - 0.5f, 0, -depth / 2);
+            point3 = ResolverInterface.ResolveIPoint3D(baseWidth / 2, -arrowRadius - 0.5f, -depth / 2);
+
+            pl.Add(new Polygon3Plane(point1, point2, point3, sizePrimitive, color, string.Empty));
+
+            point1 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, baseHeight / 2, depth / 2);
+            point2 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, baseHeight / 2, -depth / 2);
+            point3 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, arrowRadius,  -depth / 2);
+            point4 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, arrowRadius, depth / 2);
+
+            pl.Add(new Polygon4Plane(point1, point2, point3, point4, sizePrimitive, color, string.Empty));
+
+            point1 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -baseHeight / 2, depth / 2);
+            point2 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -arrowRadius, depth / 2);
+            point3 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -arrowRadius, -depth / 2);
+            point4 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -baseHeight / 2, -depth / 2);
+
+            pl.Add(new Polygon4Plane(point1, point2, point3, point4, sizePrimitive, color, string.Empty));
+
+            point1 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, arrowRadius, depth / 2);
+            point2 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, arrowRadius, -depth / 2);
+            point3 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f + arrowHeight, 0, -depth / 2);
+            point4 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f + arrowHeight, 0, depth / 2);
+
+            pl.Add(new Polygon4Plane(point1, point2, point3, point4, sizePrimitive, color, string.Empty));
+
+            point1 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f + arrowHeight, 0, depth / 2);
+            point2 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f + arrowHeight, 0, -depth / 2);
+            point3 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -arrowRadius, -depth / 2);
+            point4 = ResolverInterface.ResolveIPoint3D(baseWidth / 2 - 0.5f, -arrowRadius, depth / 2);
+
+            pl.Add(new Polygon4Plane(point1, point2, point3, point4, sizePrimitive, color, string.Empty));
+
+            Model tr = new Model
+            {
+                Planes = pl,
+            };
+
+            Model arrow = new Model
+            {
+                NeedToSort = true
+            };
+
+            arrow.UnionWith(parallelepiped);
+            arrow.UnionWith(tr);
+
+            return arrow;
+        }
     }
 }

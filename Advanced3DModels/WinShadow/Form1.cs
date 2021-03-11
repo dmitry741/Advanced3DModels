@@ -24,7 +24,7 @@ namespace WinShadow
         Bitmap _bitmap;
         Model _model;
         IPoint3D _pointObserver = null;
-        ILightSource _lightSource = null;
+        ProjectorLightSource _lightSource = null;
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         PointF _startPoint;
 
@@ -56,6 +56,21 @@ namespace WinShadow
         IPoint3D ResolvePoint3D(float X, float Y, float Z)
         {
             return new Point3D(X, Y, Z);
+        }
+
+        void RenderShadow(Graphics g, Model model, ProjectorLightSource lightSource)
+        {
+            float z = 700;
+
+            Vector3 point1 = new Vector3(0, 0, z);
+            Vector3 point2 = new Vector3(1, 0, z);
+            Vector3 point3 = new Vector3(0, 1, z);
+
+            System.Numerics.Plane plane = System.Numerics.Plane.CreateFromVertices(point1, point2, point3);
+
+            Matrix4x4 shadowMatrix = Matrix4x4.CreateShadow(lightSource.VectorLightSource, plane);
+
+            //g.drawp
         }
 
         void RenderModel(Graphics g, Model model, ILightSource lightSource, IPoint3D pointObserver)

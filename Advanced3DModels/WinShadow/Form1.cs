@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
 using System.Numerics;
+using System.Drawing.Drawing2D;
 
 namespace WinShadow
 {
@@ -60,17 +61,81 @@ namespace WinShadow
 
         void RenderShadow(Graphics g, Model model, ProjectorLightSource lightSource)
         {
-            float z = 700;
+            PointF[] tr1 = new PointF[3];
 
-            Vector3 point1 = new Vector3(0, 0, z);
-            Vector3 point2 = new Vector3(1, 0, z);
-            Vector3 point3 = new Vector3(0, 1, z);
+            tr1[0] = new PointF(10, 10);
+            tr1[1] = new PointF(100, 10);
+            tr1[2] = new PointF(10, 100);
 
-            System.Numerics.Plane plane = System.Numerics.Plane.CreateFromVertices(point1, point2, point3);
+            PointF[] tr2 = new PointF[3];
 
-            Matrix4x4 shadowMatrix = Matrix4x4.CreateShadow(lightSource.VectorLightSource, plane);
+            tr2[0] = new PointF(40, 40);
+            tr2[1] = new PointF(140, 40);
+            tr2[2] = new PointF(40, 140);
 
-            //g.drawp
+            GraphicsPath gp1 = new GraphicsPath();
+            gp1.AddPolygon(tr1);
+
+            GraphicsPath gp2 = new GraphicsPath();
+            gp2.AddPolygon(tr2);
+
+            Region region = new Region();
+            region.MakeEmpty();
+
+            region.Union(gp1);
+            region.Union(gp2);
+
+            g.FillRegion(new SolidBrush(Color.FromArgb(128, 0, 0, 0)), region);
+
+
+
+            /* float z = 1700;
+
+             Vector3 point1 = new Vector3(0, 0, z);
+             Vector3 point2 = new Vector3(1, 0, z);
+             Vector3 point3 = new Vector3(0, 1, z);
+
+             System.Numerics.Plane plane = System.Numerics.Plane.CreateFromVertices(point1, point2, point3);
+
+             Matrix4x4 shadowMatrix = Matrix4x4.CreateShadow(-lightSource.VectorLightSource, plane);
+
+            //Region region = Region.MakeEmpty;
+
+             float Xmin = float.MaxValue;
+             float YMin = float.MaxValue;
+             float Xmax = float.MinValue;
+             float Ymax = float.MinValue;
+
+            // GraphicsPath gp = new GraphicsPath();
+
+
+             foreach (Models3DLib.Plane p in model.Planes)
+             {
+                 foreach(Triangle triangle in p.Triangles)
+                 {
+                     IEnumerable<Vector3> shadowPoints = triangle.Point3Ds.Select(point => Vector3.Transform(point.ToVector3(), shadowMatrix));
+                     PointF[] shadow = shadowPoints.Select(point => new PointF(point.X, point.Y)).ToArray();
+
+                     GraphicsPath gp = new GraphicsPath();
+                     gp.AddPolygon(shadow);
+                     region.Union(gp);
+
+                     float left = shadow.Min(point => point.X);
+                     float top = shadow.Min(point => point.Y);
+                     float right = shadow.Max(point => point.X);
+                     float bottom = shadow.Max(point => point.Y);
+
+                     if (left < Xmin) Xmin = left;
+                     if (top < YMin) YMin = top;
+                     if (right > Xmax) Xmax = right;
+                     if (bottom > Ymax) Ymax = bottom;
+
+
+                 }
+             }
+
+             Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 0));
+             g.FillRegion(brush, region);*/
         }
 
         void RenderModel(Graphics g, Model model, ILightSource lightSource, IPoint3D pointObserver)
@@ -136,6 +201,9 @@ namespace WinShadow
                 // перспективное преобразование
                 _model.Transform(_iperspectiveTransform, _pointObserver);
             }
+
+            // отрисовка тени
+            RenderShadow(g, _model, _lightSource);
 
             // отрисовка в главном окне
             RenderModel(g, _model, _lightSource, _pointObserver);

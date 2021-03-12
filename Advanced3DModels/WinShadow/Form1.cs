@@ -37,7 +37,7 @@ namespace WinShadow
 
         Model GetModel(int index)
         {
-            const float cSizePrimitive = 12;
+            const float cSizePrimitive = 16;
 
             Model model;
 
@@ -59,9 +59,18 @@ namespace WinShadow
             return new Point3D(X, Y, Z);
         }
 
+        void RenderString(Graphics g)
+        {
+            const string cScript = "Отображение теней";
+            Font font = new Font("Arial", 36f, FontStyle.Regular);
+            SizeF sz = g.MeasureString(cScript, font);
+
+            g.DrawString(cScript, font, Brushes.DarkGray, (pictureBox1.Width - sz.Width) / 2, (pictureBox1.Height - sz.Height) / 2);
+        }
+
         void RenderShadow(Graphics g, Model model, ProjectorLightSource lightSource)
         {
-            const float z = 1700;
+            const float z = 1900;
 
             Vector3 point1 = new Vector3(0, 0, z);
             Vector3 point2 = new Vector3(1, 0, z);
@@ -78,7 +87,6 @@ namespace WinShadow
                  {
                      IEnumerable<Vector3> shadowPoints = triangle.Point3Ds.Select(point => Vector3.Transform(point.ToVector3(), shadowMatrix));
                      PointF[] shadow = shadowPoints.Select(point => new PointF(point.X, point.Y)).ToArray();
-
                      GraphicsPath gp = new GraphicsPath();
                      gp.AddPolygon(shadow);
                      region.Union(gp);
@@ -135,12 +143,14 @@ namespace WinShadow
             // отрисовка фона
             g.Clear(Color.White);
 
+            RenderString(g);
+
             // запомнили состояние модели
             _model.SaveState();
 
             // перенос модели в центр окна
-            float xTranslate = pictureBox1.Width / 4;
-            float yTranslate = pictureBox1.Height / 2;
+            float xTranslate = 3 * pictureBox1.Width / 8;
+            float yTranslate = 3 * pictureBox1.Height / 8;
             Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
             _model.Transform(translate);
 

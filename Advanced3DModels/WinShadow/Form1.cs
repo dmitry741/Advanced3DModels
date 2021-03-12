@@ -61,53 +61,16 @@ namespace WinShadow
 
         void RenderShadow(Graphics g, Model model, ProjectorLightSource lightSource)
         {
-            PointF[] tr1 = new PointF[3];
+            const float z = 1700;
 
-            tr1[0] = new PointF(10, 10);
-            tr1[1] = new PointF(100, 10);
-            tr1[2] = new PointF(10, 100);
+            Vector3 point1 = new Vector3(0, 0, z);
+            Vector3 point2 = new Vector3(1, 0, z);
+            Vector3 point3 = new Vector3(0, 1, z);
 
-            PointF[] tr2 = new PointF[3];
-
-            tr2[0] = new PointF(40, 40);
-            tr2[1] = new PointF(140, 40);
-            tr2[2] = new PointF(40, 140);
-
-            GraphicsPath gp1 = new GraphicsPath();
-            gp1.AddPolygon(tr1);
-
-            GraphicsPath gp2 = new GraphicsPath();
-            gp2.AddPolygon(tr2);
-
+            System.Numerics.Plane plane = System.Numerics.Plane.CreateFromVertices(point1, point2, point3);
+            Matrix4x4 shadowMatrix = Matrix4x4.CreateShadow(-lightSource.VectorLightSource, plane);
             Region region = new Region();
             region.MakeEmpty();
-
-            region.Union(gp1);
-            region.Union(gp2);
-
-            g.FillRegion(new SolidBrush(Color.FromArgb(128, 0, 0, 0)), region);
-
-
-
-            /* float z = 1700;
-
-             Vector3 point1 = new Vector3(0, 0, z);
-             Vector3 point2 = new Vector3(1, 0, z);
-             Vector3 point3 = new Vector3(0, 1, z);
-
-             System.Numerics.Plane plane = System.Numerics.Plane.CreateFromVertices(point1, point2, point3);
-
-             Matrix4x4 shadowMatrix = Matrix4x4.CreateShadow(-lightSource.VectorLightSource, plane);
-
-            //Region region = Region.MakeEmpty;
-
-             float Xmin = float.MaxValue;
-             float YMin = float.MaxValue;
-             float Xmax = float.MinValue;
-             float Ymax = float.MinValue;
-
-            // GraphicsPath gp = new GraphicsPath();
-
 
              foreach (Models3DLib.Plane p in model.Planes)
              {
@@ -119,23 +82,11 @@ namespace WinShadow
                      GraphicsPath gp = new GraphicsPath();
                      gp.AddPolygon(shadow);
                      region.Union(gp);
-
-                     float left = shadow.Min(point => point.X);
-                     float top = shadow.Min(point => point.Y);
-                     float right = shadow.Max(point => point.X);
-                     float bottom = shadow.Max(point => point.Y);
-
-                     if (left < Xmin) Xmin = left;
-                     if (top < YMin) YMin = top;
-                     if (right > Xmax) Xmax = right;
-                     if (bottom > Ymax) Ymax = bottom;
-
-
                  }
              }
 
              Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 0));
-             g.FillRegion(brush, region);*/
+             g.FillRegion(brush, region);
         }
 
         void RenderModel(Graphics g, Model model, ILightSource lightSource, IPoint3D pointObserver)

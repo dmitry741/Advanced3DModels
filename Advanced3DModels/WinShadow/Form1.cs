@@ -26,7 +26,6 @@ namespace WinShadow
         Model _model;
         IPoint3D _pointObserver = null;
         ProjectorLightSource _lightSource = null;
-        IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         PointF _startPoint;
 
         bool _blockEvents = false;
@@ -45,10 +44,14 @@ namespace WinShadow
             {
                 model = PresetsModel.Cube(120.0f, cSizePrimitive);
             }
+            else if (index == 1)
+            {
+                const float cScaleFactor = 0.75f;
+                model = PresetsModel.Arrow(200 * cScaleFactor, 60 * cScaleFactor, 60 * cScaleFactor, 100 * cScaleFactor, 24, cSizePrimitive, Color.Gold);
+            }
             else
             {
-                const float cScaleFactor = 0.5f;
-                model = PresetsModel.Arrow(200 * cScaleFactor, 60 * cScaleFactor, 60 * cScaleFactor, 100 * cScaleFactor, 24, cSizePrimitive, Color.DarkGoldenrod);
+                model = PresetsModel.Octahedron(120, cSizePrimitive);
             }
 
             return model;
@@ -65,7 +68,7 @@ namespace WinShadow
             Font font = new Font("Arial", 36f, FontStyle.Regular);
             SizeF sz = g.MeasureString(cScript, font);
 
-            g.DrawString(cScript, font, Brushes.DarkGray, (pictureBox1.Width - sz.Width) / 2, (pictureBox1.Height - sz.Height) / 2);
+            g.DrawString(cScript, font, Brushes.Black, (pictureBox1.Width - sz.Width) / 2, (pictureBox1.Height - sz.Height) / 2);
         }
 
         void RenderShadow(Graphics g, Model model, ProjectorLightSource lightSource)
@@ -111,9 +114,7 @@ namespace WinShadow
             foreach (Triangle triangle in triangles)
             {
                 lightModelParameters.Normal = triangle.Normal;
-                lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
-                lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
-                lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
+                lightModelParameters.ReflectionEnable = false;
                 lightModelParameters.BaseColor = triangle.BaseColor;
 
                 for (int i = 0; i < 3; i++)
@@ -143,6 +144,7 @@ namespace WinShadow
             // отрисовка фона
             g.Clear(Color.White);
 
+            // отрисовка надписи
             RenderString(g);
 
             // запомнили состояние модели
@@ -153,15 +155,6 @@ namespace WinShadow
             float yTranslate = 3 * pictureBox1.Height / 8;
             Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
             _model.Transform(translate);
-
-            // отрисовка модели
-            bool bPerspective = false;
-
-            if (bPerspective)
-            {
-                // перспективное преобразование
-                _model.Transform(_iperspectiveTransform, _pointObserver);
-            }
 
             // отрисовка тени
             RenderShadow(g, _model, _lightSource);
@@ -185,7 +178,7 @@ namespace WinShadow
             _blockEvents = true;
 
             comboBox1.BeginUpdate();
-            comboBox1.Items.AddRange(new string[] { "Куб", "Стрелка" });
+            comboBox1.Items.AddRange(new string[] { "Куб", "Стрелка", "Октаэдр" });
             comboBox1.SelectedIndex = 0;
             comboBox1.EndUpdate();
 
@@ -193,13 +186,8 @@ namespace WinShadow
 
             _model = GetModel(0);
 
-            _lightSource = new ProjectorLightSource
-            {
-                VectorLightSource = new Vector3(-0.05f, -0.05f, -1.0f)
-            };
-
+            _lightSource = new ProjectorLightSource { VectorLightSource = new Vector3(-0.05f, -0.05f, -1.0f) };
             _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
-
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

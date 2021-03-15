@@ -10,7 +10,7 @@ namespace Models3DLib
 {
     public class Polygon4Plane : Plane
     {
-        int _nX, _nY;
+        readonly int _nX, _nY;
 
         public Polygon4Plane(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor, string name)
         {

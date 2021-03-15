@@ -68,6 +68,7 @@
     <Compile Include="Polygon4Plane.cs" />
     <Compile Include="ResolverInterface.cs" />
     <Compile Include="SpherePixelModel.cs" />
+    <Compile Include="Surface.cs" />
     <Compile Include="Triangle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

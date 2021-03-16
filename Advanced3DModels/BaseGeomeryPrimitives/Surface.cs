@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    public delegate double Function3D(float X, float Y);
+    public delegate float Function3D(float X, float Y);
 
     public class Surface : Polygon4Plane
     {
@@ -36,12 +36,30 @@ namespace Models3DLib
         }
 
 
-        public void CreateSurface(RectangleF real, Function3D function3D, float ZMin, float Zmax)
+        public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp)
         {
-            RectangleF boundRect = BoundRect;
+            RectangleF compBoundRect = BoundRect;
 
-            // вычисляем минимальное и макстмальное значения по оси Z
+            // вычисляем минимальное и максимальное значения по оси Z
+            float ZMinReal = float.MaxValue;
+            float ZMaxReal = float.MinValue;
 
+            foreach(IPoint3D point in _point3Ds)
+            {
+                IPoint3D realPoint = ConvertToReal(realBoundRect, compBoundRect, point);
+                float z = function3D(realPoint.X, realPoint.Y);
+
+                if (z < ZMinReal) ZMinReal = z;
+                if (z > ZMaxReal) ZMaxReal = z;
+            }
+
+            foreach (IPoint3D point in _point3Ds)
+            {
+                IPoint3D realPoint = ConvertToReal(realBoundRect, compBoundRect, point);
+                float z = function3D(realPoint.X, realPoint.Y);
+
+                point.Z = (ZmaxComp - ZMinComp) / (ZMaxReal - ZMinReal) * (z - ZMinReal) + ZMinComp;
+            }
         }
     }
 }

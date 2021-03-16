@@ -12,7 +12,13 @@ namespace Models3DLib
     public class Surface : Polygon4Plane
     {
         public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor, string name) :
-            base(p1, p2, p3, p4, sizePrimitive, baseColor, name) { }
+            base(p1, p2, p3, p4, sizePrimitive, baseColor, name) 
+        { 
+            foreach(Triangle triangle in _triangles)
+            {
+                triangle.VisibleBackSide = true;
+            }
+        }
 
         RectangleF BoundRect
         {

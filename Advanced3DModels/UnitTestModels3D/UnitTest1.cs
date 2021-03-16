@@ -141,5 +141,22 @@ namespace UnitTestModels3D
             Assert.IsTrue(triangleContains.Contains(1, 1));
             Assert.IsFalse(triangleContains.Contains(2, 2));
         }
+
+        [TestMethod]
+        [Description("Создание графика функции z=f(x, y).")]
+        public void TestSurface1()
+        {
+            IPoint3D point1 = ResolvePoint3D(0, 0, 0);
+            IPoint3D point2 = ResolvePoint3D(100, 0, 0);
+            IPoint3D point3 = ResolvePoint3D(100, 100, 0);
+            IPoint3D point4 = ResolvePoint3D(0, 100, 0);
+
+            Surface surface = new Surface(point1, point2, point3, point4, 10, Color.Gray, string.Empty);
+
+            RectangleF realBoundRect = new RectangleF(-4, -4, 8, 8);
+            surface.CreateSurface(realBoundRect, (x, y) => 1.0f / (1.0f + x * x + y * y), -30, 30);
+
+            Assert.IsTrue(surface.Points.Count() > 0);
+        }
     }
 }

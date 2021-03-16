@@ -27,6 +27,7 @@ namespace WinSurfaceApp
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         ILightSource _lightSource = null;
         PointF _startPoint;
+        Surface _surface = null;
 
         bool _blockEvents = false;
 
@@ -41,7 +42,7 @@ namespace WinSurfaceApp
 
         Model GetModel()
         {           
-            const float cSizePrimitive = 16;
+            const float cSizePrimitive = 20;
             const float cScaleFactor = 200;
 
             IPoint3D point1 = ResolvePoint3D(-cScaleFactor, -cScaleFactor, 0);
@@ -49,17 +50,18 @@ namespace WinSurfaceApp
             IPoint3D point3 = ResolvePoint3D(cScaleFactor, cScaleFactor, 0);
             IPoint3D point4 = ResolvePoint3D(-cScaleFactor, cScaleFactor, 0);
 
-            Surface surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.LightGreen, string.Empty);
+            _surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.LightGreen, string.Empty);
 
             RectangleF realBr = new RectangleF(-2, -2, 4, 4);
             Function3D function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
+            //Function3D function3D = (x, y) => x * x - y * y;
 
-            surface.CreateSurface(realBr, function3D, -60, 60);
+            _surface.CreateSurface(realBr, function3D, -100, 100);
 
             return new Model
             {
                 NeedToSort = true,
-                Planes = new List<Models3DLib.Plane> { surface }
+                Planes = new List<Models3DLib.Plane> { _surface }
             };
         }
 
@@ -73,11 +75,15 @@ namespace WinSurfaceApp
 
             IEnumerable<Triangle> triangles = model.GetTrianglesForRender(RenderModelType.FillFull);
             Color[] colors = new Color[3];
+            //Vector3 vector = new Vector3(0, 0, -1);
+            //float dot = Vector3.Dot(vector, _surface.Normal);
 
             foreach (Triangle triangle in triangles)
             {
-                lightModelParameters.Normal = triangle.Normal;
-                lightModelParameters.ReflectionEnable = false;
+                lightModelParameters.Normal = -triangle.Normal;
+                lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
+                lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
+                lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
                 lightModelParameters.BaseColor = triangle.BaseColor;
 
                 for (int i = 0; i < 3; i++)
@@ -154,6 +160,7 @@ namespace WinSurfaceApp
                 Matrix4x4 matrix = matrixRotationXZ * matrixRotationYZ;
 
                 _model.Transform(matrix);
+                _surface.Transform(matrix);
 
                 _transformMatrix *= matrix;
 

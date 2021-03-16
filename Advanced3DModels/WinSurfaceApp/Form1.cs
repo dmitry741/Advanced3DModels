@@ -42,7 +42,7 @@ namespace WinSurfaceApp
 
         Model GetModel()
         {           
-            const float cSizePrimitive = 20;
+            const float cSizePrimitive = 10;
             const float cScaleFactor = 200;
 
             IPoint3D point1 = ResolvePoint3D(-cScaleFactor, -cScaleFactor, 0);
@@ -50,13 +50,13 @@ namespace WinSurfaceApp
             IPoint3D point3 = ResolvePoint3D(cScaleFactor, cScaleFactor, 0);
             IPoint3D point4 = ResolvePoint3D(-cScaleFactor, cScaleFactor, 0);
 
-            _surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.LightGreen, string.Empty);
+            _surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.Gray, string.Empty);
 
             RectangleF realBr = new RectangleF(-2, -2, 4, 4);
-            Function3D function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
-            //Function3D function3D = (x, y) => x * x - y * y;
+            //Function3D function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
+            Function3D function3D = (x, y) => x * x - y * y;
 
-            _surface.CreateSurface(realBr, function3D, -100, 100);
+            _surface.CreateSurface(realBr, function3D, -120, 120);
 
             return new Model
             {
@@ -71,17 +71,16 @@ namespace WinSurfaceApp
             {
                 LightSources = new List<ILightSource> { lightSource },
                 PointObserver = pointObserver,
+                ReflectionEnable = true
             };
 
             IEnumerable<Triangle> triangles = model.GetTrianglesForRender(RenderModelType.FillFull);
             Color[] colors = new Color[3];
-            //Vector3 vector = new Vector3(0, 0, -1);
-            //float dot = Vector3.Dot(vector, _surface.Normal);
 
             foreach (Triangle triangle in triangles)
             {
-                lightModelParameters.Normal = -triangle.Normal;
-                lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
+                Vector3 normal = triangle.Normal;
+                lightModelParameters.Normal = (normal.Z < 0) ? normal : -normal;                
                 lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                 lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
                 lightModelParameters.BaseColor = triangle.BaseColor;

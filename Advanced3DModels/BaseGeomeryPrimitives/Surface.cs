@@ -15,10 +15,14 @@ namespace Models3DLib
         public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor, string name) :
             base(p1, p2, p3, p4, sizePrimitive, baseColor, name) 
         {
-            foreach(Triangle triangle in _triangles)
+            foreach (Triangle triangle in _triangles)
             {
                 triangle.VisibleBackSide = true;
             }
+
+            _point3Ds.Add(p1);
+            _point3Ds.Add(p2);
+            _point3Ds.Add(p3);
         }
 
         RectangleF BoundRect
@@ -40,6 +44,16 @@ namespace Models3DLib
             float y = realBoundRect.Bottom - realBoundRect.Height / compBoundRect.Height * (point.Y - compBoundRect.Top);
 
             return ResolverInterface.ResolveIPoint3D(x, y, point.Z);
+        }
+
+        public Vector3 Normal
+        {
+            get
+            {
+                int count = _point3Ds.Count();
+                Triangle triangle = new Triangle(_point3Ds[count - 3], _point3Ds[count - 2], _point3Ds[count - 1]);
+                return triangle.Normal;
+            }
         }
 
         public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp)

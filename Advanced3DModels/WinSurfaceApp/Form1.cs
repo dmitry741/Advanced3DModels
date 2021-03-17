@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -26,6 +27,7 @@ namespace WinSurfaceApp
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix;
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
+        Surface _surface = null;
 
         ILightSource _lightSource = null;
         PointF _startPoint;
@@ -152,14 +154,14 @@ namespace WinSurfaceApp
                 function3D = (x, y) => x * x - y * y;
             }
 
-            Surface surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen, string.Empty);
+            _surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen, string.Empty);
             RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
-            surface.CreateSurface(realBr, function3D, -100, 100);
+            _surface.CreateSurface(realBr, function3D, -100, 100);
 
             return new Model
             {
                 NeedToSort = true,
-                Planes = new List<Models3DLib.Plane> { surface }
+                Planes = new List<Models3DLib.Plane> { _surface }
             };
         }
 
@@ -192,7 +194,7 @@ namespace WinSurfaceApp
                     lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                     lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
                     lightModelParameters.BaseColor = triangle.BaseColor;
-
+                    
                     for (int i = 0; i < 3; i++)
                     {
                         lightModelParameters.Point = triangle.Point3Ds[i];
@@ -246,6 +248,7 @@ namespace WinSurfaceApp
                 _model.Transform(_iperspectiveTransform, _pointObserver);
             }
 
+            // тип отрисовки
             RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
 
             // отрисовка в главном окне
@@ -374,6 +377,30 @@ namespace WinSurfaceApp
         {
             if (_blockEvents)
                 return;
+
+            Render();
+        }
+
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            Vector3 normal = Vector3.Normalize(_surface.Normal);
+            float angle = Convert.ToSingle(-Math.PI / 2 / 16);
+
+            Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(normal, angle);
+            _model.Transform(matrix);
+            _transformMatrix *= matrix;
+
+            Render();
+        }
+
+        private void btnRight_Click(object sender, EventArgs e)
+        {
+            Vector3 normal = Vector3.Normalize(_surface.Normal);
+            float angle = Convert.ToSingle(Math.PI / 2 / 16);
+
+            Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(normal, angle);
+            _model.Transform(matrix);
+            _transformMatrix *= matrix;
 
             Render();
         }

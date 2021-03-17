@@ -55,7 +55,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(723, 546);
+            this.btnClose.Location = new System.Drawing.Point(720, 576);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(235, 32);
             this.btnClose.TabIndex = 5;
@@ -67,7 +67,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(702, 566);
+            this.pictureBox1.Size = new System.Drawing.Size(702, 596);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
@@ -77,7 +77,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 584);
+            this.ClientSize = new System.Drawing.Size(967, 620);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.btnClose);

@@ -12,17 +12,9 @@ namespace Models3DLib
 
     public class Surface : Polygon4Plane
     {
-        IPoint3D[] _points;
-
         public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor, string name) :
             base(p1, p2, p3, p4, sizePrimitive, baseColor, name) 
         {
-            _points = new IPoint3D[3];
-
-            _points[0] = p1;
-            _points[1] = p2;
-            _points[2] = p3;
-
             foreach(Triangle triangle in _triangles)
             {
                 triangle.VisibleBackSide = true;
@@ -39,21 +31,6 @@ namespace Models3DLib
                 float ymax = _point3Ds.Max(v => v.Y);
 
                 return new RectangleF(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
-            }
-        }
-
-        public void Transform(Matrix4x4 matrix)
-        {
-            IEnumerable<Vector3> va = _points.Select(p => Vector3.Transform(p.ToVector3(), matrix));
-            _points = va.Select(v => ResolverInterface.ResolveIPoint3D(v.X, v.Y, v.Z)).ToArray();
-        }
-
-        public Vector3 Normal
-        {
-            get
-            {
-                Triangle triangle = new Triangle(_points);
-                return triangle.Normal;
             }
         }
 

@@ -25,15 +25,43 @@ namespace WinSurfaceApp
         Model _model;
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
+
         ILightSource _lightSource = null;
         PointF _startPoint;
-        Surface _surface = null;
 
         bool _blockEvents = false;
 
         #endregion
 
         #region === private ===
+
+        Matrix4x4 ZeroTransform
+        {
+            get
+            {
+                float m11 = -0.0135017429f;
+                float m12 = 0.5386155f;
+                float m13 = -0.8424442f;
+                float m14 = 0;
+
+                float m21 = 0.9974066f;
+                float m22 = 0.06683127f;
+                float m23 = 0.0267435964f;
+                float m24 = 0;
+
+                float m31 = 0.07070663f;
+                float m32 = -0.8398974f;
+                float m33 = -0.538120866f;
+                float m34 = 0;
+
+                float m41 = 0;
+                float m42 = 0;
+                float m43 = 0;
+                float m44 = 0;
+
+                return new Matrix4x4(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+            }
+        }
 
         IPoint3D ResolvePoint3D(float X, float Y, float Z)
         {
@@ -43,25 +71,27 @@ namespace WinSurfaceApp
         Model GetModel()
         {           
             const float cSizePrimitive = 10;
-            const float cScaleFactor = 200;
+            const float cScaleCompFactor = 200;
+            const float cScaleRealFactor = 2;
 
-            IPoint3D point1 = ResolvePoint3D(-cScaleFactor, -cScaleFactor, 0);
-            IPoint3D point2 = ResolvePoint3D(cScaleFactor, -cScaleFactor, 0);
-            IPoint3D point3 = ResolvePoint3D(cScaleFactor, cScaleFactor, 0);
-            IPoint3D point4 = ResolvePoint3D(-cScaleFactor, cScaleFactor, 0);
+            IPoint3D point1 = ResolvePoint3D(-cScaleCompFactor, -cScaleCompFactor, 0);
+            IPoint3D point2 = ResolvePoint3D(cScaleCompFactor, -cScaleCompFactor, 0);
+            IPoint3D point3 = ResolvePoint3D(cScaleCompFactor, cScaleCompFactor, 0);
+            IPoint3D point4 = ResolvePoint3D(-cScaleCompFactor, cScaleCompFactor, 0);
 
-            _surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.Gray, string.Empty);
+            Surface surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.LightGreen, string.Empty);
 
-            RectangleF realBr = new RectangleF(-2, -2, 4, 4);
-            //Function3D function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
-            Function3D function3D = (x, y) => x * x - y * y;
 
-            _surface.CreateSurface(realBr, function3D, -120, 120);
+            RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
+            Function3D function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
+            //Function3D function3D = (x, y) => x * x - y * y;
+
+            surface.CreateSurface(realBr, function3D, -100, 100);
 
             return new Model
             {
                 NeedToSort = true,
-                Planes = new List<Models3DLib.Plane> { _surface }
+                Planes = new List<Models3DLib.Plane> { surface }
             };
         }
 
@@ -159,8 +189,6 @@ namespace WinSurfaceApp
                 Matrix4x4 matrix = matrixRotationXZ * matrixRotationYZ;
 
                 _model.Transform(matrix);
-                _surface.Transform(matrix);
-
                 _transformMatrix *= matrix;
 
                 Render();
@@ -176,8 +204,11 @@ namespace WinSurfaceApp
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             _model = GetModel();
+            _model.Transform(ZeroTransform);
+
             _lightSource = new PointLightSource() { LightPoint = ResolvePoint3D(0, 0, -500) };
             _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)

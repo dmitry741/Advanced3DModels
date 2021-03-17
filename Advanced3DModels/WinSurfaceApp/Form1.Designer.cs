@@ -33,6 +33,8 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBoxPerspective = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbQuality = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +53,7 @@
             this.cmbModel.FormattingEnabled = true;
             this.cmbModel.Location = new System.Drawing.Point(799, 12);
             this.cmbModel.Name = "cmbModel";
-            this.cmbModel.Size = new System.Drawing.Size(179, 21);
+            this.cmbModel.Size = new System.Drawing.Size(174, 21);
             this.cmbModel.TabIndex = 6;
             this.cmbModel.SelectedIndexChanged += new System.EventHandler(this.cmbModel_SelectedIndexChanged);
             // 
@@ -78,7 +80,7 @@
             // checkBoxPerspective
             // 
             this.checkBoxPerspective.AutoSize = true;
-            this.checkBoxPerspective.Location = new System.Drawing.Point(743, 49);
+            this.checkBoxPerspective.Location = new System.Drawing.Point(743, 120);
             this.checkBoxPerspective.Name = "checkBoxPerspective";
             this.checkBoxPerspective.Size = new System.Drawing.Size(93, 17);
             this.checkBoxPerspective.TabIndex = 8;
@@ -86,11 +88,32 @@
             this.checkBoxPerspective.UseVisualStyleBackColor = true;
             this.checkBoxPerspective.CheckedChanged += new System.EventHandler(this.checkBoxPerspective_CheckedChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(739, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Качество";
+            // 
+            // cmbQuality
+            // 
+            this.cmbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbQuality.FormattingEnabled = true;
+            this.cmbQuality.Location = new System.Drawing.Point(799, 39);
+            this.cmbQuality.Name = "cmbQuality";
+            this.cmbQuality.Size = new System.Drawing.Size(174, 21);
+            this.cmbQuality.TabIndex = 9;
+            this.cmbQuality.SelectedIndexChanged += new System.EventHandler(this.cmbQuality_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(990, 662);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cmbQuality);
             this.Controls.Add(this.checkBoxPerspective);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbModel);
@@ -114,6 +137,8 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBoxPerspective;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbQuality;
     }
 }
 

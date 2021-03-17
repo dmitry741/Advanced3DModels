@@ -24,7 +24,7 @@ namespace WinSurfaceApp
         Bitmap _bitmap;
         Model _model;
         IPoint3D _pointObserver = null;
-        Matrix4x4 _transformMatrix = Matrix4x4.Identity;
+        Matrix4x4 _transformMatrix;
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
 
         ILightSource _lightSource = null;
@@ -267,6 +267,14 @@ namespace WinSurfaceApp
             cmbModel.SelectedIndex = 0;
             cmbModel.EndUpdate();
 
+            // качество
+            cmbQuality.BeginUpdate();
+            cmbQuality.Items.Add("Низкое");
+            cmbQuality.Items.Add("Среднее");
+            cmbQuality.Items.Add("Высокое");
+            cmbQuality.SelectedIndex = 1;
+            cmbQuality.EndUpdate();
+
             _blockEvents = false;
 
             _model = GetModel(0, ModelQuality.Middle);
@@ -298,6 +306,17 @@ namespace WinSurfaceApp
 
         private void checkBoxPerspective_CheckedChanged(object sender, EventArgs e)
         {
+            Render();
+        }
+
+        private void cmbQuality_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            _model = GetModel(cmbModel.SelectedIndex, GetModelQuality(cmbQuality.SelectedIndex));
+            _model.Transform(_transformMatrix);
+
             Render();
         }
     }

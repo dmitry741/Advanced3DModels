@@ -468,5 +468,10 @@ namespace Advanced3DModels
 
             Render();
         }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

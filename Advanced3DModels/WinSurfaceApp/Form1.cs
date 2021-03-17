@@ -43,6 +43,26 @@ namespace WinSurfaceApp
 
         #region === private ===
 
+        RenderModelType GetRenderType(int index)
+        {
+            RenderModelType renderType;
+
+            if (index == 0)
+            {
+                renderType = RenderModelType.Triangulations;
+            }
+            else if (index == 1)
+            {
+                renderType = RenderModelType.FillFull;
+            }
+            else
+            {
+                renderType = RenderModelType.FillSolidColor;
+            }
+
+            return renderType;
+        }
+
         ModelQuality GetModelQuality(int index)
         {
             ModelQuality modelQuality;
@@ -143,40 +163,59 @@ namespace WinSurfaceApp
             };
         }
 
-        void RenderModel(Graphics g, Model model, ILightSource lightSource, IPoint3D pointObserver)
+        void RenderModel(Graphics g, Model model, ILightSource lightSource, RenderModelType renderModelType, IPoint3D pointObserver)
         {
-            LightModelParameters lightModelParameters = new LightModelParameters
+            IEnumerable<Triangle> triangles = model.GetTrianglesForRender(renderModelType);
+
+            if (renderModelType == RenderModelType.Triangulations)
             {
-                LightSources = new List<ILightSource> { lightSource },
-                PointObserver = pointObserver,
-                ReflectionEnable = true
-            };
-
-            IEnumerable<Triangle> triangles = model.GetTrianglesForRender(RenderModelType.FillFull);
-            Color[] colors = new Color[3];
-
-            foreach (Triangle triangle in triangles)
-            {
-                Vector3 normal = triangle.Normal;
-                lightModelParameters.Normal = (normal.Z < 0) ? normal : -normal;                
-                lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
-                lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
-                lightModelParameters.BaseColor = triangle.BaseColor;
-
-                for (int i = 0; i < 3; i++)
+                foreach (Triangle triangle in triangles)
                 {
-                    lightModelParameters.Point = triangle.Point3Ds[i];
-                    colors[i] = LightModel.GetColor(lightModelParameters);
+                    g.DrawPolygon(Pens.Black, triangle.Points);
                 }
+            }
+            else if (renderModelType == RenderModelType.FillFull)
+            {
+                LightModelParameters lightModelParameters = new LightModelParameters
+                {
+                    LightSources = new List<ILightSource> { lightSource },
+                    PointObserver = pointObserver,
+                    ReflectionEnable = true
+                };
 
-                int R = Convert.ToInt32(colors.Average(x => x.R));
-                int G = Convert.ToInt32(colors.Average(x => x.G));
-                int B = Convert.ToInt32(colors.Average(x => x.B));
+                Color[] colors = new Color[3];
 
-                Color color = Color.FromArgb(R, G, B);
-                Brush brush = new SolidBrush(color);
+                foreach (Triangle triangle in triangles)
+                {
+                    Vector3 normal = triangle.Normal;
+                    lightModelParameters.Normal = (normal.Z < 0) ? normal : -normal;
+                    lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
+                    lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
+                    lightModelParameters.BaseColor = triangle.BaseColor;
 
-                g.FillPolygon(brush, triangle.Points);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        lightModelParameters.Point = triangle.Point3Ds[i];
+                        colors[i] = LightModel.GetColor(lightModelParameters);
+                    }
+
+                    int R = Convert.ToInt32(colors.Average(x => x.R));
+                    int G = Convert.ToInt32(colors.Average(x => x.G));
+                    int B = Convert.ToInt32(colors.Average(x => x.B));
+
+                    Color color = Color.FromArgb(R, G, B);
+                    Brush brush = new SolidBrush(color);
+
+                    g.FillPolygon(brush, triangle.Points);
+                }
+            }
+            else if (renderModelType == RenderModelType.FillSolidColor)
+            {
+                foreach (Triangle triangle in triangles)
+                {
+                    g.FillPolygon(Brushes.White, triangle.Points);
+                    g.DrawPolygon(Pens.Black, triangle.Points);
+                }
             }
         }
 
@@ -207,8 +246,10 @@ namespace WinSurfaceApp
                 _model.Transform(_iperspectiveTransform, _pointObserver);
             }
 
+            RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
+
             // отрисовка в главном окне
-            RenderModel(g, _model, _lightSource, _pointObserver);
+            RenderModel(g, _model, _lightSource, renderType, _pointObserver);
 
             // восстановили сохраненное состояние
             _model.RestoreState();
@@ -261,6 +302,7 @@ namespace WinSurfaceApp
 
             _blockEvents = true;
 
+            // модели
             cmbModel.BeginUpdate();
             cmbModel.Items.Add("Шляпа");
             cmbModel.Items.Add("Седло");
@@ -274,6 +316,14 @@ namespace WinSurfaceApp
             cmbQuality.Items.Add("Высокое");
             cmbQuality.SelectedIndex = 1;
             cmbQuality.EndUpdate();
+
+            // отображение
+            cmbRenderStatus.BeginUpdate();
+            cmbRenderStatus.Items.Add("Каркас");
+            cmbRenderStatus.Items.Add("Полное");
+            cmbRenderStatus.Items.Add("Каркас. Без цвета.");
+            cmbRenderStatus.SelectedIndex = 1;
+            cmbRenderStatus.EndUpdate();
 
             _blockEvents = false;
 
@@ -316,6 +366,14 @@ namespace WinSurfaceApp
 
             _model = GetModel(cmbModel.SelectedIndex, GetModelQuality(cmbQuality.SelectedIndex));
             _model.Transform(_transformMatrix);
+
+            Render();
+        }
+
+        private void cmbRenderStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
 
             Render();
         }

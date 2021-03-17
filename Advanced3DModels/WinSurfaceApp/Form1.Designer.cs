@@ -35,13 +35,15 @@
             this.checkBoxPerspective = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbQuality = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbRenderStatus = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(740, 15);
+            this.label1.Location = new System.Drawing.Point(770, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 13);
             this.label1.TabIndex = 7;
@@ -51,7 +53,7 @@
             // 
             this.cmbModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbModel.FormattingEnabled = true;
-            this.cmbModel.Location = new System.Drawing.Point(799, 12);
+            this.cmbModel.Location = new System.Drawing.Point(829, 12);
             this.cmbModel.Name = "cmbModel";
             this.cmbModel.Size = new System.Drawing.Size(174, 21);
             this.cmbModel.TabIndex = 6;
@@ -80,7 +82,7 @@
             // checkBoxPerspective
             // 
             this.checkBoxPerspective.AutoSize = true;
-            this.checkBoxPerspective.Location = new System.Drawing.Point(743, 120);
+            this.checkBoxPerspective.Location = new System.Drawing.Point(750, 254);
             this.checkBoxPerspective.Name = "checkBoxPerspective";
             this.checkBoxPerspective.Size = new System.Drawing.Size(93, 17);
             this.checkBoxPerspective.TabIndex = 8;
@@ -91,7 +93,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(739, 42);
+            this.label2.Location = new System.Drawing.Point(769, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 10;
@@ -101,17 +103,38 @@
             // 
             this.cmbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbQuality.FormattingEnabled = true;
-            this.cmbQuality.Location = new System.Drawing.Point(799, 39);
+            this.cmbQuality.Location = new System.Drawing.Point(829, 39);
             this.cmbQuality.Name = "cmbQuality";
             this.cmbQuality.Size = new System.Drawing.Size(174, 21);
             this.cmbQuality.TabIndex = 9;
             this.cmbQuality.SelectedIndexChanged += new System.EventHandler(this.cmbQuality_SelectedIndexChanged);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(747, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Отображение";
+            // 
+            // cmbRenderStatus
+            // 
+            this.cmbRenderStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRenderStatus.FormattingEnabled = true;
+            this.cmbRenderStatus.Location = new System.Drawing.Point(829, 66);
+            this.cmbRenderStatus.Name = "cmbRenderStatus";
+            this.cmbRenderStatus.Size = new System.Drawing.Size(174, 21);
+            this.cmbRenderStatus.TabIndex = 12;
+            this.cmbRenderStatus.SelectedIndexChanged += new System.EventHandler(this.cmbRenderStatus_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 662);
+            this.ClientSize = new System.Drawing.Size(1062, 662);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cmbRenderStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbQuality);
             this.Controls.Add(this.checkBoxPerspective);
@@ -139,6 +162,8 @@
         private System.Windows.Forms.CheckBox checkBoxPerspective;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbQuality;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbRenderStatus;
     }
 }
 

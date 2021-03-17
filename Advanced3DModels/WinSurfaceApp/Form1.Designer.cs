@@ -39,7 +39,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(720, 15);
+            this.label1.Location = new System.Drawing.Point(740, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 13);
             this.label1.TabIndex = 7;
@@ -49,7 +49,7 @@
             // 
             this.cmbModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbModel.FormattingEnabled = true;
-            this.cmbModel.Location = new System.Drawing.Point(779, 12);
+            this.cmbModel.Location = new System.Drawing.Point(799, 12);
             this.cmbModel.Name = "cmbModel";
             this.cmbModel.Size = new System.Drawing.Size(179, 21);
             this.cmbModel.TabIndex = 6;
@@ -57,9 +57,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(720, 576);
+            this.btnClose.Location = new System.Drawing.Point(740, 618);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(235, 32);
+            this.btnClose.Size = new System.Drawing.Size(238, 32);
             this.btnClose.TabIndex = 5;
             this.btnClose.Text = "Выход";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -69,7 +69,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(702, 596);
+            this.pictureBox1.Size = new System.Drawing.Size(722, 638);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
@@ -78,7 +78,7 @@
             // checkBoxPerspective
             // 
             this.checkBoxPerspective.AutoSize = true;
-            this.checkBoxPerspective.Location = new System.Drawing.Point(723, 102);
+            this.checkBoxPerspective.Location = new System.Drawing.Point(743, 49);
             this.checkBoxPerspective.Name = "checkBoxPerspective";
             this.checkBoxPerspective.Size = new System.Drawing.Size(93, 17);
             this.checkBoxPerspective.TabIndex = 8;
@@ -90,7 +90,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 620);
+            this.ClientSize = new System.Drawing.Size(990, 662);
             this.Controls.Add(this.checkBoxPerspective);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbModel);

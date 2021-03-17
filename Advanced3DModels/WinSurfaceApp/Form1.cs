@@ -32,9 +32,36 @@ namespace WinSurfaceApp
 
         bool _blockEvents = false;
 
+        enum ModelQuality
+        {
+            Low,
+            Middle,
+            High
+        }
+
         #endregion
 
         #region === private ===
+
+        ModelQuality GetModelQuality(int index)
+        {
+            ModelQuality modelQuality;
+
+            if (index == 1)
+            {
+                modelQuality = ModelQuality.Middle;
+            }
+            else if (index == 2)
+            {
+                modelQuality = ModelQuality.High;
+            }
+            else
+            {
+                modelQuality = ModelQuality.Low;
+            }
+
+            return modelQuality;
+        }
 
         Matrix4x4 ZeroTransform
         {
@@ -69,10 +96,24 @@ namespace WinSurfaceApp
             return new Point3D(X, Y, Z);
         }
 
-        Model GetModel(int index)
-        {           
-            const float cSizePrimitive = 10;
-            const float cScaleCompFactor = 200;
+        Model GetModel(int index, ModelQuality modelQuality)
+        {
+            float sizePrimitive;
+
+            if (modelQuality == ModelQuality.Low)
+            {
+                sizePrimitive = 16;
+            }
+            else if (modelQuality == ModelQuality.Middle)
+            {
+                sizePrimitive = 12;
+            }
+            else
+            {
+                sizePrimitive = 8;
+            }
+
+            const float cScaleCompFactor = 208;
             const float cScaleRealFactor = 2;
 
             IPoint3D point1 = ResolvePoint3D(-cScaleCompFactor, -cScaleCompFactor, 0);
@@ -91,7 +132,7 @@ namespace WinSurfaceApp
                 function3D = (x, y) => x * x - y * y;
             }
 
-            Surface surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.LightGreen, string.Empty);
+            Surface surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen, string.Empty);
             RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
             surface.CreateSurface(realBr, function3D, -100, 100);
 
@@ -228,7 +269,7 @@ namespace WinSurfaceApp
 
             _blockEvents = false;
 
-            _model = GetModel(0);
+            _model = GetModel(0, ModelQuality.Middle);
             Matrix4x4 zeroTansform = ZeroTransform;
             _model.Transform(zeroTansform);
             _transformMatrix = zeroTansform;
@@ -247,7 +288,7 @@ namespace WinSurfaceApp
             if (_blockEvents)
                 return;
 
-            _model = GetModel(cmbModel.SelectedIndex);
+            _model = GetModel(cmbModel.SelectedIndex, ModelQuality.Middle);
             Matrix4x4 zeroTansform = ZeroTransform;
             _model.Transform(zeroTansform);
             _transformMatrix = zeroTansform;

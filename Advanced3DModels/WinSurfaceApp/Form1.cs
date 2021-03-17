@@ -25,6 +25,7 @@ namespace WinSurfaceApp
         Model _model;
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
+        IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
 
         ILightSource _lightSource = null;
         PointF _startPoint;
@@ -68,7 +69,7 @@ namespace WinSurfaceApp
             return new Point3D(X, Y, Z);
         }
 
-        Model GetModel()
+        Model GetModel(int index)
         {           
             const float cSizePrimitive = 10;
             const float cScaleCompFactor = 200;
@@ -79,13 +80,19 @@ namespace WinSurfaceApp
             IPoint3D point3 = ResolvePoint3D(cScaleCompFactor, cScaleCompFactor, 0);
             IPoint3D point4 = ResolvePoint3D(-cScaleCompFactor, cScaleCompFactor, 0);
 
+            Function3D function3D;
+            
+            if (index == 0)
+            {
+                function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
+            }
+            else
+            {
+                function3D = (x, y) => x * x - y * y;
+            }
+
             Surface surface = new Surface(point1, point2, point3, point4, cSizePrimitive, Color.LightGreen, string.Empty);
-
-
             RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
-            Function3D function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
-            //Function3D function3D = (x, y) => x * x - y * y;
-
             surface.CreateSurface(realBr, function3D, -100, 100);
 
             return new Model
@@ -151,6 +158,14 @@ namespace WinSurfaceApp
             Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
             _model.Transform(translate);
 
+            bool bPerspective = checkBoxPerspective.Checked;
+
+            if (bPerspective)
+            {
+                // перспективное преобразование
+                _model.Transform(_iperspectiveTransform, _pointObserver);
+            }
+
             // отрисовка в главном окне
             RenderModel(g, _model, _lightSource, _pointObserver);
 
@@ -203,17 +218,46 @@ namespace WinSurfaceApp
             pictureBox1.BackColor = Color.White;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
-            _model = GetModel();
-            _model.Transform(ZeroTransform);
+            _blockEvents = true;
+
+            cmbModel.BeginUpdate();
+            cmbModel.Items.Add("Шляпа");
+            cmbModel.Items.Add("Седло");
+            cmbModel.SelectedIndex = 0;
+            cmbModel.EndUpdate();
+
+            _blockEvents = false;
+
+            _model = GetModel(0);
+            Matrix4x4 zeroTansform = ZeroTransform;
+            _model.Transform(zeroTansform);
+            _transformMatrix = zeroTansform;
 
             _lightSource = new PointLightSource() { LightPoint = ResolvePoint3D(0, 0, -500) };
             _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
-
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void cmbModel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            _model = GetModel(cmbModel.SelectedIndex);
+            Matrix4x4 zeroTansform = ZeroTransform;
+            _model.Transform(zeroTansform);
+            _transformMatrix = zeroTansform;
+
+            Render();
+        }
+
+        private void checkBoxPerspective_CheckedChanged(object sender, EventArgs e)
+        {
+            Render();
         }
     }
 }

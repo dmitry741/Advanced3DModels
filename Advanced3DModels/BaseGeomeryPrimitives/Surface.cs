@@ -42,7 +42,6 @@ namespace Models3DLib
             return ResolverInterface.ResolveIPoint3D(x, y, point.Z);
         }
 
-
         public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp)
         {
             RectangleF compBoundRect = BoundRect;

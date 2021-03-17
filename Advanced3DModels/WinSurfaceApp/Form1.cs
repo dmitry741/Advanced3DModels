@@ -383,10 +383,10 @@ namespace WinSurfaceApp
 
         private void btnLeft_Click(object sender, EventArgs e)
         {
-            Vector3 normal = Vector3.Normalize(_surface.Normal);
+            Vector3 axis = Vector3.Normalize(_surface.Normal);
             float angle = Convert.ToSingle(-Math.PI / 2 / 16);
 
-            Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(normal, angle);
+            Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(axis, angle);
             _model.Transform(matrix);
             _transformMatrix *= matrix;
 
@@ -395,10 +395,10 @@ namespace WinSurfaceApp
 
         private void btnRight_Click(object sender, EventArgs e)
         {
-            Vector3 normal = Vector3.Normalize(_surface.Normal);
+            Vector3 axis = Vector3.Normalize(_surface.Normal);
             float angle = Convert.ToSingle(Math.PI / 2 / 16);
 
-            Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(normal, angle);
+            Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(axis, angle);
             _model.Transform(matrix);
             _transformMatrix *= matrix;
 

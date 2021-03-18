@@ -154,7 +154,7 @@ namespace WinSurfaceApp
                 function3D = (x, y) => x * x - y * y;
             }
 
-            _surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen, string.Empty);
+            _surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen);
             RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
             _surface.CreateSurface(realBr, function3D, -100, 100);
 

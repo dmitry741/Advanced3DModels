@@ -151,7 +151,7 @@ namespace UnitTestModels3D
             IPoint3D point3 = ResolvePoint3D(100, 100, 0);
             IPoint3D point4 = ResolvePoint3D(0, 100, 0);
 
-            Surface surface = new Surface(point1, point2, point3, point4, 10, Color.Gray, string.Empty);
+            Surface surface = new Surface(point1, point2, point3, point4, 10, Color.Gray);
 
             RectangleF realBoundRect = new RectangleF(-4, -4, 8, 8);
             surface.CreateSurface(realBoundRect, (x, y) => 1.0f / (1.0f + x * x + y * y), -30, 30);

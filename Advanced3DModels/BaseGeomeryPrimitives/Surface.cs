@@ -12,8 +12,8 @@ namespace Models3DLib
 
     public class Surface : Polygon4Plane
     {
-        public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor, string name) :
-            base(p1, p2, p3, p4, sizePrimitive, baseColor, name) 
+        public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor) :
+            base(p1, p2, p3, p4, sizePrimitive, baseColor, string.Empty) 
         {
             foreach (Triangle triangle in _triangles)
             {
@@ -79,6 +79,19 @@ namespace Models3DLib
                 float z = function3D(realPoint.X, realPoint.Y);
 
                 point.Z = (ZmaxComp - ZMinComp) / (ZMaxReal - ZMinReal) * (z - ZMinReal) + ZMinComp;
+            }
+        }
+
+        public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp, Color[] palette)
+        {
+            CreateSurface(realBoundRect, function3D, ZMinComp, ZmaxComp);
+
+            // раскраска теругольников по высоте
+            foreach(Triangle triangle in _triangles)
+            {
+                float Z = triangle.Point3Ds.Average(point => point.Z);
+                int index = Convert.ToInt32((palette.Length - 1) / (ZmaxComp - ZMinComp) * (Z - ZMinComp));
+                triangle.BaseColor = palette[index];
             }
         }
     }

@@ -12,8 +12,6 @@ namespace WinSurfaceApp
     /// </summary>
     public class Palette
     {
-        private readonly List<Color> _baseColors = new List<Color>();
-
         #region === private ===
 
         Color GetGradientColor(int iteration, Color color1, Color color2, int gradientCount)
@@ -37,27 +35,24 @@ namespace WinSurfaceApp
 
         #endregion
 
+        public List<Color> BaseColors { get; set; }
+
         public List<Color> CreatePalette()
         {
             List<Color> palette = new List<Color>();
             const int cGradientCount = 100;
 
-            for (int i = 0; i < _baseColors.Count - 1; i++)
+            for (int i = 0; i < BaseColors.Count - 1; i++)
             {
                 for (int j = 0; j < cGradientCount; j++)
                 {
-                    palette.Add(GetGradientColor(j, _baseColors[i], _baseColors[i + 1], cGradientCount));
+                    palette.Add(GetGradientColor(j, BaseColors[i], BaseColors[i + 1], cGradientCount));
                 }
             }
 
-            palette.Add(_baseColors[_baseColors.Count - 1]);
+            palette.Add(BaseColors[BaseColors.Count - 1]);
 
             return palette;
-        }
-
-        public void AddBaseColor(Color color)
-        {
-            _baseColors.Add(color);
         }
     }
 }

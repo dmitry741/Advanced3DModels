@@ -30,7 +30,7 @@ namespace WinSurfaceApp
         Surface _surface = null;
         ILightSource _lightSource = null;
         PointF _startPoint;
-        Palette[] _palettes = new Palette[2];
+        Palette[] _palettes = null;
 
         bool _blockEvents = false;
 
@@ -57,6 +57,21 @@ namespace WinSurfaceApp
                     Color.Blue,
                     Color.LightGray
                 }
+            };
+        }
+
+        Palette CreateHotColdPalette()
+        {
+            return new Palette
+            {
+                BaseColors = new List<Color>
+                {
+                    Color.Blue,
+                    Color.Red,
+                    Color.Gold
+                },
+
+                GradientCount = 4                
             };
         }
 
@@ -159,19 +174,37 @@ namespace WinSurfaceApp
             IPoint3D point4 = ResolvePoint3D(-cScaleCompFactor, cScaleCompFactor, 0);
 
             Function3D function3D;
+            float ZMin, Zmax;
             
             if (index == 0)
             {
                 function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
+                ZMin = -100;
+                Zmax = 100;
+            }
+            else if (index == 1)
+            {
+                function3D = (x, y) => x * x - y * y;
+                ZMin = -100;
+                Zmax = 100;
+            }
+            else if (index == 2)
+            {
+                function3D = (x, y) => Convert.ToSingle(2 * Math.Exp(-(x * x + y * y)) * Math.Cos(2 * x * x + 2 * y * y));
+                ZMin = -80;
+                Zmax = 80;
             }
             else
             {
-                function3D = (x, y) => x * x - y * y;
+                function3D = (x, y) => x * x + y * y;
+                ZMin = -80;
+                Zmax = 80;
             }
 
             _surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen);
             RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
-            _surface.CreateSurface(realBr, function3D, -100, 100);
+            List<Color> colors = _palettes[0].CreatePalette();
+            _surface.CreateSurface(realBr, function3D, ZMin, Zmax, colors.ToArray());
 
             return new Model
             {
@@ -324,6 +357,8 @@ namespace WinSurfaceApp
             cmbModel.BeginUpdate();
             cmbModel.Items.Add("Шляпа");
             cmbModel.Items.Add("Седло");
+            cmbModel.Items.Add("Затухающие колебания");
+            cmbModel.Items.Add("Параболоид");
             cmbModel.SelectedIndex = 0;
             cmbModel.EndUpdate();
 
@@ -345,6 +380,8 @@ namespace WinSurfaceApp
 
             _blockEvents = false;
 
+            _palettes = new Palette[] { CreateMountainsPalette(), CreateHotColdPalette() };
+
             _model = GetModel(0, ModelQuality.Middle);
             Matrix4x4 zeroTansform = ZeroTransform;
             _model.Transform(zeroTansform);
@@ -364,7 +401,7 @@ namespace WinSurfaceApp
             if (_blockEvents)
                 return;
 
-            _model = GetModel(cmbModel.SelectedIndex, ModelQuality.Middle);
+            _model = GetModel(cmbModel.SelectedIndex, GetModelQuality(cmbQuality.SelectedIndex));
             Matrix4x4 zeroTansform = ZeroTransform;
             _model.Transform(zeroTansform);
             _transformMatrix = zeroTansform;

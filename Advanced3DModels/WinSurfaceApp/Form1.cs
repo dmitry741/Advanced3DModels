@@ -28,9 +28,9 @@ namespace WinSurfaceApp
         Matrix4x4 _transformMatrix;
         IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         Surface _surface = null;
-
         ILightSource _lightSource = null;
         PointF _startPoint;
+        Palette[] _palettes = new Palette[2];
 
         bool _blockEvents = false;
 
@@ -44,6 +44,21 @@ namespace WinSurfaceApp
         #endregion
 
         #region === private ===
+
+        Palette CreateMountainsPalette()
+        {
+            return new Palette
+            {
+                BaseColors = new List<Color>
+                {
+                    Color.LightGreen,
+                    Color.DarkGreen,
+                    Color.Brown,
+                    Color.Blue,
+                    Color.LightGray
+                }
+            };
+        }
 
         RenderModelType GetRenderType(int index)
         {

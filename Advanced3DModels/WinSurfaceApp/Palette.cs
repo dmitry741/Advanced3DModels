@@ -10,7 +10,7 @@ namespace WinSurfaceApp
     /// <summary>
     /// Класс представляющий набор цветов.
     /// </summary>
-    public class Palette
+    class Palette
     {
         #region === private ===
 
@@ -36,17 +36,17 @@ namespace WinSurfaceApp
         #endregion
 
         public List<Color> BaseColors { get; set; }
+        public int GradientCount { get; set; } = 2;
 
         public List<Color> CreatePalette()
         {
             List<Color> palette = new List<Color>();
-            const int cGradientCount = 100;
 
             for (int i = 0; i < BaseColors.Count - 1; i++)
             {
-                for (int j = 0; j < cGradientCount; j++)
+                for (int j = 0; j < GradientCount; j++)
                 {
-                    palette.Add(GetGradientColor(j, BaseColors[i], BaseColors[i + 1], cGradientCount));
+                    palette.Add(GetGradientColor(j, BaseColors[i], BaseColors[i + 1], GradientCount));
                 }
             }
 

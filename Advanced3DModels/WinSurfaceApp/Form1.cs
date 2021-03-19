@@ -26,7 +26,7 @@ namespace WinSurfaceApp
         Model _model;
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix;
-        IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
+        readonly IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         Surface _surface = null;
         ILightSource _lightSource = null;
         PointF _startPoint;
@@ -85,8 +85,8 @@ namespace WinSurfaceApp
             if (index == 0)
             {
                 function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
-                ZMin = -100;
-                Zmax = 100;
+                ZMin = -80;
+                Zmax = 80;
             }
             else if (index == 1)
             {
@@ -100,9 +100,27 @@ namespace WinSurfaceApp
                 ZMin = -80;
                 Zmax = 80;
             }
-            else
+            else if (index == 3)
             {
                 function3D = (x, y) => x * x + y * y;
+                ZMin = -80;
+                Zmax = 80;
+            }
+            else if (index == 4)
+            {
+                function3D = (x, y) => x * x * x + y * y * y - 3 * x * y;
+                ZMin = -110;
+                Zmax = 110;
+            }
+            else if (index == 5)
+            {
+                function3D = (x, y) => 1.0f / (1.0f + 4 * x * x + y * y);
+                ZMin = -80;
+                Zmax = 80;
+            }
+            else
+            {
+                function3D = (x, y) => Convert.ToSingle(2 * Math.Exp(-(x * x + y * y) / 8) * (Math.Sin(x * x) + Math.Cos(y * y)));
                 ZMin = -80;
                 Zmax = 80;
             }
@@ -127,6 +145,26 @@ namespace WinSurfaceApp
                 Planes = new List<Models3DLib.Plane> { _surface }
             };
         }
+
+       /* static float Hils(float x, float y)
+        {
+            const int cCount = 2;
+
+            PointF[] c = new PointF[cCount];
+            c[0] = new PointF(-1, -1);
+            c[1] = new PointF(1, 1);
+
+            float[] k = new float[] { 1.0f, 0.5f };
+
+            float v = 0;
+
+            for (int i = 0; i < cCount; i++)
+            {
+                v += k[i] * ((x - c[i].X) * (x - c[i].X) + (y - c[i].Y) * (y - c[i].Y));
+            }
+
+            return 1.0f / (1.0f + v);
+        }*/
 
         Palette CreateMountainsPalette()
         {
@@ -383,6 +421,9 @@ namespace WinSurfaceApp
             cmbModel.Items.Add("Седло");
             cmbModel.Items.Add("Затухающие колебания");
             cmbModel.Items.Add("Параболоид");
+            cmbModel.Items.Add("Скат");
+            cmbModel.Items.Add("Плавник");
+            cmbModel.Items.Add("Холмы");
             cmbModel.SelectedIndex = 0;
             cmbModel.EndUpdate();
 

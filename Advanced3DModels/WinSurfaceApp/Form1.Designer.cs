@@ -42,7 +42,14 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnRight = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
+            this.cmbColors = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnOneColor = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbPalette = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -66,9 +73,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(740, 618);
+            this.btnClose.Location = new System.Drawing.Point(879, 618);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(238, 32);
+            this.btnClose.Size = new System.Drawing.Size(118, 32);
             this.btnClose.TabIndex = 5;
             this.btnClose.Text = "Выход";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -87,7 +94,7 @@
             // checkBoxPerspective
             // 
             this.checkBoxPerspective.AutoSize = true;
-            this.checkBoxPerspective.Location = new System.Drawing.Point(827, 93);
+            this.checkBoxPerspective.Location = new System.Drawing.Point(827, 181);
             this.checkBoxPerspective.Name = "checkBoxPerspective";
             this.checkBoxPerspective.Size = new System.Drawing.Size(93, 17);
             this.checkBoxPerspective.TabIndex = 8;
@@ -146,7 +153,7 @@
             // 
             this.btnRight.ImageIndex = 2;
             this.btnRight.ImageList = this.imageList1;
-            this.btnRight.Location = new System.Drawing.Point(798, 222);
+            this.btnRight.Location = new System.Drawing.Point(783, 342);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(38, 38);
             this.btnRight.TabIndex = 26;
@@ -157,18 +164,80 @@
             // 
             this.btnLeft.ImageIndex = 1;
             this.btnLeft.ImageList = this.imageList1;
-            this.btnLeft.Location = new System.Drawing.Point(754, 222);
+            this.btnLeft.Location = new System.Drawing.Point(739, 342);
             this.btnLeft.Name = "btnLeft";
             this.btnLeft.Size = new System.Drawing.Size(38, 38);
             this.btnLeft.TabIndex = 25;
             this.btnLeft.UseVisualStyleBackColor = true;
             this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
             // 
+            // cmbColors
+            // 
+            this.cmbColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbColors.FormattingEnabled = true;
+            this.cmbColors.Location = new System.Drawing.Point(827, 93);
+            this.cmbColors.Name = "cmbColors";
+            this.cmbColors.Size = new System.Drawing.Size(174, 21);
+            this.cmbColors.TabIndex = 27;
+            this.cmbColors.SelectedIndexChanged += new System.EventHandler(this.cmbColors_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(759, 96);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 13);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "Раскраска";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(827, 147);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(38, 28);
+            this.pictureBox2.TabIndex = 29;
+            this.pictureBox2.TabStop = false;
+            // 
+            // btnOneColor
+            // 
+            this.btnOneColor.Location = new System.Drawing.Point(871, 147);
+            this.btnOneColor.Name = "btnOneColor";
+            this.btnOneColor.Size = new System.Drawing.Size(38, 28);
+            this.btnOneColor.TabIndex = 30;
+            this.btnOneColor.Text = "...";
+            this.btnOneColor.UseVisualStyleBackColor = true;
+            this.btnOneColor.Click += new System.EventHandler(this.btnOneColor_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(771, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(50, 13);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "Палитра";
+            // 
+            // cmbPalette
+            // 
+            this.cmbPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPalette.FormattingEnabled = true;
+            this.cmbPalette.Location = new System.Drawing.Point(827, 120);
+            this.cmbPalette.Name = "cmbPalette";
+            this.cmbPalette.Size = new System.Drawing.Size(174, 21);
+            this.cmbPalette.TabIndex = 31;
+            this.cmbPalette.SelectedIndexChanged += new System.EventHandler(this.cmbPalette_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 662);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.cmbPalette);
+            this.Controls.Add(this.btnOneColor);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.cmbColors);
             this.Controls.Add(this.btnRight);
             this.Controls.Add(this.btnLeft);
             this.Controls.Add(this.label4);
@@ -186,6 +255,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,6 +275,12 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnLeft;
+        private System.Windows.Forms.ComboBox cmbColors;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button btnOneColor;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cmbPalette;
     }
 }
 

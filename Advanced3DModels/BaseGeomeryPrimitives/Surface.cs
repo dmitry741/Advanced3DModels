@@ -12,8 +12,8 @@ namespace Models3DLib
 
     public class Surface : Polygon4Plane
     {
-        public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor) :
-            base(p1, p2, p3, p4, sizePrimitive, baseColor, string.Empty) 
+        public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive) :
+            base(p1, p2, p3, p4, sizePrimitive, Color.LightGreen, string.Empty) 
         {
             foreach (Triangle triangle in _triangles)
             {
@@ -56,7 +56,16 @@ namespace Models3DLib
             }
         }
 
-        public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp)
+        public void SetColor(Color color)
+        {
+            // цвет для треугольников
+            foreach (Triangle triangle in _triangles)
+            {
+                triangle.BaseColor = color;
+            }
+        }
+
+        public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp, Color color)
         {
             RectangleF compBoundRect = BoundRect;
 
@@ -80,11 +89,17 @@ namespace Models3DLib
 
                 point.Z = (ZmaxComp - ZMinComp) / (ZMaxReal - ZMinReal) * (z - ZMinReal) + ZMinComp;
             }
+
+            // цвет для треугольников
+            foreach (Triangle triangle in _triangles)
+            {                
+                triangle.BaseColor = color;
+            }
         }
 
         public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp, Color[] palette)
         {
-            CreateSurface(realBoundRect, function3D, ZMinComp, ZmaxComp);
+            CreateSurface(realBoundRect, function3D, ZMinComp, ZmaxComp, Color.Black);
 
             // раскраска теругольников по высоте
             foreach(Triangle triangle in _triangles)

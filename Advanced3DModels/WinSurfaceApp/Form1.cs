@@ -31,6 +31,7 @@ namespace WinSurfaceApp
         ILightSource _lightSource = null;
         PointF _startPoint;
         Palette[] _palettes = null;
+        Color _surfaceColor = Color.LightGreen;
 
         bool _blockEvents = false;
 
@@ -38,12 +39,94 @@ namespace WinSurfaceApp
         {
             Low,
             Middle,
-            High
+            High,
+            Extra
         }
 
         #endregion
 
         #region === private ===
+
+        Model GetModel()
+        {
+            int index = cmbModel.SelectedIndex;
+            ModelQuality modelQuality = GetModelQuality(cmbQuality.SelectedIndex);
+
+            float sizePrimitive;
+
+            if (modelQuality == ModelQuality.Low)
+            {
+                sizePrimitive = 16;
+            }
+            else if (modelQuality == ModelQuality.Middle)
+            {
+                sizePrimitive = 12;
+            }
+            else if (modelQuality == ModelQuality.High)
+            {
+                sizePrimitive = 8;
+            }
+            else
+            {
+                sizePrimitive = 6;
+            }
+
+            const float cScaleCompFactor = 208;
+            const float cScaleRealFactor = 2;
+
+            IPoint3D point1 = ResolvePoint3D(-cScaleCompFactor, -cScaleCompFactor, 0);
+            IPoint3D point2 = ResolvePoint3D(cScaleCompFactor, -cScaleCompFactor, 0);
+            IPoint3D point3 = ResolvePoint3D(cScaleCompFactor, cScaleCompFactor, 0);
+            IPoint3D point4 = ResolvePoint3D(-cScaleCompFactor, cScaleCompFactor, 0);
+
+            Function3D function3D;
+            float ZMin, Zmax;
+
+            if (index == 0)
+            {
+                function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
+                ZMin = -100;
+                Zmax = 100;
+            }
+            else if (index == 1)
+            {
+                function3D = (x, y) => x * x - y * y;
+                ZMin = -100;
+                Zmax = 100;
+            }
+            else if (index == 2)
+            {
+                function3D = (x, y) => Convert.ToSingle(2 * Math.Exp(-(x * x + y * y)) * Math.Cos(2 * x * x + 2 * y * y));
+                ZMin = -80;
+                Zmax = 80;
+            }
+            else
+            {
+                function3D = (x, y) => x * x + y * y;
+                ZMin = -80;
+                Zmax = 80;
+            }
+
+            _surface = new Surface(point1, point2, point3, point4, sizePrimitive);
+           
+            RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
+
+            if (cmbColors.SelectedIndex == 0)
+            {
+                _surface.CreateSurface(realBr, function3D, ZMin, Zmax, _surfaceColor);
+            }
+            else
+            {
+                List<Color> colors = _palettes[cmbPalette.SelectedIndex].CreatePalette();
+                _surface.CreateSurface(realBr, function3D, ZMin, Zmax, colors.ToArray());
+            }
+
+            return new Model
+            {
+                NeedToSort = true,
+                Planes = new List<Models3DLib.Plane> { _surface }
+            };
+        }
 
         Palette CreateMountainsPalette()
         {
@@ -107,6 +190,10 @@ namespace WinSurfaceApp
             {
                 modelQuality = ModelQuality.High;
             }
+            else if (index == 3)
+            {
+                modelQuality = ModelQuality.Extra;
+            }
             else
             {
                 modelQuality = ModelQuality.Low;
@@ -146,71 +233,6 @@ namespace WinSurfaceApp
         IPoint3D ResolvePoint3D(float X, float Y, float Z)
         {
             return new Point3D(X, Y, Z);
-        }
-
-        Model GetModel(int index, ModelQuality modelQuality)
-        {
-            float sizePrimitive;
-
-            if (modelQuality == ModelQuality.Low)
-            {
-                sizePrimitive = 16;
-            }
-            else if (modelQuality == ModelQuality.Middle)
-            {
-                sizePrimitive = 12;
-            }
-            else
-            {
-                sizePrimitive = 8;
-            }
-
-            const float cScaleCompFactor = 208;
-            const float cScaleRealFactor = 2;
-
-            IPoint3D point1 = ResolvePoint3D(-cScaleCompFactor, -cScaleCompFactor, 0);
-            IPoint3D point2 = ResolvePoint3D(cScaleCompFactor, -cScaleCompFactor, 0);
-            IPoint3D point3 = ResolvePoint3D(cScaleCompFactor, cScaleCompFactor, 0);
-            IPoint3D point4 = ResolvePoint3D(-cScaleCompFactor, cScaleCompFactor, 0);
-
-            Function3D function3D;
-            float ZMin, Zmax;
-            
-            if (index == 0)
-            {
-                function3D = (x, y) => 1.0f / (1.0f + x * x + y * y);
-                ZMin = -100;
-                Zmax = 100;
-            }
-            else if (index == 1)
-            {
-                function3D = (x, y) => x * x - y * y;
-                ZMin = -100;
-                Zmax = 100;
-            }
-            else if (index == 2)
-            {
-                function3D = (x, y) => Convert.ToSingle(2 * Math.Exp(-(x * x + y * y)) * Math.Cos(2 * x * x + 2 * y * y));
-                ZMin = -80;
-                Zmax = 80;
-            }
-            else
-            {
-                function3D = (x, y) => x * x + y * y;
-                ZMin = -80;
-                Zmax = 80;
-            }
-
-            _surface = new Surface(point1, point2, point3, point4, sizePrimitive, Color.LightGreen);
-            RectangleF realBr = new RectangleF(-cScaleRealFactor, -cScaleRealFactor, 2 * cScaleRealFactor, 2 * cScaleRealFactor);
-            List<Color> colors = _palettes[0].CreatePalette();
-            _surface.CreateSurface(realBr, function3D, ZMin, Zmax, colors.ToArray());
-
-            return new Model
-            {
-                NeedToSort = true,
-                Planes = new List<Models3DLib.Plane> { _surface }
-            };
         }
 
         void RenderModel(Graphics g, Model model, ILightSource lightSource, RenderModelType renderModelType, IPoint3D pointObserver)
@@ -349,6 +371,8 @@ namespace WinSurfaceApp
         private void Form1_Load(object sender, EventArgs e)
         {
             pictureBox1.BackColor = Color.White;
+            pictureBox2.BackColor = _surfaceColor;
+            cmbPalette.Visible = label5.Visible = false;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             _blockEvents = true;
@@ -367,6 +391,7 @@ namespace WinSurfaceApp
             cmbQuality.Items.Add("Низкое");
             cmbQuality.Items.Add("Среднее");
             cmbQuality.Items.Add("Высокое");
+            cmbQuality.Items.Add("Экстра");
             cmbQuality.SelectedIndex = 1;
             cmbQuality.EndUpdate();
 
@@ -378,11 +403,25 @@ namespace WinSurfaceApp
             cmbRenderStatus.SelectedIndex = 1;
             cmbRenderStatus.EndUpdate();
 
+            // раскраска
+            cmbColors.BeginUpdate();
+            cmbColors.Items.Add("Один цвет");
+            cmbColors.Items.Add("Палитра");
+            cmbColors.SelectedIndex = 0;
+            cmbColors.EndUpdate();
+
+            // палитры
+            cmbPalette.BeginUpdate();
+            cmbPalette.Items.Add("Горы");
+            cmbPalette.Items.Add("Холодное-горячее");
+            cmbPalette.SelectedIndex = 0;
+            cmbPalette.EndUpdate();
+
             _blockEvents = false;
 
             _palettes = new Palette[] { CreateMountainsPalette(), CreateHotColdPalette() };
 
-            _model = GetModel(0, ModelQuality.Middle);
+            _model = GetModel();
             Matrix4x4 zeroTansform = ZeroTransform;
             _model.Transform(zeroTansform);
             _transformMatrix = zeroTansform;
@@ -401,7 +440,7 @@ namespace WinSurfaceApp
             if (_blockEvents)
                 return;
 
-            _model = GetModel(cmbModel.SelectedIndex, GetModelQuality(cmbQuality.SelectedIndex));
+            _model = GetModel();
             Matrix4x4 zeroTansform = ZeroTransform;
             _model.Transform(zeroTansform);
             _transformMatrix = zeroTansform;
@@ -419,7 +458,7 @@ namespace WinSurfaceApp
             if (_blockEvents)
                 return;
 
-            _model = GetModel(cmbModel.SelectedIndex, GetModelQuality(cmbQuality.SelectedIndex));
+            _model = GetModel();
             _model.Transform(_transformMatrix);
 
             Render();
@@ -453,6 +492,55 @@ namespace WinSurfaceApp
             Matrix4x4 matrix = Matrix4x4.CreateFromAxisAngle(axis, angle);
             _model.Transform(matrix);
             _transformMatrix *= matrix;
+
+            Render();
+        }
+
+        private void cmbColors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            if (cmbColors.SelectedIndex == 0)
+            {
+                pictureBox2.Visible = btnOneColor.Visible = true;
+                cmbPalette.Visible = label5.Visible = false;
+            }
+            else
+            {
+                pictureBox2.Visible = btnOneColor.Visible = false;
+                cmbPalette.Visible = label5.Visible = true;
+            }
+
+            _model = GetModel();
+            _model.Transform(_transformMatrix);
+
+            Render();
+        }
+
+        private void btnOneColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog
+            {
+                Color = _surfaceColor
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox2.BackColor = dialog.Color;
+                _surfaceColor = dialog.Color;
+                _surface.SetColor(dialog.Color);
+                Render();
+            }
+        }
+
+        private void cmbPalette_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_blockEvents)
+                return;
+
+            _model = GetModel();
+            _model.Transform(_transformMatrix);
 
             Render();
         }

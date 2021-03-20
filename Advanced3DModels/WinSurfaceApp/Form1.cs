@@ -103,8 +103,8 @@ namespace WinSurfaceApp
             else if (index == 3)
             {
                 function3D = (x, y) => x * x + y * y;
-                ZMin = -80;
-                Zmax = 80;
+                ZMin = -90;
+                Zmax = 90;
             }
             else if (index == 4)
             {
@@ -157,26 +157,6 @@ namespace WinSurfaceApp
                 Planes = new List<Models3DLib.Plane> { _surface }
             };
         }
-
-       /* static float Hils(float x, float y)
-        {
-            const int cCount = 2;
-
-            PointF[] c = new PointF[cCount];
-            c[0] = new PointF(-1, -1);
-            c[1] = new PointF(1, 1);
-
-            float[] k = new float[] { 1.0f, 0.5f };
-
-            float v = 0;
-
-            for (int i = 0; i < cCount; i++)
-            {
-                v += k[i] * ((x - c[i].X) * (x - c[i].X) + (y - c[i].Y) * (y - c[i].Y));
-            }
-
-            return 1.0f / (1.0f + v);
-        }*/
 
         Palette CreateMountainsPalette()
         {

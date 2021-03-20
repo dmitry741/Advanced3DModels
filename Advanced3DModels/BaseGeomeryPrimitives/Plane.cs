@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,16 @@ namespace Models3DLib
                 _point3Ds[i].Y = _state[i].Y;
                 _point3Ds[i].Z = _state[i].Z;
             }
-        }        
+        }
+
+        public void SetColor(Color color)
+        {
+            // цвет для треугольников
+            foreach (Triangle triangle in _triangles)
+            {
+                triangle.BaseColor = color;
+            }
+        }
 
         public IEnumerable<IPoint3D> Points => _point3Ds;
 

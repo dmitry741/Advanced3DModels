@@ -56,15 +56,6 @@ namespace Models3DLib
             }
         }
 
-        public void SetColor(Color color)
-        {
-            // цвет для треугольников
-            foreach (Triangle triangle in _triangles)
-            {
-                triangle.BaseColor = color;
-            }
-        }
-
         public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp, Color color)
         {
             RectangleF compBoundRect = BoundRect;

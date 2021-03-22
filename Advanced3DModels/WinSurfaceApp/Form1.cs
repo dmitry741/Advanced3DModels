@@ -308,8 +308,6 @@ namespace WinSurfaceApp
                     Color color = Color.FromArgb(R, G, B);
                     Brush brush = new SolidBrush(color);
 
-                    //g.
-
                     g.FillPolygon(brush, triangle.Points);
                 }
             }

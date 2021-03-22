@@ -17,7 +17,7 @@ namespace WinSurfaceApp
     {
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         #region === members ===
@@ -308,6 +308,8 @@ namespace WinSurfaceApp
                     Color color = Color.FromArgb(R, G, B);
                     Brush brush = new SolidBrush(color);
 
+                    //g.
+
                     g.FillPolygon(brush, triangle.Points);
                 }
             }
@@ -400,7 +402,6 @@ namespace WinSurfaceApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            pictureBox1.BackColor = Color.White;
             pictureBox2.BackColor = _surfaceColor;
             cmbPalette.Visible = label5.Visible = false;
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);

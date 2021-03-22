@@ -132,7 +132,7 @@ namespace WinSurfaceApp
             }
             else
             {
-                function3D = (x, y) => Convert.ToSingle(-4 * x * Math.Exp(-(x * x + y * y)));
+                function3D = (x, y) => Convert.ToSingle(4 * x * Math.Exp(-(x * x + y * y)));
                 ZMin = -100;
                 Zmax = 100;
             }

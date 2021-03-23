@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс реализующий сферу как модель для попиксельного рендеринга.
+    /// </summary>
     public class SpherePixelModel : IPixelsModel
     {
         IPoint3D _center;

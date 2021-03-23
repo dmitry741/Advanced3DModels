@@ -8,10 +8,23 @@ using System.Drawing;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс реализующий прямоугольную грань для модели.
+    /// </summary>
     public class Polygon4Plane : Plane
     {
         readonly int _nX, _nY;
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="p1">1-ая вершина грани.</param>
+        /// <param name="p2">2-ая вершина грани.</param>
+        /// <param name="p3">3-ая вершина грани.</param>
+        /// <param name="p4">4-ая вершина грани.</param>
+        /// <param name="sizePrimitive">Примерный размер длины стороны треугольника.</param>
+        /// <param name="baseColor">Исходный цвет грани.</param>
+        /// <param name="name">Имя грани.</param>
         public Polygon4Plane(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive, Color baseColor, string name)
         {
             Name = name;
@@ -78,6 +91,14 @@ namespace Models3DLib
             }
         }
 
+        /// <summary>
+        /// Наложение текстуры на грань.
+        /// </summary>
+        /// <param name="rgbValues">Массив пикселей.</param>
+        /// <param name="stride">Страйд изображения.</param>
+        /// <param name="width">Ширина изображения.</param>
+        /// <param name="height">Высота изображения.</param>
+        /// <param name="stretch">Параметр наложения текстуры. (Растянуть или нет).</param>
         public void SetTexture(byte[] rgbValues, int stride, int width, int height, bool stretch)
         {
             bool bLeftTopRightBottom = true;

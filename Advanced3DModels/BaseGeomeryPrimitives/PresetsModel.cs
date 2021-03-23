@@ -8,8 +8,12 @@ using System.Numerics;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Набор готовых моделей.
+    /// </summary>
     public class PresetsModel
     {
+        // Параллелепипед
         public static Model Parallelepiped(float width, float height, float depth, float sizePrimitive, bool[] panels, Color[] colors)
         {
             List<IPoint3D> points = new List<IPoint3D>
@@ -62,6 +66,7 @@ namespace Models3DLib
             };
         }
 
+        // Октаэдр
         public static Model Octahedron(float sideSize, float sizePrimitive)
         {
             float s = Convert.ToSingle(Math.Sqrt(2) / 2);
@@ -93,6 +98,7 @@ namespace Models3DLib
             };
         }
 
+        // Набор кубиков
         public static Model CubeSet(float sizeSide, float sizePrimitive, float totalSize)
         {
             const int cRowCount = 4;
@@ -272,6 +278,7 @@ namespace Models3DLib
             return resultModel;
         }
 
+        // Столик с прозрачной столешницей
         public static Model TransparentTable(float sizeSide, float sizePrimitive, float depth)
         {
             bool[] panels;
@@ -414,6 +421,7 @@ namespace Models3DLib
             return model;
         }
 
+        // Шахматный столик
         public static Model ChessBoard(float sizeSide, float sizePrimitive, int tileRowCount, float depth, Color color1, Color color2)
         {
             float xStart = -sizeSide / 2.0f;
@@ -516,6 +524,7 @@ namespace Models3DLib
             return model;
         }
 
+        // Куб с гранями одного цвета
         public static Model Cube(float sizeSide, float sizePrimitive)
         {
             Color[] colors = new Color[] { Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen, Color.LightGreen };
@@ -524,6 +533,7 @@ namespace Models3DLib
             return Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, planes, colors);
         }
 
+        // Куб с разноцветными гранями
         public static Model CubeColored(float sizeSide, float sizePrimitive)
         {
             Color[] colors = { Color.LightGreen, Color.Brown, Color.Gold, Color.Cornsilk, Color.DarkBlue, Color.BurlyWood };
@@ -532,6 +542,7 @@ namespace Models3DLib
             return Parallelepiped(sizeSide, sizeSide, sizeSide, sizePrimitive, planes, colors);
         }
 
+        // Стрелочка
         public static Model Arrow(float baseWidth, float baseHeight, float arrowRadius, float arrowHeight, float depth, float sizePrimitive, Color color)
         {
             Color[] colors = { color, color, color, color, color, color };

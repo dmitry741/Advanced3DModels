@@ -8,6 +8,12 @@ using System.Numerics;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Делегат представляющий собой функцию двух переменных.
+    /// </summary>
+    /// <param name="X">X координата.</param>
+    /// <param name="Y">Y координата.</param>
+    /// <returns>Значение функции (float).</returns>
     public delegate float Function3D(float X, float Y);
 
     public class Surface : Polygon4Plane
@@ -46,6 +52,9 @@ namespace Models3DLib
             return ResolverInterface.ResolveIPoint3D(x, y, point.Z);
         }
 
+        /// <summary>
+        /// Нормаль к поверхности.
+        /// </summary>
         public Vector3 Normal
         {
             get

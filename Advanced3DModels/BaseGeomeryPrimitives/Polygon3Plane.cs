@@ -74,7 +74,7 @@ namespace Models3DLib
                         index3 = index1 + 1;
                     }
 
-                    IPoint3D[] point3DColors = ResolverInterface.ResolveArrayIPoint3D(3);
+                    IPoint3D[] point3DColors = new IPoint3D[3];
 
                     point3DColors[0] = _point3Ds[index1];
                     point3DColors[1] = _point3Ds[index2];

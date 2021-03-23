@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Models3DLib
 {
     /// <summary>
-    /// Абстрактный класс полигональнеой модели для попиксельного рендеринга.
+    /// Абстрактный класс полигональной модели для попиксельного рендеринга.
     /// </summary>
     public class AbstractConvexPixelModel : IPixelsModel
     {

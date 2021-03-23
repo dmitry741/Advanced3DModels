@@ -23,7 +23,7 @@ namespace Models3DLib
         /// <param name="point3">Вершина 3.</param>
         public Triangle(IPoint3D point1, IPoint3D point2, IPoint3D point3)
         {
-            _points = ResolverInterface.ResolveArrayIPoint3D(3);
+            _points = new IPoint3D[3];
 
             _points[0] = point1;
             _points[1] = point2;
@@ -40,7 +40,7 @@ namespace Models3DLib
         }
 
         /// <summary>
-        /// Нормаль к теругольнику
+        /// Нормаль к треугольнику.
         /// </summary>
         public Vector3 Normal
         {
@@ -83,14 +83,29 @@ namespace Models3DLib
         /// </summary>
         public bool ReflectionEnable { get; set; } = true;
 
+        /// <summary>
+        /// Флаг возможности применения метода Гуро для рендеренга треугольника.
+        /// </summary>
         public bool AllowToGouraudMethod { get; set; } = true;
 
+        /// <summary>
+        /// Минимальное значение по Z.
+        /// </summary>
         public float MinZ => _points.Min(p => p.Z);
 
+        /// <summary>
+        /// Первая вершина в треугольнике.
+        /// </summary>
         public IPoint3D Point0 => _points[0];
 
+        /// <summary>
+        /// Массив вершин треугольника.
+        /// </summary>
         public IPoint3D[] Point3Ds => _points;
 
+        /// <summary>
+        /// Массив объектов PointF.
+        /// </summary>
         public PointF[] Points => _points.Select(x => x.ToPointF()).ToArray();
     }
 }

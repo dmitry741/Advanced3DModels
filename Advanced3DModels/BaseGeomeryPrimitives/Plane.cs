@@ -23,7 +23,7 @@ namespace Models3DLib
         {
             if (_state == null || _state.Length != _point3Ds.Count)
             {
-                _state = ResolverInterface.ResolveArrayIPoint3D(_point3Ds.Count);
+                _state = new IPoint3D[_point3Ds.Count];
                 _state = _state.Select(p => ResolverInterface.ResolveIPoint3D(0, 0, 0)).ToArray();
             }
 
@@ -51,7 +51,7 @@ namespace Models3DLib
         /// <summary>
         /// Установить цвет грани.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">Объект Color.</param>
         public void SetColor(Color color)
         {
             // цвет для треугольников

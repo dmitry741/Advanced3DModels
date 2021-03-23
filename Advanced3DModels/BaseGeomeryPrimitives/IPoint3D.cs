@@ -35,7 +35,7 @@ namespace Models3DLib
         Vector3 ToVector3();
 
         /// <summary>
-        /// Преобразование в объект System.Drawing.PointF
+        /// Преобразование в объект System.Drawing.PointF.
         /// </summary>
         /// <returns></returns>
         PointF ToPointF();        

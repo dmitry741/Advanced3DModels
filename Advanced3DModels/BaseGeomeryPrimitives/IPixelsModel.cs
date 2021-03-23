@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Models3DLib
 {
     /// <summary>
-    /// Интерфейс декларирующий методы для моделей, которые будут рендериться попиксельно.
+    /// Интерфейс декларирующий методы для моделей, которые рендерятся попиксельно.
     /// </summary>
     public interface IPixelsModel
     {

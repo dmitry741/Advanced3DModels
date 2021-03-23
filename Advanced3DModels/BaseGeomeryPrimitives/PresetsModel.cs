@@ -71,7 +71,7 @@ namespace Models3DLib
         {
             float s = Convert.ToSingle(Math.Sqrt(2) / 2);
 
-            IPoint3D[] corePoints = ResolverInterface.ResolveArrayIPoint3D(6);
+            IPoint3D[] corePoints = new IPoint3D[6];
 
             corePoints[0] = ResolverInterface.ResolveIPoint3D(sideSize * s, 0, 0);
             corePoints[1] = ResolverInterface.ResolveIPoint3D(0, sideSize * s, 0);

@@ -17,10 +17,5 @@ namespace Models3DLib
         {
             return ResolveIPoint3D(point.X, point.Y, point.Z);
         }
-
-        public static IPoint3D[] ResolveArrayIPoint3D(int count)
-        {
-            return new Point3D[count];
-        }
     }
 }

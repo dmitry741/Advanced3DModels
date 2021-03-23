@@ -17,7 +17,7 @@ namespace Models3DLib
     public delegate float Function3D(float X, float Y);
 
     /// <summary>
-    /// Класс реализующий изогнутую поверхность.
+    /// Класс реализующий поверхность.
     /// </summary>
     public class Surface : Polygon4Plane
     {

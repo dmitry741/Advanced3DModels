@@ -8,10 +8,21 @@ using System.Numerics;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс для расчета освещения модели.
+    /// </summary>
     public class LightModel
     {
+        /// <summary>
+        /// Фоновая составляющая освещения.
+        /// </summary>
         private static float MinimalPart => 0.1f;
 
+        /// <summary>
+        /// Получение цвета для исходных параметров.
+        /// </summary>
+        /// <param name="lightModelParameters">Объект LightModelParameters.</param>
+        /// <returns>Объект Color. Цвет для исходных параметров.</returns>
         public static Color GetColor(LightModelParameters lightModelParameters)
         {
             Vector3 vectorNormal = Vector3.Normalize(lightModelParameters.Normal);

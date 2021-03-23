@@ -13,7 +13,7 @@ namespace Models3DLib
         /// </summary>
         /// <param name="X">X координата.</param>
         /// <param name="Y">Y координата. </param>
-        /// <returns>True если точки принадлежит области, False в противном случае.</returns>
+        /// <returns>True если точка принадлежит области, False в противном случае.</returns>
         bool Contains(float X, float Y);
     }
 
@@ -22,9 +22,14 @@ namespace Models3DLib
     /// </summary>
     public class ShpereContains : IContains
     {
-        IPoint3D _center;
-        float _radius;
+        readonly IPoint3D _center;
+        readonly float _radius;
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="center">Центр круга.</param>
+        /// <param name="radius">Радиус круга.</param>
         public ShpereContains(IPoint3D center, float radius)
         {
             _center = center;
@@ -42,6 +47,9 @@ namespace Models3DLib
     /// </summary>
     public class TriangleContains : IContains
     {
+        /// <summary>
+        /// Трегольник для определения принадлежности ему точки.
+        /// </summary>
         public Triangle TestTriangle { get; set; }
 
         public bool Contains(float X, float Y)

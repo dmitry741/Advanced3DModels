@@ -3,11 +3,23 @@ using System.Numerics;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Интерфейс декларирующий методы для определения принадлежности точки на плоскости некторой области.
+    /// </summary>
     public interface IContains
     {
+        /// <summary>
+        /// Определяет принадлежность точки области.
+        /// </summary>
+        /// <param name="X">X координата.</param>
+        /// <param name="Y">Y координата. </param>
+        /// <returns>True если точки принадлежит области, False в противном случае.</returns>
         bool Contains(float X, float Y);
     }
 
+    /// <summary>
+    /// Класс для определения принадлежности точки кругу.
+    /// </summary>
     public class ShpereContains : IContains
     {
         IPoint3D _center;
@@ -25,6 +37,9 @@ namespace Models3DLib
         }
     }
 
+    /// <summary>
+    /// Класс для определения принадлежности точки треугольнику.
+    /// </summary>
     public class TriangleContains : IContains
     {
         public Triangle TestTriangle { get; set; }
@@ -33,7 +48,7 @@ namespace Models3DLib
         {
             Vector3 v1 = TestTriangle.Point3Ds[1].ToVector3() - TestTriangle.Point3Ds[0].ToVector3();
             Vector3 v2 = TestTriangle.Point3Ds[2].ToVector3() - TestTriangle.Point3Ds[0].ToVector3();
-            float S = Vector3.Cross(v1, v2).Length() / 2; // площадь треугольника
+            float S = Vector3.Cross(v1, v2).Length() / 2; // площадь треугольника как половина модуля векторного произведения.
 
             Vector3 testVector = ResolverInterface.ResolveIPoint3D(X, Y, 0).ToVector3();
 

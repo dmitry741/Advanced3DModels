@@ -16,6 +16,9 @@ namespace Models3DLib
     /// <returns>Значение функции (float).</returns>
     public delegate float Function3D(float X, float Y);
 
+    /// <summary>
+    /// Класс реализующий изогнутую поверхность.
+    /// </summary>
     public class Surface : Polygon4Plane
     {
         public Surface(IPoint3D p1, IPoint3D p2, IPoint3D p3, IPoint3D p4, float sizePrimitive) :
@@ -53,7 +56,7 @@ namespace Models3DLib
         }
 
         /// <summary>
-        /// Нормаль к поверхности.
+        /// Нормаль к опорным точкам поверхности.
         /// </summary>
         public Vector3 Normal
         {
@@ -65,6 +68,14 @@ namespace Models3DLib
             }
         }
 
+        /// <summary>
+        /// Создание поверхности как графика функции z=f(x, y).
+        /// </summary>
+        /// <param name="realBoundRect">Область в реальной системе координат.</param>
+        /// <param name="function3D">Функция z=f(x, y).</param>
+        /// <param name="ZMinComp">Минимальное значение Z в компьютерной системе координат.</param>
+        /// <param name="ZmaxComp">Максимальное значение Z в компьютерной системе координат.</param>
+        /// <param name="color">Цвет поверхности.</param>
         public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp, Color color)
         {
             RectangleF compBoundRect = BoundRect;
@@ -97,6 +108,14 @@ namespace Models3DLib
             }
         }
 
+        /// <summary>
+        /// Создание поверхности как графика функции z=f(x, y).
+        /// </summary>
+        /// <param name="realBoundRect">Область в реальной системе координат.</param>
+        /// <param name="function3D">Функция z=f(x, y).</param>
+        /// <param name="ZMinComp">Минимальное значение Z в компьютерной системе координат.</param>
+        /// <param name="ZmaxComp">Максимальное значение Z в компьютерной системе координат.</param>
+        /// <param name="palette">Массив цветов для раскраски по высоте (Z).</param>
         public void CreateSurface(RectangleF realBoundRect, Function3D function3D, float ZMinComp, float ZmaxComp, Color[] palette)
         {
             CreateSurface(realBoundRect, function3D, ZMinComp, ZmaxComp, Color.Black);

@@ -8,10 +8,19 @@ using System.Drawing;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс реализующий треугольник.
+    /// </summary>
     public class Triangle
     {
         readonly IPoint3D[] _points;
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="point1">Вершина 1.</param>
+        /// <param name="point2">Вершина 2.</param>
+        /// <param name="point3">Вершина 3.</param>
         public Triangle(IPoint3D point1, IPoint3D point2, IPoint3D point3)
         {
             _points = ResolverInterface.ResolveArrayIPoint3D(3);
@@ -21,11 +30,18 @@ namespace Models3DLib
             _points[2] = point3;
         }
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="points">Массив из трех точек.</param>
         public Triangle(IPoint3D[] points)
         {
             _points = points;
         }
 
+        /// <summary>
+        /// Нормаль к теругольнику
+        /// </summary>
         public Vector3 Normal
         {
             get
@@ -37,16 +53,34 @@ namespace Models3DLib
             }
         }
 
+        /// <summary>
+        /// Флаг видимости с обеих сторон.
+        /// </summary>
         public bool VisibleBackSide { get; set; } = false;
 
+        /// <summary>
+        /// Массив цветов.
+        /// </summary>
         public Color[] TextureColors { get; set; }
 
+        /// <summary>
+        /// Исходный цвет треугольника.
+        /// </summary>
         public Color BaseColor { get; set; } = Color.LightGreen;
 
+        /// <summary>
+        /// Яркость зеркальной составляющей освещения.
+        /// </summary>
         public float ReflectionBrightness { get; set; } = 80.0f;
 
+        /// <summary>
+        /// Конус зеркальной составляющей освещения.
+        /// </summary>
         public float ReflectionCone { get; set; } = 24600;
 
+        /// <summary>
+        /// Флаг использования зеркальной составляющей освещения для данного треугольника.
+        /// </summary>
         public bool ReflectionEnable { get; set; } = true;
 
         public bool AllowToGouraudMethod { get; set; } = true;

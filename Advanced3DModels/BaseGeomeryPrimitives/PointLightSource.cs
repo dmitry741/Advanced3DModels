@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс представляющий точечный источник света.
+    /// </summary>
     public class PointLightSource : ILightSource
     {
         public IPoint3D LightPoint { get; set; }

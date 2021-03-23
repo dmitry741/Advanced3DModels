@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс представлющий источник света как прожектор (лучи параллельны друг другу).
+    /// </summary>
     public class ProjectorLightSource : ILightSource
     {
         public Vector3 VectorLightSource { get; set; }

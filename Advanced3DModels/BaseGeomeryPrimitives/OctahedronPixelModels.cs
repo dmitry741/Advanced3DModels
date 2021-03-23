@@ -7,6 +7,9 @@ using System.Numerics;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс модели октаэдра для попиксельного рендеринга.
+    /// </summary>
     public class OctahedronPixelModels : AbstractConvexPixelModel
     {
         public OctahedronPixelModels(float scaleFactor)

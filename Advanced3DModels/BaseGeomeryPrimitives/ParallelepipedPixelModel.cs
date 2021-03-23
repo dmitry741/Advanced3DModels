@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс модели параллепипеда для попиксельного рендеринга.
+    /// </summary>
     public class ParallelepipedPixelModel : AbstractConvexPixelModel
     {
         public ParallelepipedPixelModel(float width, float height, float depth, Color[] colors)

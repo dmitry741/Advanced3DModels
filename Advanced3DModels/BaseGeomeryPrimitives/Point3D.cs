@@ -8,6 +8,9 @@ using System.Drawing;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс реализующий представление точки в трехмерном пространстве.
+    /// </summary>
     public class Point3D : IPoint3D
     {
         readonly float[] _X;

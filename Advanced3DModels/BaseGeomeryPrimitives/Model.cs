@@ -8,6 +8,9 @@ using System.Drawing;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Класс полигональной модели.
+    /// </summary>
     public class Model
     {
         /// <summary>
@@ -24,18 +27,31 @@ namespace Models3DLib
         /// </summary>
         public bool NeedToSort { get; set; } = false;
 
+        /// <summary>
+        /// Список плоскостей (граней).
+        /// </summary>
         public List<Plane> Planes { get; set; } = new List<Plane>();
 
+        /// <summary>
+        /// Сохранить состояние модели.
+        /// </summary>
         public void SaveState()
         {
             Planes.ForEach(plane => plane.SaveState());
         }
 
+        /// <summary>
+        /// Восстановить состояние модели.
+        /// </summary>
         public void RestoreState()
         {
             Planes.ForEach(plane => plane.RestoreState());
         }
 
+        /// <summary>
+        /// Преобразование модели (Параллельный перенос или вращение).
+        /// </summary>
+        /// <param name="matrix">Матрица преобразования.</param>
         public void Transform(Matrix4x4 matrix)
         {
             foreach (Plane plane in Planes)
@@ -51,6 +67,11 @@ namespace Models3DLib
             }
         }
 
+        /// <summary>
+        /// Перспективное преобразование модели.
+        /// </summary>
+        /// <param name="iperspectiveTransform">Интерфейс перспективного преобразования/</param>
+        /// <param name="centerOfPerspective">Центр перспективы.</param>
         public void Transform(IPerspectiveTransform iperspectiveTransform, IPoint3D centerOfPerspective)
         {
             foreach (Plane plane in Planes)
@@ -65,6 +86,11 @@ namespace Models3DLib
             }
         }
 
+        /// <summary>
+        /// Получение коллекции треугольников для рендеринга.
+        /// </summary>
+        /// <param name="renderType">Тип рендеринга.</param>
+        /// <returns>Коллекция треугольников.</returns>
         public IEnumerable<Triangle> GetTrianglesForRender(RenderModelType renderType)
         {
             IEnumerable<Triangle> triangles = null;
@@ -83,6 +109,14 @@ namespace Models3DLib
             return triangles;
         }
 
+        /// <summary>
+        /// Наложение текстуры на грани с именем tag.
+        /// </summary>
+        /// <param name="tag">Имя граней, на которые будет накладываться текстура.</param>
+        /// <param name="bitmap">Объект Bitmap. Текстураю</param>
+        /// <param name="stretch">Параметр накладывания текстуры. Если stretch равно True текстура растянется по грани, 
+        /// в противном случае текстура будет дублироваться.
+        /// </param>
         public void SetTexture(string tag, Bitmap bitmap, bool stretch)
         {
             Rectangle r = new Rectangle(0, 0, bitmap.Width, bitmap.Height);

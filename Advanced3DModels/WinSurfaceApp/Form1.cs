@@ -130,11 +130,17 @@ namespace WinSurfaceApp
                 ZMin = -60;
                 Zmax = 60;
             }
-            else
+            else if (index == 8)
             {
                 function3D = (x, y) => Convert.ToSingle(4 * x * Math.Exp(-(x * x + y * y)));
                 ZMin = -100;
                 Zmax = 100;
+            }
+            else
+            {
+                function3D = (x, y) => Convert.ToSingle(x + y);
+                ZMin = -60;
+                Zmax = 60;
             }
 
             _surface = new Surface(point1, point2, point3, point4, sizePrimitive);
@@ -417,6 +423,7 @@ namespace WinSurfaceApp
             cmbModel.Items.Add("Волны");
             cmbModel.Items.Add("Холмы");
             cmbModel.Items.Add("Холм и яма");
+            cmbModel.Items.Add("Плоскость");
             cmbModel.SelectedIndex = 0;
             cmbModel.EndUpdate();
 

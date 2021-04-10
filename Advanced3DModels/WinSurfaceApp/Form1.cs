@@ -467,7 +467,7 @@ namespace WinSurfaceApp
             _model.Transform(zeroTansform);
             _transformMatrix = zeroTansform;
 
-            _lightSource = new PointLightSource() { LightPoint = ResolvePoint3D(0, 0, -500) };
+            _lightSource = new PointLightSource() { LightPoint = ResolvePoint3D(0, 0, -500), Weight = 0.9f };
             _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);
         }
 

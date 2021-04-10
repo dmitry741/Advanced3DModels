@@ -27,21 +27,24 @@ namespace Models3DLib
         {
             Vector3 vectorNormal = Vector3.Normalize(lightModelParameters.Normal);
 
+            // фоновая составляющая
             float R = lightModelParameters.BaseColor.R * MinimalPart;
             float G = lightModelParameters.BaseColor.G * MinimalPart;
             float B = lightModelParameters.BaseColor.B * MinimalPart;
 
             foreach (ILightSource ls in lightModelParameters.LightSources)
             {
+                // диффузная составляющая
                 Vector3 vectorToLightPoint = Vector3.Normalize(ls.GetRay(lightModelParameters.Point));
 
                 float cosinus = Vector3.Dot(vectorNormal, vectorToLightPoint);
-                float lerp = ls.Weight * (1 - MinimalPart) * (1 + cosinus) / 2;
+                float lerp = ls.Weight * (1 + cosinus) / 2;
 
                 R += lightModelParameters.BaseColor.R * lerp;
                 G += lightModelParameters.BaseColor.G * lerp;
                 B += lightModelParameters.BaseColor.B * lerp;
 
+                // зеркальная составляющая
                 if (lightModelParameters.ReflectionEnable)
                 {
                     Vector3 vectorReflect = Vector3.Reflect(-vectorToLightPoint, vectorNormal);
@@ -55,11 +58,11 @@ namespace Models3DLib
                         float b = lightModelParameters.ReflcetionCone;
                         float x = 1 - cosinus;
 
-                        float refl = a / (1 + b * x * x);
+                        float reflection = a / (1 + b * x * x);
 
-                        R += refl;
-                        G += refl;
-                        B += refl;
+                        R += reflection;
+                        G += reflection;
+                        B += reflection;
                     }
                 }
             }

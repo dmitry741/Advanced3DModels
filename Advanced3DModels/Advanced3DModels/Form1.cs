@@ -280,7 +280,8 @@ namespace Advanced3DModels
 
             _lightSource = new PointLightSource()
             {
-                LightPoint = ResolvePoint3D(0, 0, -500)
+                LightPoint = ResolvePoint3D(0, 0, -500), // расположение источника света
+                Weight = 0.9f
             };
 
             _pointObserver = ResolvePoint3D(pictureBox1.Width / 2, pictureBox1.Height / 2, -1400);

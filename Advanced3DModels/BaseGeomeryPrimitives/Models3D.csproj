@@ -51,6 +51,8 @@
     <Compile Include="IPerspectiveTransform.cs" />
     <Compile Include="IPixelsModel.cs" />
     <Compile Include="IPoint3D.cs" />
+    <Compile Include="IRenderPipeline.cs" />
+    <Compile Include="IRenderPipelineParameters.cs" />
     <Compile Include="LightModelParameters.cs" />
     <Compile Include="OctahedronPixelModels.cs" />
     <Compile Include="ParallelepipedPixelModel.cs" />
@@ -66,6 +68,8 @@
     <Compile Include="ProjectorLightSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Polygon4Plane.cs" />
+    <Compile Include="RenderPipeline.cs" />
+    <Compile Include="RenderPipelineParameters.cs" />
     <Compile Include="ResolverInterface.cs" />
     <Compile Include="SpherePixelModel.cs" />
     <Compile Include="Surface.cs" />

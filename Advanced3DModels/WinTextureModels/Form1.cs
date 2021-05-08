@@ -72,7 +72,7 @@ namespace WinTextureModels
             g.Clear(Color.Gray);
 
             // запомнили состояние модели
-            _model.SaveState();
+            _model.PushState();
 
             // перенос модели в центр окна
             float xTranslate = pictureBox1.Width / 2;
@@ -92,7 +92,7 @@ namespace WinTextureModels
             RenderingModel.Render(g, _model, _lightSource, _pointObserver, RenderModelType.FillFull);
 
             // восстановили сохраненное состояние
-            _model.RestoreState();
+            _model.PopState();
 
             pictureBox1.Image = _bitmap;
         }

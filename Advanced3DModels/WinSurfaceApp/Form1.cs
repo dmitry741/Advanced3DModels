@@ -338,7 +338,7 @@ namespace WinSurfaceApp
             g.Clear(Color.White);
 
             // запомнили состояние модели
-            _model.SaveState();
+            _model.PushState();
 
             // перенос модели в центр окна
             float xTranslate = pictureBox1.Width / 2;
@@ -361,7 +361,7 @@ namespace WinSurfaceApp
             RenderModel(g, _model, _lightSource, renderType, _pointObserver);
 
             // восстановили сохраненное состояние
-            _model.RestoreState();
+            _model.PopState();
 
             pictureBox1.Image = _bitmap;
         }

@@ -33,19 +33,19 @@ namespace Models3DLib
         public List<Plane> Planes { get; set; } = new List<Plane>();
 
         /// <summary>
-        /// Сохранить состояние модели.
+        /// Сохранить состояние модели в стеке.
         /// </summary>
-        public void SaveState()
+        public void PushState()
         {
-            Planes.ForEach(plane => plane.SaveState());
+            Planes.ForEach(plane => plane.PushState());
         }
 
         /// <summary>
         /// Восстановить состояние модели.
         /// </summary>
-        public void RestoreState()
+        public void PopState()
         {
-            Planes.ForEach(plane => plane.RestoreState());
+            Planes.ForEach(plane => plane.PopState());
         }
 
         /// <summary>

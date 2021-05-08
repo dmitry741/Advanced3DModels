@@ -14,37 +14,32 @@ namespace Models3DLib
     {
         readonly protected List<IPoint3D> _point3Ds = new List<IPoint3D>();
         readonly protected List<Triangle> _triangles = new List<Triangle>();
-        protected IPoint3D[] _state = null;
+        protected Stack<IPoint3D[]> _stackState = new Stack<IPoint3D[]>();
 
         /// <summary>
-        /// Сохранить состояние грани в пространстве.
+        /// Сохранить состояние грани в стеке.
         /// </summary>
-        public void SaveState()
+        public void PushState()
         {
-            if (_state == null || _state.Length != _point3Ds.Count)
-            {
-                _state = new IPoint3D[_point3Ds.Count];
-                _state = _state.Select(p => ResolverInterface.ResolveIPoint3D(0, 0, 0)).ToArray();
-            }
-
-            for (int i = 0; i < _state.Length; i++)
-            {
-                _state[i].X = _point3Ds[i].X;
-                _state[i].Y = _point3Ds[i].Y;
-                _state[i].Z = _point3Ds[i].Z;
-            }
+            IPoint3D[] point3Ds = _point3Ds.Select(p => ResolverInterface.ResolveIPoint3D(p)).ToArray();
+            _stackState.Push(point3Ds);
         }
 
         /// <summary>
         /// Восстановить состояние грани.
         /// </summary>
-        public void RestoreState()
+        public void PopState()
         {
-            for (int i = 0; i < _state.Length; i++)
+            if (_stackState.Count > 0)
             {
-                _point3Ds[i].X = _state[i].X;
-                _point3Ds[i].Y = _state[i].Y;
-                _point3Ds[i].Z = _state[i].Z;
+                IPoint3D[] point3Ds = _stackState.Pop();
+
+                for (int i = 0; i < point3Ds.Length; i++)
+                {
+                    _point3Ds[i].X = point3Ds[i].X;
+                    _point3Ds[i].Y = point3Ds[i].Y;
+                    _point3Ds[i].Z = point3Ds[i].Z;
+                }
             }
         }
 

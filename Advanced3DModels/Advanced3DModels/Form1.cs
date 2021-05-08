@@ -78,7 +78,7 @@ namespace Advanced3DModels
             g1.Clear(backColor);
 
             // запомнили состояние модели
-            _model.SaveState();
+            _model.PushState();
 
             // перенос модели в центр окна
             float xTranslate = pictureBox1.Width / 2;
@@ -104,7 +104,7 @@ namespace Advanced3DModels
             RenderingModel.Render(g1, _model, _lightSource, _pointObserver, _ifog, renderType, renderFillTriangle, backColor);
 
             // восстановили сохраненное состояние
-            _model.RestoreState();
+            _model.PopState();
 
             pictureBox1.Image = _bitmap;
 
@@ -118,6 +118,9 @@ namespace Advanced3DModels
 
             if (bLookAt)
             {
+                // запомнили состояние модели
+                _model.PushState();
+
                 const float cScaleFactor = 0.5f;
                 const float cCameraFactor = 700.0f;
 
@@ -150,7 +153,7 @@ namespace Advanced3DModels
                 RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, renderFillTriangle, backColor);
 
                 // восстановили сохраненное состояние
-                _model.RestoreState();
+                _model.PopState();
             }
 
             pictureBox2.Image = _bitmapLookAt;

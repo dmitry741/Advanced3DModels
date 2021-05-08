@@ -69,6 +69,11 @@ namespace Models3DLib
         public Color BaseColor { get; set; } = Color.LightGreen;
 
         /// <summary>
+        /// Цвета для отображения.
+        /// </summary>
+        public Color[] RenderColors { get; set; } = new Color[3];
+
+        /// <summary>
         /// Яркость зеркальной составляющей освещения.
         /// </summary>
         public float ReflectionBrightness { get; set; } = 80.0f;

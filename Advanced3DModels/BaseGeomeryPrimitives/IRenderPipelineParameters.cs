@@ -14,9 +14,11 @@ namespace Models3DLib
         RenderModelType renderModelType { get; set; }
         bool PerspectiveEnable { get; set; }
         IPerspectiveTransform PerspectiveTransform { get; set; }
+        IPoint3D CenterPerspective { get; set; }
         bool FogEnable { get; set; }
         IFog Fog { get; set; }
         IEnumerable<ILightSource> lightSources { get; set; }
         IPoint3D pointObserver { get; set; }
+        RenderFillTriangle renderFillTriangle { get; set; }
     }
 }

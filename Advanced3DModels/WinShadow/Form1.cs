@@ -148,7 +148,7 @@ namespace WinShadow
             RenderString(g);
 
             // запомнили состояние модели
-            _model.SaveState();
+            _model.PushState();
 
             // перенос модели в центр окна
             float xTranslate = 3 * pictureBox1.Width / 8;
@@ -163,7 +163,7 @@ namespace WinShadow
             RenderModel(g, _model, _lightSource, _pointObserver);
 
             // восстановили сохраненное состояние
-            _model.RestoreState();
+            _model.PopState();
 
             pictureBox1.Image = _bitmap;
         }

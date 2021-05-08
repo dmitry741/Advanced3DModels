@@ -119,15 +119,12 @@ namespace Models3DLib
             }
             else if (irpp.renderModelType == RenderModelType.Triangulations)
             {
-                if (!irpp.PerspectiveEnable)
-                {
-                    triangles = all;
-                }
-                else
+                if (irpp.PerspectiveEnable)
                 {
                     model.Transform(irpp.PerspectiveTransform, irpp.CenterPerspective);
-                    triangles = all;
                 }
+                    
+                triangles = all;
             }
 
             return triangles;

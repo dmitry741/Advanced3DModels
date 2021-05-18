@@ -108,14 +108,13 @@ namespace Models3DLib
             }
             else if (irpp.renderModelType == RenderModelType.FillSolidColor)
             {
-                if (!irpp.PerspectiveEnable)
+                if (irpp.PerspectiveEnable)
                 {
-                    // TODO
+                    model.Transform(irpp.PerspectiveTransform, irpp.CenterPerspective);
                 }
-                else
-                {
-                    // TODO
-                }
+
+                IEnumerable<Triangle> trs = all.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
+                triangles = model.NeedToSort ? trs.OrderByDescending(t => t.MinZ).AsEnumerable() : trs;
             }
             else if (irpp.renderModelType == RenderModelType.Triangulations)
             {

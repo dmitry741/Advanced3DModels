@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    interface IRenderPipeline
+    public interface IRenderPipeline
     {
         IEnumerable<Triangle> RenderPipeline(Model model, IRenderPipelineParameters irenderPipelineParameters);
     }

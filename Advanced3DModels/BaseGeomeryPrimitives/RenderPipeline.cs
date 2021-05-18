@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    class RenderPipeline : IRenderPipeline
+    public class RenderPipeline : IRenderPipeline
     {
         IEnumerable<Triangle> IRenderPipeline.RenderPipeline(Model model, IRenderPipelineParameters irpp)
         {

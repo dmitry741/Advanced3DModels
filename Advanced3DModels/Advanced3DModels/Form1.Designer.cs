@@ -40,8 +40,6 @@
             this.cmbLightSource = new System.Windows.Forms.ComboBox();
             this.cmbRenderStatus = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.cmbBack = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.checkBoxPerspective = new System.Windows.Forms.CheckBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.cmbLookAt = new System.Windows.Forms.ComboBox();
@@ -155,25 +153,6 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Отображение";
             this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // cmbBack
-            // 
-            this.cmbBack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbBack.FormattingEnabled = true;
-            this.cmbBack.Location = new System.Drawing.Point(813, 147);
-            this.cmbBack.Name = "cmbBack";
-            this.cmbBack.Size = new System.Drawing.Size(174, 21);
-            this.cmbBack.TabIndex = 12;
-            this.cmbBack.SelectedIndexChanged += new System.EventHandler(this.cmbBack_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(777, 150);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(30, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Фон";
             // 
             // checkBoxPerspective
             // 
@@ -324,8 +303,6 @@
             this.Controls.Add(this.cmbLookAt);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.checkBoxPerspective);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.cmbBack);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbRenderStatus);
             this.Controls.Add(this.cmbLightSource);
@@ -361,8 +338,6 @@
         private System.Windows.Forms.ComboBox cmbLightSource;
         private System.Windows.Forms.ComboBox cmbRenderStatus;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cmbBack;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox checkBoxPerspective;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ComboBox cmbLookAt;

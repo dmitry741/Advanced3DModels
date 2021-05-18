@@ -104,6 +104,11 @@ namespace Models3DLib
         public IPoint3D Point0 => _points[0];
 
         /// <summary>
+        /// Цвет первой вершины в треугольнике.
+        /// </summary>
+        public Color RenderColor0 => RenderColors[0];
+
+        /// <summary>
         /// Массив вершин треугольника.
         /// </summary>
         public IPoint3D[] Point3Ds => _points;

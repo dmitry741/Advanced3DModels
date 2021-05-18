@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
-    interface IRenderPipelineParameters
+    public interface IRenderPipelineParameters
     {
         float TranslateX { get; set; }
         float TranslateY { get; set; }

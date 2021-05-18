@@ -71,39 +71,43 @@ namespace Advanced3DModels
             if (_bitmap == null || _model == null)
                 return;
 
+            // создание графического контекста
             Graphics g1 = Graphics.FromImage(_bitmap);
-            Color backColor = cmbBack.SelectedIndex == 0 ? Color.White : Color.Black;
 
             // отрисовка фона
-            g1.Clear(backColor);
+            g1.Clear(Color.White);
 
             // запомнили состояние модели
             _model.PushState();
 
-            // перенос модели в центр окна
-            float xTranslate = pictureBox1.Width / 2;
-            float yTranslate = pictureBox1.Height / 2;
-            Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
-            _model.Transform(translate);
-
-            // отрисовка модели
+            bool perspectiveEnable = checkBoxPerspective.Checked;
             RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
-
-            // тип отрисовки треугольников
             RenderFillTriangle renderFillTriangle = GetRenderFillTriangle(cmbTriRender.SelectedIndex);
 
-            bool bPerspective = checkBoxPerspective.Checked;
-            
-            if (bPerspective)
+            IRenderPipelineParameters irpp = new RenderPipelineParameters
             {
-                // перспективное преобразование
-                _model.Transform(_iperspectiveTransform, _pointObserver);
-            }            
+                TranslateX = pictureBox1.Width / 2,
+                TranslateY = pictureBox1.Height / 2,
+                TranslateZ = 0,
+                renderModelType = renderType,
+                PerspectiveEnable = perspectiveEnable,
+                PerspectiveTransform = _iperspectiveTransform,
+                CenterPerspective = _pointObserver,
+                FogEnable = _ifog.Enabled,
+                Fog = _ifog,
+                lightSources = new List<ILightSource> { _lightSource },
+                pointObserver = _pointObserver,
+                renderFillTriangle = renderFillTriangle
+            };
 
-            // отрисовка в главном окне
-            RenderingModel.Render(g1, _model, _lightSource, _pointObserver, _ifog, renderType, renderFillTriangle, backColor);
+            IRenderPipeline renderPipeline = new RenderPipeline();
+            IEnumerable<Triangle> triangles = renderPipeline.RenderPipeline(_model, irpp);
+
+            // отрисовка модели
+            RenderingModel.Render(g1, triangles, renderFillTriangle, renderType);
 
             // восстановили сохраненное состояние
+            _model.PopState();
             _model.PopState();
 
             pictureBox1.Image = _bitmap;
@@ -112,7 +116,7 @@ namespace Advanced3DModels
             Graphics g2 = Graphics.FromImage(_bitmapLookAt);
 
             // отрисовка фона
-            g2.Clear(backColor);
+            g2.Clear(Color.White);
 
             bool bLookAt = checkBoxCamera.Checked;
 
@@ -141,16 +145,16 @@ namespace Advanced3DModels
                 _model.Transform(matrixView);
 
                 // перенос модели в центр окна
-                xTranslate = pictureBox2.Width / 2;
-                yTranslate = pictureBox2.Height / 2;
-                translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
+                float xTranslate = pictureBox2.Width / 2;
+                float yTranslate = pictureBox2.Height / 2;
+                Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
                 _model.Transform(translate);
 
                 // отрисовка модели
                 IPoint3D observerLookAt = ResolvePoint3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
 
                 // отрисовка модели - вид с дополнительной камерой
-                RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, renderFillTriangle, backColor);
+                RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, renderFillTriangle, Color.White);
 
                 // восстановили сохраненное состояние
                 _model.PopState();
@@ -259,13 +263,6 @@ namespace Advanced3DModels
             cmbTriRender.Items.Add("Метод Гуро");
             cmbTriRender.SelectedIndex = 0;
             cmbTriRender.EndUpdate();
-
-            // фон
-            cmbBack.BeginUpdate();
-            cmbBack.Items.Add("Белый");
-            cmbBack.Items.Add("Черный");
-            cmbBack.SelectedIndex = 0;
-            cmbBack.EndUpdate();
 
             // камера
             cmbLookAt.BeginUpdate();
@@ -383,14 +380,6 @@ namespace Advanced3DModels
                 return;
 
             checkBoxFog.Enabled = cmbRenderStatus.SelectedIndex == 1;
-            Render();
-        }
-
-        private void cmbBack_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_blockEvents)
-                return;
-
             Render();
         }
 

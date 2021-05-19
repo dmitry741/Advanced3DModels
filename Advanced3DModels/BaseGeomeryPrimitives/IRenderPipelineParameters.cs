@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Models3DLib
 {
+    /// <summary>
+    /// Декларация методов и свойств конвейера отображения.
+    /// </summary>
     public interface IRenderPipelineParameters
     {
         float TranslateX { get; set; }

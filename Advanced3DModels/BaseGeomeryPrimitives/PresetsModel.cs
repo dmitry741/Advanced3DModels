@@ -103,10 +103,7 @@ namespace Models3DLib
         {
             const int cRowCount = 4;
 
-            Model resultModel = new Model
-            {
-                NeedToSort = true
-            };
+            Model resultModel = new Model();
 
             Color[] colors;
             bool[] visible;
@@ -285,10 +282,7 @@ namespace Models3DLib
             Color[] colors;
             const int transparency = 128;
 
-            Model model = new Model
-            {
-                NeedToSort = true,
-            };
+            Model model = new Model();
 
             float boxSize = sizeSide / 6;
 
@@ -434,10 +428,7 @@ namespace Models3DLib
             Color[] colors1 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color1 };
             Color[] colors2 = new Color[] { color2, Color.Black, Color.Black, Color.Black, Color.Black, color2 };
 
-            Model model = new Model
-            {
-                NeedToSort = true
-            };
+            Model model = new Model();
 
             for (int i = 0; i < tileRowCount; i++)
             {
@@ -597,10 +588,7 @@ namespace Models3DLib
                 Planes = pl
             };
 
-            Model arrow = new Model
-            {
-                NeedToSort = true
-            };
+            Model arrow = new Model();
 
             arrow.UnionWith(parallelepiped);
             arrow.UnionWith(tr);

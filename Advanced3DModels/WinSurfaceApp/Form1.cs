@@ -159,7 +159,6 @@ namespace WinSurfaceApp
 
             return new Model
             {
-                NeedToSort = true,
                 Planes = new List<Models3DLib.Plane> { _surface }
             };
         }

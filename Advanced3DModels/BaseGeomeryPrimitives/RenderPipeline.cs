@@ -23,7 +23,7 @@ namespace Models3DLib
                 if (!irpp.PerspectiveEnable)
                 {                    
                     IEnumerable<Triangle> trs = all.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-                    triangles = model.NeedToSort ? trs.OrderByDescending(t => t.MinZ).AsEnumerable() : trs;
+                    triangles = trs.OrderByDescending(t => t.MinZ).AsEnumerable();
 
                     LightModelParameters lightModelParameters = new LightModelParameters
                     {
@@ -65,7 +65,7 @@ namespace Models3DLib
                     model.Transform(irpp.PerspectiveTransform, irpp.CenterPerspective);
 
                     IEnumerable<Triangle> trs = all.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-                    triangles = model.NeedToSort ? trs.OrderByDescending(t => t.MinZ).AsEnumerable() : trs;
+                    triangles = trs.OrderByDescending(t => t.MinZ).AsEnumerable();
 
                     model.PopState();
 
@@ -114,7 +114,7 @@ namespace Models3DLib
                 }
 
                 IEnumerable<Triangle> trs = all.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-                triangles = model.NeedToSort ? trs.OrderByDescending(t => t.MinZ).AsEnumerable() : trs;
+                triangles = trs.OrderByDescending(t => t.MinZ).AsEnumerable();
             }
             else if (irpp.renderModelType == RenderModelType.Triangulations)
             {

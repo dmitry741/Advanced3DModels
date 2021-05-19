@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
 using System.Numerics;
+using System.Drawing.Drawing2D;
 
 namespace Advanced3DModels
 {
@@ -28,8 +29,9 @@ namespace Advanced3DModels
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix = Matrix4x4.Identity;
         ILightSource _lightSource = null;        
-        IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
-        IFog _ifog = null;
+        readonly IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
+        readonly IRenderPipeline _irenderPipeline = new RenderPipeline();
+        IFog _ifog = new FogCorrection(0.00005f, -200);
 
         bool _blockEvents = false;
 
@@ -40,10 +42,7 @@ namespace Advanced3DModels
         IPoint3D ResolvePoint3D(float X, float Y, float Z)
         {
             return new Point3D(X, Y, Z);
-        }
-
-        IFog Fog => new FogCorrection(0.00005f, -200);
-        
+        }      
         RenderModelType GetRenderType(int index)
         {
             RenderModelType renderType;
@@ -66,6 +65,82 @@ namespace Advanced3DModels
 
         Camera CameraLookAt => cmbLookAt.SelectedItem as Camera;
 
+        void RenderModel(Graphics g, IEnumerable<Triangle> triangles, RenderFillTriangle renderFillTriangle, RenderModelType renderType)
+        {
+            if (renderType == RenderModelType.Triangulations)
+            {
+                foreach (Triangle triangle in triangles)
+                {
+                    g.DrawPolygon(Pens.Black, triangle.Points);
+                }
+            }
+            else if (renderType == RenderModelType.FillFull)
+            {
+                foreach (Triangle triangle in triangles)
+                {
+                    if (renderFillTriangle == RenderFillTriangle.Flat0 || !triangle.AllowToGouraudMethod)
+                    {
+                        Color color = triangle.RenderColor0;
+                        Brush brush = new SolidBrush(color);
+
+                        g.FillPolygon(brush, triangle.Points);
+                    }
+                    else if (renderFillTriangle == RenderFillTriangle.Flat3)
+                    {
+                        int R = Convert.ToInt32(triangle.RenderColors.Average(x => x.R));
+                        int G = Convert.ToInt32(triangle.RenderColors.Average(x => x.G));
+                        int B = Convert.ToInt32(triangle.RenderColors.Average(x => x.B));
+
+                        Color color = Color.FromArgb(R, G, B);
+                        Brush brush = new SolidBrush(color);
+
+                        g.FillPolygon(brush, triangle.Points);
+                    }
+                    else
+                    {
+                        Color[] surroundColors = triangle.RenderColors;
+                        PointF[] points = triangle.Points;
+
+                        PathGradientBrush pthGrBrush = new PathGradientBrush(points)
+                        {
+                            SurroundColors = surroundColors,
+                            CenterPoint = points[0],
+                            CenterColor = surroundColors[0]
+                        };
+
+                        g.FillPolygon(pthGrBrush, points);
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Vector2 v1 = new Vector2(points[i].X, points[i].Y);
+                            Vector2 v2 = new Vector2(points[(i + 1) % 3].X, points[(i + 1) % 3].Y);
+                            float len = Vector2.Distance(v1, v2);
+
+                            float x1 = (points[(i + 1) % 3].X - points[i].X) * (-1) / len + points[i].X;
+                            float y1 = (points[(i + 1) % 3].Y - points[i].Y) * (-1) / len + points[i].Y;
+
+                            float x2 = (points[(i + 1) % 3].X - points[i].X) * (len + 1) / len + points[i].X;
+                            float y2 = (points[(i + 1) % 3].Y - points[i].Y) * (len + 1) / len + points[i].Y;
+
+                            PointF point1 = new PointF(x1, y1);
+                            PointF point2 = new PointF(x2, y2);
+
+                            Brush brush = new LinearGradientBrush(point1, point2, surroundColors[i], surroundColors[(i + 1) % 3]);
+                            g.DrawLine(new Pen(brush), points[i], points[(i + 1) % 3]);
+                        }
+                    }
+                }
+            }
+            else if (renderType == RenderModelType.FillSolidColor)
+            {
+                foreach (Triangle triangle in triangles)
+                {
+                    g.FillPolygon(Brushes.White, triangle.Points);
+                    g.DrawPolygon(Pens.Black, triangle.Points);
+                }
+            }
+        }
+
         void Render()
         {
             if (_bitmap == null || _model == null)
@@ -84,7 +159,7 @@ namespace Advanced3DModels
             RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
             RenderFillTriangle renderFillTriangle = GetRenderFillTriangle(cmbTriRender.SelectedIndex);
 
-            IRenderPipelineParameters irpp = new RenderPipelineParameters
+            IRenderPipelineParameters irpp1 = new RenderPipelineParameters
             {
                 TranslateX = pictureBox1.Width / 2,
                 TranslateY = pictureBox1.Height / 2,
@@ -100,16 +175,13 @@ namespace Advanced3DModels
                 renderFillTriangle = renderFillTriangle
             };
 
-            IRenderPipeline renderPipeline = new RenderPipeline();
-            IEnumerable<Triangle> triangles = renderPipeline.RenderPipeline(_model, irpp);
-
             // отрисовка модели
-            RenderingModel.Render(g1, triangles, renderFillTriangle, renderType);
+            RenderModel(g1, _irenderPipeline.RenderPipeline(_model, irpp1), renderFillTriangle, renderType);
 
             // восстановили сохраненное состояние
             _model.PopState();
-            _model.PopState();
 
+            // обновляем изображение модели
             pictureBox1.Image = _bitmap;
 
             // окно с дополнительной камерой
@@ -144,17 +216,24 @@ namespace Advanced3DModels
                 // применяем преобразование
                 _model.Transform(matrixView);
 
-                // перенос модели в центр окна
-                float xTranslate = pictureBox2.Width / 2;
-                float yTranslate = pictureBox2.Height / 2;
-                Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
-                _model.Transform(translate);
-
                 // отрисовка модели
                 IPoint3D observerLookAt = ResolvePoint3D(pictureBox2.Width / 2, pictureBox2.Height / 2, _pointObserver.Z);
 
+                IRenderPipelineParameters irpp2 = new RenderPipelineParameters
+                {
+                    TranslateX = pictureBox2.Width / 2,
+                    TranslateY = pictureBox2.Height / 2,
+                    TranslateZ = 0,
+                    renderModelType = renderType,
+                    PerspectiveEnable = false,
+                    FogEnable = false,
+                    lightSources = new List<ILightSource> { _lightSource },
+                    pointObserver = observerLookAt,
+                    renderFillTriangle = renderFillTriangle
+                };
+
                 // отрисовка модели - вид с дополнительной камерой
-                RenderingModel.Render(g2, _model, _lightSource, observerLookAt, null, renderType, renderFillTriangle, Color.White);
+                RenderModel(g2, _irenderPipeline.RenderPipeline(_model, irpp2), renderFillTriangle, renderType);
 
                 // восстановили сохраненное состояние
                 _model.PopState();
@@ -275,7 +354,6 @@ namespace Advanced3DModels
 
             _model = ModelFactory.GetModel(1, ModelQuality.Middle);
 
-            _ifog = Fog;
             _ifog.Enabled = false;
 
             _lightSource = new PointLightSource()
@@ -335,7 +413,6 @@ namespace Advanced3DModels
                 return;
 
             _transformMatrix = Matrix4x4.Identity;
-            _ifog = Fog;
             _ifog.Enabled = checkBoxFog.Checked;
 
             UpdateModel();            

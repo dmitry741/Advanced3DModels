@@ -23,11 +23,6 @@ namespace Models3DLib
         }
 
         /// <summary>
-        /// Признак необхожимости сортировки по глубине (Z).
-        /// </summary>
-        public bool NeedToSort { get; set; } = false;
-
-        /// <summary>
         /// Список плоскостей (граней).
         /// </summary>
         public List<Plane> Planes { get; set; } = new List<Plane>();
@@ -99,7 +94,7 @@ namespace Models3DLib
             {
                 IEnumerable<Triangle> all = Planes.SelectMany(pl => pl.Triangles);
                 IEnumerable<Triangle> trs = all.Where(x => x.VisibleBackSide || x.Normal.Z < 0);
-                triangles = NeedToSort ? trs.OrderByDescending(t => t.MinZ).AsEnumerable() : trs;
+                triangles = trs.OrderByDescending(t => t.MinZ).AsEnumerable();
             }
             else if (renderType == RenderModelType.Triangulations)
             {

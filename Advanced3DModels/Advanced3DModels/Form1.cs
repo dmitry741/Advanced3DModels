@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Models3DLib;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Models3DLib;
-using System.Numerics;
 using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Numerics;
+using System.Windows.Forms;
 
 namespace Advanced3DModels
 {

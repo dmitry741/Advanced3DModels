@@ -31,7 +31,7 @@ namespace Advanced3DModels
         ILightSource _lightSource = null;        
         readonly IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
         readonly IRenderPipeline _irenderPipeline = new RenderPipeline();
-        IFog _ifog = new FogCorrection(0.00005f, -200);
+        readonly IFog _ifog = new FogCorrection(0.00005f, -200);
 
         bool _blockEvents = false;
 

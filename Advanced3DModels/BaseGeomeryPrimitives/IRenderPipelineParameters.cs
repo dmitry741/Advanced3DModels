@@ -23,5 +23,6 @@ namespace Models3DLib
         IEnumerable<ILightSource> lightSources { get; set; }
         IPoint3D pointObserver { get; set; }
         RenderFillTriangle renderFillTriangle { get; set; }
+        bool InvertNormal { get; set; }
     }
 }

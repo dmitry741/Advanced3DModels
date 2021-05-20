@@ -34,7 +34,16 @@ namespace Models3DLib
 
                     foreach (Triangle triangle in triangles)
                     {
-                        lightModelParameters.Normal = triangle.Normal;
+                        if (irpp.InvertNormal)
+                        {
+                            Vector3 normal = triangle.Normal;
+                            lightModelParameters.Normal = (normal.Z < 0) ? normal : -normal;
+                        }
+                        else
+                        {
+                            lightModelParameters.Normal = triangle.Normal;
+                        }
+                        
                         lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
                         lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                         lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
@@ -78,7 +87,16 @@ namespace Models3DLib
 
                     foreach (Triangle triangle in triangles)
                     {
-                        lightModelParameters.Normal = triangle.Normal;
+                        if (irpp.InvertNormal)
+                        {
+                            Vector3 normal = triangle.Normal;
+                            lightModelParameters.Normal = (normal.Z < 0) ? normal : -normal;
+                        }
+                        else
+                        {
+                            lightModelParameters.Normal = triangle.Normal;
+                        }
+
                         lightModelParameters.ReflectionEnable = triangle.ReflectionEnable;
                         lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
                         lightModelParameters.ReflcetionCone = triangle.ReflectionCone;

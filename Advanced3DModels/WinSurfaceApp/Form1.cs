@@ -27,6 +27,7 @@ namespace WinSurfaceApp
         IPoint3D _pointObserver = null;
         Matrix4x4 _transformMatrix;
         readonly IPerspectiveTransform _iperspectiveTransform = new PerspectiveTransformation();
+        readonly IRenderPipeline _irenderPipeline = new RenderPipeline();
         Surface _surface = null;
         ILightSource _lightSource = null;
         PointF _startPoint;
@@ -270,53 +271,73 @@ namespace WinSurfaceApp
             return new Point3D(X, Y, Z);
         }
 
-        void RenderModel(Graphics g, Model model, ILightSource lightSource, RenderModelType renderModelType, IPoint3D pointObserver)
+        void RenderModel(Graphics g, IEnumerable<Triangle> triangles, RenderFillTriangle renderFillTriangle, RenderModelType renderType)
         {
-            IEnumerable<Triangle> triangles = model.GetTrianglesForRender(renderModelType);
-
-            if (renderModelType == RenderModelType.Triangulations)
+            if (renderType == RenderModelType.Triangulations)
             {
                 foreach (Triangle triangle in triangles)
                 {
                     g.DrawPolygon(Pens.Black, triangle.Points);
                 }
             }
-            else if (renderModelType == RenderModelType.FillFull)
+            else if (renderType == RenderModelType.FillFull)
             {
-                LightModelParameters lightModelParameters = new LightModelParameters
-                {
-                    LightSources = new List<ILightSource> { lightSource },
-                    PointObserver = pointObserver,
-                    ReflectionEnable = true
-                };
-
-                Color[] colors = new Color[3];
-
                 foreach (Triangle triangle in triangles)
                 {
-                    Vector3 normal = triangle.Normal;
-                    lightModelParameters.Normal = (normal.Z < 0) ? normal : -normal;
-                    lightModelParameters.ReflectionBrightness = triangle.ReflectionBrightness;
-                    lightModelParameters.ReflcetionCone = triangle.ReflectionCone;
-                    lightModelParameters.BaseColor = triangle.BaseColor;
-                    
-                    for (int i = 0; i < 3; i++)
+                    if (renderFillTriangle == RenderFillTriangle.Flat0 || !triangle.AllowToGouraudMethod)
                     {
-                        lightModelParameters.Point = triangle.Point3Ds[i];
-                        colors[i] = LightModel.GetColor(lightModelParameters);
+                        Color color = triangle.RenderColor0;
+                        Brush brush = new SolidBrush(color);
+
+                        g.FillPolygon(brush, triangle.Points);
                     }
+                    else if (renderFillTriangle == RenderFillTriangle.Flat3)
+                    {
+                        int R = Convert.ToInt32(triangle.RenderColors.Average(x => x.R));
+                        int G = Convert.ToInt32(triangle.RenderColors.Average(x => x.G));
+                        int B = Convert.ToInt32(triangle.RenderColors.Average(x => x.B));
 
-                    int R = Convert.ToInt32(colors.Average(x => x.R));
-                    int G = Convert.ToInt32(colors.Average(x => x.G));
-                    int B = Convert.ToInt32(colors.Average(x => x.B));
+                        Color color = Color.FromArgb(R, G, B);
+                        Brush brush = new SolidBrush(color);
 
-                    Color color = Color.FromArgb(R, G, B);
-                    Brush brush = new SolidBrush(color);
+                        g.FillPolygon(brush, triangle.Points);
+                    }
+                    else
+                    {
+                        Color[] surroundColors = triangle.RenderColors;
+                        PointF[] points = triangle.Points;
 
-                    g.FillPolygon(brush, triangle.Points);
+                        PathGradientBrush pthGrBrush = new PathGradientBrush(points)
+                        {
+                            SurroundColors = surroundColors,
+                            CenterPoint = points[0],
+                            CenterColor = surroundColors[0]
+                        };
+
+                        g.FillPolygon(pthGrBrush, points);
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Vector2 v1 = new Vector2(points[i].X, points[i].Y);
+                            Vector2 v2 = new Vector2(points[(i + 1) % 3].X, points[(i + 1) % 3].Y);
+                            float len = Vector2.Distance(v1, v2);
+
+                            float x1 = (points[(i + 1) % 3].X - points[i].X) * (-1) / len + points[i].X;
+                            float y1 = (points[(i + 1) % 3].Y - points[i].Y) * (-1) / len + points[i].Y;
+
+                            float x2 = (points[(i + 1) % 3].X - points[i].X) * (len + 1) / len + points[i].X;
+                            float y2 = (points[(i + 1) % 3].Y - points[i].Y) * (len + 1) / len + points[i].Y;
+
+                            PointF point1 = new PointF(x1, y1);
+                            PointF point2 = new PointF(x2, y2);
+
+                            Brush brush = new LinearGradientBrush(point1, point2, surroundColors[i], surroundColors[(i + 1) % 3]);
+                            g.DrawLine(new Pen(brush), points[i], points[(i + 1) % 3]);
+                        }
+                    }
                 }
             }
-            else if (renderModelType == RenderModelType.FillSolidColor)
+            else if (renderType == RenderModelType.FillSolidColor)
             {
                 foreach (Triangle triangle in triangles)
                 {
@@ -340,24 +361,28 @@ namespace WinSurfaceApp
             _model.PushState();
 
             // перенос модели в центр окна
-            float xTranslate = pictureBox1.Width / 2;
-            float yTranslate = pictureBox1.Height / 2;
-            Matrix4x4 translate = Matrix4x4.CreateTranslation(xTranslate, yTranslate, 0f);
-            _model.Transform(translate);
-
-            bool bPerspective = checkBoxPerspective.Checked;
-
-            if (bPerspective)
-            {
-                // перспективное преобразование
-                _model.Transform(_iperspectiveTransform, _pointObserver);
-            }
-
-            // тип отрисовки
+            bool perspectiveEnable = checkBoxPerspective.Checked;
             RenderModelType renderType = GetRenderType(cmbRenderStatus.SelectedIndex);
+            RenderFillTriangle renderFillTriangle = RenderFillTriangle.Flat3;
 
-            // отрисовка в главном окне
-            RenderModel(g, _model, _lightSource, renderType, _pointObserver);
+            IRenderPipelineParameters irpp = new RenderPipelineParameters
+            {
+                TranslateX = pictureBox1.Width / 2,
+                TranslateY = pictureBox1.Height / 2,
+                TranslateZ = 0,
+                renderModelType = renderType,
+                PerspectiveEnable = perspectiveEnable,
+                PerspectiveTransform = _iperspectiveTransform,
+                CenterPerspective = _pointObserver,
+                FogEnable = false,
+                lightSources = new List<ILightSource> { _lightSource },
+                pointObserver = _pointObserver,
+                renderFillTriangle = renderFillTriangle,
+                InvertNormal = true
+            };
+
+            // отрисовка модели
+            RenderModel(g, _irenderPipeline.RenderPipeline(_model, irpp), renderFillTriangle, renderType);
 
             // восстановили сохраненное состояние
             _model.PopState();

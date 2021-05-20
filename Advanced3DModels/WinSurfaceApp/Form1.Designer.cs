@@ -249,6 +249,7 @@
             this.Controls.Add(this.cmbModel);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Графики функций z=f(x, y)";

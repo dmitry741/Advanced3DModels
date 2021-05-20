@@ -160,7 +160,7 @@ namespace WinSurfaceApp
 
             return new Model
             {
-                 Planes = new List<Models3DLib.Plane> { _surface }
+                Planes = new List<Models3DLib.Plane> { _surface }
             };
         }
 

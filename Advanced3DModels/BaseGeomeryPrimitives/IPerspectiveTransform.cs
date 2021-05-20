@@ -12,7 +12,7 @@ namespace Models3DLib
     public interface IPerspectiveTransform
     {
         /// <summary>
-        /// Декларация метода перспективного преобразования.
+        /// Перспективное преобразование.
         /// </summary>
         /// <param name="point">Исходная точка.</param>
         /// <param name="center">Центр перспективы.</param>

@@ -168,7 +168,8 @@ namespace Advanced3DModels
                 Fog = _ifog,
                 lightSources = new List<ILightSource> { _lightSource },
                 pointObserver = _pointObserver,
-                renderFillTriangle = renderFillTriangle
+                renderFillTriangle = renderFillTriangle,
+                InvertNormal = false
             };
 
             // отрисовка модели

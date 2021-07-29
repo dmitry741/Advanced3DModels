@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models3DLib;
 
+/* Урок "Трехмерное моделирование. Построения в пространстве."
+ * Все уроки на http://digitalmodels.ru
+ * 
+ */
+
 namespace WinSurfaceApp
 {
     public partial class Form1 : Form

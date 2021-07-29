@@ -7,6 +7,11 @@ using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 
+/* Урок "Трехмерное моделирование. Построения в пространстве."
+ * Все уроки на http://digitalmodels.ru
+ * 
+ */
+
 namespace Advanced3DModels
 {
     public partial class Form1 : Form

@@ -10,6 +10,11 @@ using System.Windows.Forms;
 using Models3DLib;
 using System.Numerics;
 
+/* Урок "Трехмерное моделирование. Построения в пространстве."
+ * Все уроки на http://digitalmodels.ru
+ * 
+ */
+
 namespace WinPixelModels
 {
     public partial class Form1 : Form

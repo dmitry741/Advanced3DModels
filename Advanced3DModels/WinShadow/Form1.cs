@@ -11,6 +11,11 @@ using Models3DLib;
 using System.Numerics;
 using System.Drawing.Drawing2D;
 
+/* Урок "Трехмерное моделирование. Построения в пространстве."
+ * Все уроки на http://digitalmodels.ru
+ * 
+ */
+
 namespace WinShadow
 {
     public partial class Form1 : Form

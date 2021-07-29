@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using Models3DLib;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Models3DLib;
 using System.Numerics;
+using System.Windows.Forms;
+
+/* Урок "Трехмерное моделирование. Построения в пространстве."
+ * Все уроки на http://digitalmodels.ru
+ * 
+ */
 
 namespace WinTextureModels
 {
